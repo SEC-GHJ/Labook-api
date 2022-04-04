@@ -1,0 +1,32 @@
+---
+- GPA: 4.1
+  ori_school: NTHU
+  ori_department: EE
+  school_department: CS
+  lab_score: 5
+  professor_attitude: Nice
+  content: "老師人很好，實驗室很自由ya，錢多事少離宿舍遠"
+
+- GPA: 3.75
+  ori_school: NCCU
+  ori_department: COM
+  school_department: ISS
+  lab_score: 5
+  professor_attitude: Serious
+  content: "老師幽默風趣，資源很多計畫很多可以跟，而且不挑學生"
+
+- GPA: 3.7
+  ori_school: NTU
+  ori_department: BA
+  school_department: ISS
+  lab_score: 3
+  professor_attitude: patient
+  content: "老師人很好，但去找他談要先想好RQ"
+  
+- GPA: 3.8
+  ori_school: NCTU
+  ori_department: IMF
+  school_department: CS
+  lab_score: 2
+  professor_attitude: Strict
+  content: "老師人好壞QQ，實驗室錢最近便很少，還要開會好久"
