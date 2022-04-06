@@ -35,7 +35,7 @@ module Labook
 
     # Stores post in file store
     def save
-      File.write("#{Labook::STORE_DIR}/#{id}.txt", to_json)
+      File.write("#{Labook::STORE_DIR}/#{post_id}.txt", to_json)
     end
 
     # Query method to find one post

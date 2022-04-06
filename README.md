@@ -13,9 +13,9 @@ professor_attitude : adjective
 All routes return Json
 
 - GET `/` : Root route shows if Web API is running
-- GET `api/v1/post/` : returns all confiugration IDs
-- GET `api/v1/post/[post_id]` : returns details about a single post with given ID
-- POST `api/v1/post/` : creates a new post
+- GET `api/v1/posts/` : returns all confiugration IDs
+- GET `api/v1/posts/[post_id]` : returns details about a single post with given ID
+- POST `api/v1/posts/` : creates a new post
 
 ## Install
 Install this API by cloning the relevant branch and installing required gems from Gemfile.lock:
