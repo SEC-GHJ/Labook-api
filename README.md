@@ -17,6 +17,18 @@ All routes return Json
 - GET `api/v1/posts/[post_id]` : returns details about a single post with given ID
 - POST `api/v1/posts/` : creates a new post
 
+## Test POST
+```console
+http -v --json POST localhost:9292/api/v1/posts \
+gpa="4.1" \
+ori_school="NTHU" \
+ori_department="EE" \
+school_department="CS" \
+lab_score="5" \
+professor_attitude="Nice" \
+content="老師人很好，對我們都像兒子XD，動不動就請吃食物"
+```
+
 ## Install
 Install this API by cloning the relevant branch and installing required gems from Gemfile.lock:
 
