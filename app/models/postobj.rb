@@ -8,7 +8,7 @@ module Labook
   STORE_DIR = 'app/db/store'
 
   # Holds a full secret document
-  class Post
+  class PostObj
     # Create a new post by passing in hash of attributes
     def initialize(new_post)
       @post_id = new_post['post_id'] || new_id
@@ -21,11 +21,19 @@ module Labook
       @content = new_post['content']
     end
 
-    attr_reader :post_id, :gpa, :ori_school, :ori_department, :school_department, :lab_score, :professor_attitude, :content
+    attr_reader :post_id, :gpa, :ori_school, :ori_department, :school_department,
+                :lab_score, :professor_attitude, :content
 
     def to_json(options = {})
-      JSON({ type: 'post', post_id:, gpa:, ori_school:, ori_department:,
-             school_department:, lab_score:, professor_attitude:, content: }, options)
+      JSON({ type: 'postobj',
+             post_id:,
+             gpa:,
+             ori_school:,
+             ori_department:,
+             school_department:,
+             lab_score:,
+             professor_attitude:,
+             content: }, options)
     end
 
     # File store must be setup once when application runs
@@ -41,7 +49,7 @@ module Labook
     # Query method to find one post
     def self.find(find_id)
       post_file = File.read("#{Labook::STORE_DIR}/#{find_id}.txt")
-      Post.new JSON.parse(post_file)
+      PostObj.new JSON.parse(post_file)
     end
 
     # Query method to retrieve index of all documents

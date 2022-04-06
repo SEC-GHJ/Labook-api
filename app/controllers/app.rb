@@ -3,7 +3,7 @@
 require 'roda'
 require 'json'
 
-require_relative '../models/post'
+require_relative '../models/postobj'
 
 module Labook
   # Web controller for Labook API
@@ -13,7 +13,7 @@ module Labook
 
     # configure data store
     configure do
-      Post.setup
+      PostObj.setup
     end
 
     route do |routing| # rubocop:disable Metrics/BlockLength
@@ -30,7 +30,7 @@ module Labook
             # GET api/v1/posts/[post_id]
             routing.get String do |post_id|
               response.status = 200
-              Post.find(post_id).to_json
+              PostObj.find(post_id).to_json
             rescue StandardError
               routing.halt 404, { message: 'Post not found' }.to_json
             end
@@ -38,14 +38,14 @@ module Labook
             # GET api/v1/posts
             routing.get do
               response.status = 200
-              output = { post_ids: Post.all }
+              output = { post_ids: PostObj.all }
               JSON.pretty_generate(output)
             end
 
             # POST api/v1/posts
             routing.post do
               new_data = JSON.parse(routing.body.read)
-              new_post = Post.new(new_data)
+              new_post = PostObj.new(new_data)
 
               if new_post.save
                 response.status = 201

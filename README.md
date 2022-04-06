@@ -40,12 +40,12 @@ bundle install
 Run the test script:
 
 ```
-ruby spec/api_spec.rb
+bundle exec ruby spec/api_spec.rb
 ```
 
 ## Execute
 Run this API using:
 
 ```
-rackup
+bundle exec rackup
 ```
