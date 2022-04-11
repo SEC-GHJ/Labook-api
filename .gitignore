@@ -1,3 +1,7 @@
 _*
 app/db/store/*
 .DS_Store
+
+.bundle
+.irb_history
+config/secrets.yml

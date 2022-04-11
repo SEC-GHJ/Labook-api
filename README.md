@@ -1,32 +1,39 @@
 # Labook-api
 API to store and retrieve confidential development files (configuration, credentials)
 
-## Post
-| post_id | GPA | ori_school | ori_department | school_department | lab_score | professor_attitude |content|
-| -------- | -------- | -------- | -------- | -------- | -------- | -------- | --- |
-| String | int     | String     | String    | String   | String | String | String |
+## Posts
+| post_id | lab_id | user_id | lab_score | professor_attitude | content |
+| ------- | ------ | --- | --------- | ------------------ | ------- |
+| String  | String |  String  | int    | String   | String  |
+
+<font color="green">**Foreign Key:** lab_id</font>
 
 lab_score : (1~5)
 professor_attitude : adjective
+
+## Labs
+| lab_id | lab_name | school | department | professor |
+| -------- | -------- | -------- | -------- |-------- |
+| String | String | String | String | String |
 
 ## Routes
 All routes return Json
 
 - GET `/` : Root route shows if Web API is running
-- GET `api/v1/posts/` : returns all confiugration IDs
-- GET `api/v1/posts/[post_id]` : returns details about a single post with given ID
-- POST `api/v1/posts/` : creates a new post
+- GET `api/v1/labs/[lab_id]/posts/[post_id]`: returns details about a single post with given ID
+- GET `api/v1/labs/[lab_id]/posts/` : returns all posts for a lab
+- POST `api/v1/labs/[lab_id]/posts/`:  create a post for a lab
+- GET `api/v1/labs/[lab_id]` : Get information about a lab
+- GET `api/v1/labs` : Get list of all projects
+- POST `api/v1/labs/` : create a new lab
 
 ## Test POST
 ```console
-http -v --json POST localhost:9292/api/v1/posts \
-gpa="4.1" \
-ori_school="NTHU" \
-ori_department="EE" \
-school_department="CS" \
-lab_score="5" \
-professor_attitude="Nice" \
-content="老師人很好，對我們都像兒子XD，動不動就請吃食物"
+http -v --json POST localhost:9292/api/v1/labs \
+lab_name="AbcLab" \
+school="NTHU" \
+department="EE" \
+professor="Mr. Abc"
 ```
 
 ## Install
@@ -35,12 +42,10 @@ Install this API by cloning the relevant branch and installing required gems fro
 ```
 bundle install
 ```
-
-## Test
-Run the test script:
+Setup development database once:
 
 ```
-bundle exec ruby spec/api_spec.rb
+bundle exec rake db:migrate
 ```
 
 ## Execute
@@ -49,3 +54,16 @@ Run this API using:
 ```
 bundle exec rackup
 ```
+
+## Test
+Setup test database once:
+
+```
+RACK_ENV=test rake db:migrate
+```
+
+Run the test script:
+```
+bundle exec rake spec
+```
+

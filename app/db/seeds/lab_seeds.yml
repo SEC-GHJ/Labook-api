@@ -1,0 +1,10 @@
+---
+- lab_name: SecretLab
+  school: NTHU
+  department: CS
+  professor: "Secret One"
+
+- lab_name: BadLab
+  school: NTHU
+  department: CS
+  professor: "Bad One"

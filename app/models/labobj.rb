@@ -4,9 +4,10 @@ require 'json'
 require 'sequel'
 
 module Labook
-  # Holds a full secret post
-  class PostObj < Sequel::Model
-    many_to_one :lab
+  # Models a lab
+  class LabObj < Sequel::Model
+    one_to_many :posts
+    plugin :association_dependencies, documents: :destroy
 
     plugin :timestamps
 
@@ -15,17 +16,14 @@ module Labook
       JSON(
         {
           data: {
-            type: 'postobj',
+            type: 'labobj',
             attributes: {
-              post_id:,
-              user_id:,
-              lab_score:,
-              professor_attitude:,
-              content:
+              lab_id:,
+              lab_name:,
+              school:,
+              department:,
+              professor:
             }
-          },
-          include: {
-            lab:
           }
         }, options
       )
