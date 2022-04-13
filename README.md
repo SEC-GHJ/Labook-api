@@ -34,7 +34,15 @@ lab_name="AbcLab" \
 school="NTHU" \
 department="EE" \
 professor="Mr. Abc"
+
+http -v --json POST localhost:9292/api/v1/labs/1/posts \
+lab_score="5" \
+professor_attitude="Nice" \
+content="老師人很好，對我們都像兒子XD，動不動就請吃食物"
+user_id="1"
 ```
+
+
 
 ## Install
 Install this API by cloning the relevant branch and installing required gems from Gemfile.lock:

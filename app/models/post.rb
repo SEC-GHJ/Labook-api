@@ -5,7 +5,7 @@ require 'sequel'
 
 module Labook
   # Holds a full secret post
-  class PostObj < Sequel::Model
+  class Post < Sequel::Model
     many_to_one :lab
 
     plugin :timestamps
@@ -15,7 +15,7 @@ module Labook
       JSON(
         {
           data: {
-            type: 'postobj',
+            type: 'post',
             attributes: {
               post_id:,
               user_id:,

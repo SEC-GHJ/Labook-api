@@ -5,9 +5,9 @@ require 'sequel'
 
 module Labook
   # Models a lab
-  class LabObj < Sequel::Model
+  class Lab < Sequel::Model
     one_to_many :posts
-    plugin :association_dependencies, documents: :destroy
+    plugin :association_dependencies, posts: :destroy
 
     plugin :timestamps
 
@@ -16,7 +16,7 @@ module Labook
       JSON(
         {
           data: {
-            type: 'labobj',
+            type: 'lab',
             attributes: {
               lab_id:,
               lab_name:,
@@ -29,5 +29,7 @@ module Labook
       )
     end
     # rubocop:enable Metrics/MethodLength
+
+    # def self.add_post
   end
 end
