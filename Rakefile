@@ -57,7 +57,7 @@ namespace :db do
 
   desc 'Destroy data in database; maintain tables'
   task :delete => :load do
-    Labook::Account.dataset.destroy
+    Labook::Api.DB.dataset.destroy
   end
 
   desc 'Delete dev or test database file'
