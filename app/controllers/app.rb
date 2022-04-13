@@ -42,13 +42,12 @@ module Labook
                 routing.halt 404, 'Could not find all posts'
               end
 
-
               # POST api/v1/labs/[lab_id]/posts
               routing.post do
                 new_data = JSON.parse(routing.body.read)
                 lab = Lab.first(lab_id: lab_id)
                 new_post = lab.add_post(new_data)
-                
+
                 if new_post
                   response.status = 201
                   response['Location'] = "#{@post_route}/#{new_post.post_id}"
@@ -60,7 +59,8 @@ module Labook
               rescue StandardError
                 routing.halt 500, { message: 'Database error' }.to_json
               end
-            end # END -- api/v1/labs/[lab_id]/posts
+            end
+            # END -- api/v1/labs/[lab_id]/posts
 
             # GET api/v1/labs/[lab_id]
             routing.get do
@@ -69,7 +69,8 @@ module Labook
             rescue StandardError => e
               routing.halt 404, { message: e.message }.to_json
             end
-          end # END -- api/v1/labs/[lab_id]
+          end
+          # END -- api/v1/labs/[lab_id]
 
           # GET api/v1/labs
           routing.get do
