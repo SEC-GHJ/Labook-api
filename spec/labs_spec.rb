@@ -10,14 +10,12 @@ describe 'Test Lab Handling' do
   it 'Happy: should be able to get list of all labs' do
     Labook::Lab.create(DATA[:labs][0]).save
     Labook::Lab.create(DATA[:labs][1]).save
-    Labook::Lab.create(DATA[:labs][2]).save
-    Labook::Lab.create(DATA[:labs][3]).save
 
     get 'api/v1/labs'
     _(last_response.status).must_equal 200
 
     result = JSON.parse last_response.body
-    _(result['data'].count).must_equal 4
+    _(result['data'].count).must_equal 2
   end
 
   it 'HAPPY: should be able to get details of a single lab' do
