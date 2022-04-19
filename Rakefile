@@ -49,6 +49,10 @@ namespace :db do
     @app = Labook::Api
   end
 
+  task :load_models do
+    require_app('models')
+  end
+
   desc 'Run migrations'
   task :migrate => [:load, :print_env] do
     puts 'Migrating database to latest'
@@ -56,7 +60,7 @@ namespace :db do
   end
 
   desc 'Destroy data in database; maintain tables'
-  task :delete => :load do
+  task :delete => :load_models do
     Labook::Lab.dataset.destroy
   end
 
