@@ -57,7 +57,7 @@ namespace :db do
 
   desc 'Destroy data in database; maintain tables'
   task :delete => :load do
-    Labook::Api.DB.dataset.destroy
+    Labook::Lab.dataset.destroy
   end
 
   desc 'Delete dev or test database file'
@@ -70,5 +70,13 @@ namespace :db do
     db_filename = "app/db/store/#{Labook::Api.environment}.db"
     FileUtils.rm(db_filename)
     puts "Deleted #{db_filename}"
+  end
+end
+
+namespace :newkey do
+  desc 'Create sample Cryptographic key for database'
+  task :db do
+    require_app('lib')
+    puts "DB_KEY: #{SecureDB.generate_key}"
   end
 end

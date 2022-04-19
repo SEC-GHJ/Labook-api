@@ -3,6 +3,7 @@
 require 'roda'
 require 'figaro'
 require 'sequel'
+require_relative '../app/lib/secure_db'
 
 module Labook
   # Configuration for the API
@@ -18,6 +19,9 @@ module Labook
 
     # Make the environment variables accessible to other classes
     def self.config = Figaro.env
+
+    # Retrieve db secret
+    SecureDB.setup(ENV.delete('DB_KEY'))
 
     # Connect and make the database accessible to other classes
     db_url = ENV.delete('DATABASE_URL')

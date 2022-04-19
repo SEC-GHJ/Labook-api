@@ -8,10 +8,10 @@ Sequel.migration do
       primary_key :post_id
       foreign_key :lab_id, table: :labs
 
-      String :user_id, null: false
-      String :lab_score, null: false
-      String :professor_attitude, null: false
-      String :content, null: false
+      String :user_id_secure, null: false
+      String :lab_score_secure, null: false
+      String :professor_attitude_secure, null: false
+      String :content_secure, null: false
 
       DateTime :created_at
       DateTime :updated_at
