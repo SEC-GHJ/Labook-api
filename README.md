@@ -6,8 +6,9 @@ API to store and retrieve confidential development files (configuration, credent
 | ------- | ------ | --- | --------- | ------------------ | ------- |
 | String  | String |  String  | int    | String   | String  |
 
-<font color="green">**Foreign Key:** lab_id</font>
-**Encrypted columns: *_secure **
+**Encrypted columns: ()_secure**
+
+**Foreign Key:** lab_id
 
 lab_score : (1~5)
 professor_attitude : adjective
