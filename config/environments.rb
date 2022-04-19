@@ -2,6 +2,7 @@
 
 require 'roda'
 require 'figaro'
+require 'logger'
 require 'sequel'
 require_relative '../app/lib/secure_db'
 
@@ -23,6 +24,10 @@ module Labook
     # Retrieve db secret
     SecureDB.setup(ENV.delete('DB_KEY'))
 
+    # Logger setup
+    LOGGER = Logger.new($stderr)
+    def self.logger = LOGGER
+
     # Connect and make the database accessible to other classes
     db_url = ENV.delete('DATABASE_URL')
     DB = Sequel.connect("#{db_url}?encoding=utf8")
@@ -30,6 +35,8 @@ module Labook
 
     configure :development, :test do
       require 'pry'
+      # logger.level = Logger::ERROR
+      logger.level = Logger::INFO
     end
   end
 end

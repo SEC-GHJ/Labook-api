@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-require_relative './spec_helper'
+require_relative '../spec_helper'
 describe 'Test Lab Handling' do
   include Rack::Test::Methods
 
   before do
     wipe_database
   end
+  
   it 'Happy: should be able to get list of all labs' do
     Labook::Lab.create(DATA[:labs][0]).save
     Labook::Lab.create(DATA[:labs][1]).save

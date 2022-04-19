@@ -13,6 +13,10 @@ module Labook
 
       routing.root do
         response.status = 200
+        Api.logger.debug "Testing LabookAPI at /api/v1"
+        Api.logger.info "Testing LabookAPI at /api/v1"
+        Api.logger.warn "Testing LabookAPI at /api/v1"
+        Api.logger.error "Testing LabookAPI at /api/v1"
         { message: 'LabookAPI up at /api/v1' }.to_json
       end
 
@@ -55,9 +59,11 @@ module Labook
                 else
                   routing.halt 400, 'Could not save post'
                 end
-
-              rescue StandardError
-                routing.halt 500, { message: 'Database error' }.to_json
+              rescue Sequel::MassAssignmentRestriction
+                Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
+                routing.halt 400, { message: 'Illegal Attributes' }.to_json
+              rescue StandardError => e
+                routing.halt 500, { message: e.message }.to_json
               end
             end
             # END -- api/v1/labs/[lab_id]/posts
@@ -90,10 +96,14 @@ module Labook
               response['Location'] = "#{@lab_route}/#{new_lab.lab_id}"
               { message: 'Lab saved', data: new_lab }.to_json
             else
-              routing.halt 400, { message: 'Could not save lab' }.to_json
+              routing.halt 500, { message: 'Could not save lab' }.to_json
             end
+          rescue Sequel::MassAssignmentRestriction
+            Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
+            routing.halt 400, { message: 'Illegal Attributes' }.to_json
           rescue StandardError => e
-            routing.halt 400, { message: e.message }.to_json
+            Api.logger.error "UNKOWN ERROR: #{e.message}"
+            routing.halt 500, { message: e.message }.to_json
           end
         end
       end

@@ -43,7 +43,10 @@ professor_attitude="Nice" \
 content="老師人很好，對我們都像兒子XD，動不動就請吃食物" \
 user_id="1"
 ```
-
+## Test logger
+```
+http -v GET localhost:9292
+```
 
 
 ## Install
@@ -77,3 +80,10 @@ Run the test script:
 bundle exec rake spec
 ```
 
+## set environment
+
+```
+RACK_ENV=development
+echo $RACK_ENV
+unset RACK_ENV
+```
