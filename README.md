@@ -2,11 +2,12 @@
 API to store and retrieve confidential development files (configuration, credentials)
 
 ## Posts
-| post_id | lab_id | user_id | lab_score | professor_attitude | content |
+| post_id | lab_id | user_id_secure | lab_score_secure | professor_attitude_secure | content_secure |
 | ------- | ------ | --- | --------- | ------------------ | ------- |
 | String  | String |  String  | int    | String   | String  |
 
 <font color="green">**Foreign Key:** lab_id</font>
+**Encrypted columns: *_secure **
 
 lab_score : (1~5)
 professor_attitude : adjective
