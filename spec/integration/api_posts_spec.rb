@@ -49,13 +49,12 @@ describe 'Test Post Handling' do
     _(last_response.status).must_equal 404
   end
 
-  describe 'Creating Documents' do
-    before do 
+  describe 'Creating Posts' do
+    before do
       @lab = Labook::Lab.first
       @post_data = DATA[:posts][1]
       @req_header = { 'CONTENT_TYPE' => 'application/json' }
     end
-
 
     it 'HAPPY: should be able to create new posts' do
       post "api/v1/labs/#{@lab.lab_id}/posts",
@@ -73,14 +72,14 @@ describe 'Test Post Handling' do
       _(created['content']).must_equal @post_data['content']
     end
 
-    # it 'SECURITY: should not create posts with mass assignment' do
-    #   bad_data = @post_data.clone
-    #   bad_data['created_at'] = '1900-01-01'
-    #   post "api/v1/labs/#{@lab.lab_id}/posts",
-    #       bad_data.to_json, @req_header
+    it 'SECURITY: should not create posts with mass assignment' do
+      bad_data = @post_data.clone
+      bad_data['created_at'] = '1900-01-01'
+      post "api/v1/labs/#{@lab.lab_id}/posts",
+           bad_data.to_json, @req_header
 
-    #   _(last_response.status).must_equal 400
-    #   _(last_response.header['Location']).must_be_nil
-    # end
+      _(last_response.status).must_equal 400
+      _(last_response.header['Location']).must_be_nil
+    end
   end
 end

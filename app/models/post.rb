@@ -10,17 +10,19 @@ module Labook
     many_to_one :lab
 
     plugin :timestamps
+    plugin :whitelist_security
+    set_allowed_columns :lab_score, :professor_attitude, :content, :user_id
 
     def user_id
-      SecureDB.decrypt user_id_secure
+      SecureDB.decrypt(user_id_secure)
     end
 
     def user_id=(plaintext)
-      self.user_id_secure = SecureDB.encrypt plaintext
+      self.user_id_secure = SecureDB.encrypt(plaintext)
     end
 
     def lab_score
-      SecureDB.decrypt lab_score_secure
+      SecureDB.decrypt(lab_score_secure)
     end
 
     def lab_score=(plaintext)
@@ -28,11 +30,11 @@ module Labook
     end
 
     def professor_attitude
-      SecureDB.decrypt professor_attitude_secure
+      SecureDB.decrypt(professor_attitude_secure)
     end
 
     def professor_attitude=(plaintext)
-      self.professor_attitude_secure = SecureDB.encrypt plaintext
+      self.professor_attitude_secure = SecureDB.encrypt(plaintext)
     end
 
     def content
@@ -40,7 +42,7 @@ module Labook
     end
 
     def content=(plaintext)
-      self.content_secure = SecureDB.encrypt plaintext
+      self.content_secure = SecureDB.encrypt(plaintext)
     end
 
     # rubocop:disable Metrics/MethodLength

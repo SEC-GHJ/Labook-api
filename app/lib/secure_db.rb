@@ -6,7 +6,7 @@ require 'base64'
 # Secure library for database
 class SecureDB
   class NoDbKeyError < StandardError; end
-  
+
   def self.generate_key
     key = RbNaCl::Random.random_bytes(RbNaCl::SecretBox.key_bytes)
     Base64.strict_encode64 key
