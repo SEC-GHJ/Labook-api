@@ -9,8 +9,8 @@ describe 'Test Lab Handling' do
   end
   describe 'Getting Posts' do
     it 'Happy: should be able to get list of all labs' do
-      Labook::Lab.create(DATA[:labs][0]).save
-      Labook::Lab.create(DATA[:labs][1]).save
+      Labook::Lab.create(DATA[:labs][0])
+      Labook::Lab.create(DATA[:labs][1])
 
       get 'api/v1/labs'
       _(last_response.status).must_equal 200
@@ -21,7 +21,7 @@ describe 'Test Lab Handling' do
 
     it 'HAPPY: should be able to get details of a single lab' do
       existing_lab = DATA[:labs][1]
-      Labook::Lab.create(existing_lab).save
+      Labook::Lab.create(existing_lab)
       lab_id = Labook::Lab.first.lab_id
 
       get "/api/v1/labs/#{lab_id}"
@@ -42,8 +42,8 @@ describe 'Test Lab Handling' do
     end
 
     it 'SECURITY: should prevent basic SQL injection targeting IDs' do
-      Labook::Lab.create(lab_name: 'New Lab')
-      Labook::Lab.create(lab_name: 'Newer Lab')
+      Labook::Lab.create(lab_name: 'New Lab',school: 'New',department: 'New', professor: 'New')
+      Labook::Lab.create(lab_name: 'Newer Lab',school: 'Newer',department: 'Newer', professor: 'Newer')
       get 'api/v1/labs/2%20or%20id%3E0'
 
       # deliberately not reporting error -- don't give attacker information
