@@ -43,8 +43,8 @@ describe 'Test Lab Handling' do
 
     it 'SECURITY: should prevent basic SQL injection targeting IDs' do
       Labook::Lab.create(lab_name: 'New Lab')
-      Labook::Lab.create(lab_name: 'New Lab')
-      get 'api/v1/projects/2%20or%20id%3E0'
+      Labook::Lab.create(lab_name: 'Newer Lab')
+      get 'api/v1/labs/2%20or%20id%3E0'
 
       # deliberately not reporting error -- don't give attacker information
       _(last_response.status).must_equal 404
