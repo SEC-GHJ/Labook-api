@@ -13,10 +13,10 @@ module Labook
 
       routing.root do
         response.status = 200
-        Api.logger.debug "Testing LabookAPI at /api/v1"
-        Api.logger.info "Testing LabookAPI at /api/v1"
-        Api.logger.warn "Testing LabookAPI at /api/v1"
-        Api.logger.error "Testing LabookAPI at /api/v1"
+        Api.logger.debug 'Testing LabookAPI at /api/v1'
+        Api.logger.info 'Testing LabookAPI at /api/v1'
+        Api.logger.warn 'Testing LabookAPI at /api/v1'
+        Api.logger.error 'Testing LabookAPI at /api/v1'
         { message: 'LabookAPI up at /api/v1' }.to_json
       end
 
@@ -32,7 +32,7 @@ module Labook
 
               # GET api/v1/labs/[lab_id]/posts/[post_id]
               routing.get String do |post_id|
-                find = Post.where(lab_id: lab_id, post_id: post_id).first
+                find = Post.where(lab_id:, post_id:).first
                 find ? find.to_json : raise('Post not found')
               rescue StandardError => e
                 routing.halt 404, { message: e.message }.to_json
@@ -40,7 +40,7 @@ module Labook
 
               # GET api/v1/labs/[lab_id]/posts
               routing.get do
-                output = { data: Lab.first(lab_id: lab_id).posts }
+                output = { data: Lab.first(lab_id:).posts }
                 JSON.pretty_generate(output)
               rescue StandardError
                 routing.halt 404, 'Could not find all posts'
@@ -49,7 +49,7 @@ module Labook
               # POST api/v1/labs/[lab_id]/posts
               routing.post do
                 new_data = JSON.parse(routing.body.read)
-                lab = Lab.first(lab_id: lab_id)
+                lab = Lab.first(lab_id:)
                 new_post = lab.add_post(new_data)
 
                 if new_post
@@ -70,7 +70,7 @@ module Labook
 
             # GET api/v1/labs/[lab_id]
             routing.get do
-              find = Lab.first(lab_id: lab_id)
+              find = Lab.first(lab_id:)
               find ? find.to_json : raise('Lab not found')
             rescue StandardError => e
               routing.halt 404, { message: e.message }.to_json

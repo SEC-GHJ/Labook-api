@@ -58,7 +58,7 @@ describe 'Test Post Handling' do
 
     it 'HAPPY: should be able to create new posts' do
       post "api/v1/labs/#{@lab.lab_id}/posts",
-          @post_data.to_json, @req_header
+           @post_data.to_json, @req_header
       _(last_response.status).must_equal 201
       _(last_response.header['Location'].size).must_be :>, 0
 
