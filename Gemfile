@@ -20,6 +20,7 @@ gem 'hirb'
 gem 'sequel', '~>5'
 group :development, :test do
   gem 'sqlite3'
+  gem 'sequel-seed'
 end
 
 # Performance

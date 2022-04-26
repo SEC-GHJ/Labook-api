@@ -8,8 +8,8 @@ describe 'Test Post Handling' do
   before do
     wipe_database
 
-    DATA[:labs].each do |lab_data|
-      Labook::Lab.create(lab_data)
+    DATA[:accounts].each do |account_data|
+      Labook::Account.create(account_data)
     end
   end
 

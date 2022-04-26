@@ -1,6 +1,7 @@
 # Labook-api
 API to store and retrieve confidential development files (configuration, credentials)
 
+![](https://i.imgur.com/h9P1lhH.jpg)
 ## Accounts
 | account_id | GPA | ori_school | ori_department | account | password |
 | ------- | ------ | --- | --------- | ------------------ | ------- |
@@ -13,7 +14,7 @@ API to store and retrieve confidential development files (configuration, credent
 
 **Encrypted columns: ()_secure**
 
-**Foreign Key:** lab_id
+**Foreign Key:** lab_id, poster_id
 
 lab_score : (1~5)
 professor_attitude : adjective
@@ -24,11 +25,12 @@ professor_attitude : adjective
 | String | String | String | String | String |
 
 ## Chats
-| chat_id | sender_name | reciever_id | content | 
+| chat_id | sender_id | receiver_id | content_secure | 
 | -------- | -------- | -------- | -------- |
 | String | String | String | String |
 
-**Foreign Key:** sender_name, reciever_id
+**Encrypted columns: ()_secure**
+**Foreign Key:** sender_id, receiver_id
 primary key : chat_id
 
 ## Routes
@@ -82,19 +84,18 @@ bundle exec rackup
 ```
 
 ## Test
-Setup test database once:
+Setup test database first:
 
 ```
 RACK_ENV=test rake db:migrate
 ```
 
-Run the test script:
+Then, we run the test script:
 ```
 bundle exec rake spec
 ```
 
 ## set environment
-
 ```
 RACK_ENV=development
 echo $RACK_ENV

@@ -11,7 +11,8 @@ Sequel.migration do
       String :gpa, null: false, unique: false
       String :ori_school, null: false, unique: false
       String :ori_department, null: false, unique: false
-      String :password_digest
+      String :password_digest, null: false
+
       DateTime :created_at
       DateTime :updated_at
     end

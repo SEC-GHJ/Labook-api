@@ -7,19 +7,13 @@ require_relative '../lib/secure_db'
 module Labook
   # Holds a full secret post
   class Post < Sequel::Model
-    many_to_one :lab
+    # many_to_one :lab, class: :'Labook::Lab', key: :lab_id
+    # many_to_one :account, class: :'Labook::Account', key: :poster_id
 
     plugin :timestamps
     plugin :whitelist_security
-    set_allowed_columns :lab_score, :professor_attitude, :content, :user_id
+    set_allowed_columns :lab_score, :professor_attitude, :content
 
-    def user_id
-      SecureDB.decrypt(user_id_secure)
-    end
-
-    def user_id=(plaintext)
-      self.user_id_secure = SecureDB.encrypt(plaintext)
-    end
 
     def lab_score
       SecureDB.decrypt(lab_score_secure)
@@ -53,14 +47,16 @@ module Labook
             type: 'post',
             attributes: {
               post_id:,
-              user_id:,
+              lab_id:,
+              poster_id:,
               lab_score:,
               professor_attitude:,
               content:
             }
           },
           include: {
-            lab:
+            lab:,
+            account:
           }
         }, options
       )

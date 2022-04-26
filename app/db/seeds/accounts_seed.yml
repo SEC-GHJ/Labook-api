@@ -1,0 +1,21 @@
+---
+  - account: anonymous1
+    password: anonymous1's_password
+    gpa: 3.4
+    ori_school: NTHU
+    ori_department: CMT
+  - account: anonymous2
+    password: anonymous2's_password
+    gpa: 1.0
+    ori_school: NYCU
+    ori_department: CS
+  - account: anonymous3
+    password: anonymous3's_password
+    gpa: 87
+    ori_school: NCTU
+    ori_department: EE
+  - account: anonymous4
+    password: anonymous4's_password
+    gpa: 1234
+    ori_school: NTHU
+    ori_department: ECON

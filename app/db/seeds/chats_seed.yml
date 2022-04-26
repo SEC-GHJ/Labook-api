@@ -1,0 +1,22 @@
+---
+  - sender_account: anonymous1
+    receiver_account: anonymous2
+    content: "我對你的貼文有問題想詢問"
+  - sender_account: anonymous2
+    receiver_account: anonymous1
+    content: "不給你問"
+  - sender_account: anonymous2
+    receiver_account: anonymous4
+    content: "I want to play a game :)"
+  - sender_account: anonymous4
+    receiver_account: anonymous2
+    content: "scared.jpg"  
+  - sender_account: anonymous3
+    receiver_account: anonymous2
+    content: "Do you want to build a snowman?"
+  - sender_account: anonymous2
+    receiver_account: anonymous3
+    content: "NO WAY!"
+  - sender_account: anonymous4
+    receiver_account: anonymous1
+    content: "這是一則訊息"

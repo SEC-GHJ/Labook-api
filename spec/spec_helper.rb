@@ -11,8 +11,12 @@ require_relative 'test_load_all'
 def wipe_database
   app.DB[:posts].delete
   app.DB[:labs].delete
+  app.DB[:accounts].delete
+  app.DB[:chats].delete
 end
 
 DATA = {}  # rubocop:disable Style/MutableConstant
-DATA[:posts] = YAML.safe_load File.read('app/db/seeds/post_seeds.yml')
-DATA[:labs] = YAML.safe_load File.read('app/db/seeds/lab_seeds.yml')
+DATA[:posts] = YAML.safe_load File.read('app/db/seeds/posts_seed.yml')
+DATA[:labs] = YAML.safe_load File.read('app/db/seeds/labs_seed.yml')
+DATA[:accounts] = YAML.safe_load File.read('app/db/seeds/accounts_seed.yml')
+DATA[:chats] = YAML.safe_load File.read('app/db/seeds/chats_seed.yml')

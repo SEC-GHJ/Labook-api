@@ -11,6 +11,9 @@ Sequel.migration do
       String :school, null: false
       String :department, null: false
       String :professor, null: false
+
+      DateTime :created_at
+      DateTime :updated_at
     end
   end
 end

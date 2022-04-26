@@ -7,23 +7,44 @@ require_relative './password'
 module Labook
   # Models a registered account
   class Account < Sequel::Model
-    one_to_many :owned_labs, class: :'Labook::Lab', key: :owner_account_id
-    many_to_many :collaborations,
+    # one_to_many :owned_posts, class: :'Labook::Post', key: :poster_id
+
+    # one_to_many :sended_chats, class: :'Labook::Chat', key: :sender_id
+    # one_to_many :received_chats, class: :'Labook::Chat', key: :receiver_id
+
+    # account and lab have many_to_many relationships on post
+    many_to_many :owned_posts,
                  class: :'Labook::Lab',
-                 join_table: :accounts_labs,
+                 join_table: :post,
                  left_key: :poster_id, right_key: :lab_id
 
+    # account and account have many_to_many relationships on chat
+    many_to_many :sended_chats,
+                 class: self,
+                 join_table: :chat,
+                 left_key: :sender_id, right_key: :receiver_id
+    many_to_many :received_chats,
+                 class: self,
+                 join_table: :chat,
+                 left_key: :receiver_id, right_key: :sender_id
+
     plugin :association_dependencies,
-           owned_labs: :destroy,
-           collaborations: :nullify
+            owned_posts: :nullify,
+            sended_chats: :nullify,
+            received_chats: :nullify
+
 
     plugin :whitelist_security
-    set_allowed_columns :account, :gpa, :ori_school, :ori_department
+    set_allowed_columns :account, :gpa, :ori_school, :ori_department, :password
 
     plugin :timestamps, update_on_create: true
 
-    def labs
-      owned_labs + collaborations
+    def posts
+      owned_posts
+    end
+
+    def chats
+      sended_chats + received_chats
     end
 
     def password=(new_password)
