@@ -1,8 +1,13 @@
 # Labook-api
 API to store and retrieve confidential development files (configuration, credentials)
 
+## Accounts
+| account_id | GPA | ori_school | ori_department | account | password |
+| ------- | ------ | --- | --------- | ------------------ | ------- |
+| String  | int |  String  | String    | String   | String  |
+
 ## Posts
-| post_id | lab_id | user_id_secure | lab_score_secure | professor_attitude_secure | content_secure |
+| post_id | lab_id | poster_id | lab_score_secure | professor_attitude_secure | content_secure |
 | ------- | ------ | --- | --------- | ------------------ | ------- |
 | String  | String |  String  | int    | String   | String  |
 
@@ -17,6 +22,13 @@ professor_attitude : adjective
 | lab_id | lab_name | school | department | professor |
 | -------- | -------- | -------- | -------- |-------- |
 | String | String | String | String | String |
+
+## Chats
+| chat_id | sender_name | reciever_id | content | 
+| -------- | -------- | -------- | -------- |
+| String | String | String | String |
+**Foreign Key:** sender_name, reciever_id
+primary key : chat_id
 
 ## Routes
 All routes return Json
