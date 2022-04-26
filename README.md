@@ -27,6 +27,7 @@ professor_attitude : adjective
 | chat_id | sender_name | reciever_id | content | 
 | -------- | -------- | -------- | -------- |
 | String | String | String | String |
+
 **Foreign Key:** sender_name, reciever_id
 primary key : chat_id
 
