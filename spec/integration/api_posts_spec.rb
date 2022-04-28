@@ -14,9 +14,10 @@ describe 'Test Post Handling' do
   end
 
   it 'HAPPY: should be able to get list of all posts' do
-    lab = Labook::Lab.first
     DATA[:posts].each do |post|
-      lab.add_post(post)
+      poster_account = post.delete('poster_account')
+      lab_name = post.delete('lab_name')
+      Labook::CreatePost.call(poster_account:, lab_name:, post_data: post)
     end
 
     get "api/v1/labs/#{lab.lab_id}/posts"
