@@ -10,7 +10,7 @@ module Labook
     # many_to_one :account, class: :'Labook::Account', key: :sender_id
     # many_to_one :account, class: :'Labook::Account', key: :receiver_id
 
-    one_to_one :accounts_accounts
+    many_to_one :accounts_account, class: :'Labook::AccountsAccount', key: [:sender_id, :receiver_id]
 
     plugin :timestamps
     plugin :whitelist_security
@@ -29,11 +29,9 @@ module Labook
       JSON(
         {
           data: {
-            type: 'post',
+            type: 'chat',
             attributes: {
               chat_id:,
-              sender_id:,
-              receiver_id:,
               content:
             }
           },

@@ -10,7 +10,7 @@ module Labook
     # many_to_one :lab, class: :'Labook::Lab', key: :lab_id
     # many_to_one :account, class: :'Labook::Account', key: :poster_id
 
-    one_to_one :accounts_labs
+    many_to_one :accounts_lab, class: :'Labook::AccountsLab', key: [:poster_id, :lab_id]
 
     plugin :timestamps
     plugin :whitelist_security
