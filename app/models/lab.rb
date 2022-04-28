@@ -11,7 +11,7 @@ module Labook
     # account and lab have many_to_many relationships on post
     many_to_many :related_posts,
                  class: :'Labook::Account',
-                 join_table: :post,
+                 join_table: :accounts_labs,
                  left_key: :lab_id, right_key: :poster_id
 
     plugin :association_dependencies,

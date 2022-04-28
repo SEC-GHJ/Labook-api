@@ -15,17 +15,18 @@ module Labook
     # account and lab have many_to_many relationships on post
     many_to_many :owned_posts,
                  class: :'Labook::Lab',
-                 join_table: :post,
+                 join_table: :accounts_labs,
                  left_key: :poster_id, right_key: :lab_id
 
     # account and account have many_to_many relationships on chat
     many_to_many :sended_chats,
                  class: self,
-                 join_table: :chat,
+                 join_table: :accounts_accounts,
                  left_key: :sender_id, right_key: :receiver_id
+
     many_to_many :received_chats,
                  class: self,
-                 join_table: :chat,
+                 join_table: :accounts_accounts,
                  left_key: :receiver_id, right_key: :sender_id
 
     plugin :association_dependencies,

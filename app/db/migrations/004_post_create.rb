@@ -6,8 +6,9 @@ Sequel.migration do
   change do
     create_table(:posts) do
       primary_key :post_id
-      foreign_key :lab_id, table: :labs
-      foreign_key :poster_id, table: :accounts
+      String :poster_id
+      String :lab_id
+      foreign_key [:poster_id, :lab_id], table: :accounts_labs, name: 'posts_poster_lab_fkey' # name is optional 
 
       String :lab_score_secure, null: false
       String :professor_attitude_secure, null: false

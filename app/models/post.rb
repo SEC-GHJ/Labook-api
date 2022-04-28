@@ -10,6 +10,8 @@ module Labook
     # many_to_one :lab, class: :'Labook::Lab', key: :lab_id
     # many_to_one :account, class: :'Labook::Account', key: :poster_id
 
+    one_to_one :accounts_labs
+
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :lab_score, :professor_attitude, :content

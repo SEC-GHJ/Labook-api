@@ -6,8 +6,9 @@ Sequel.migration do
   change do
     create_table(:chats) do
       primary_key :chat_id
-      foreign_key :sender_id, :accounts
-      foreign_key :receiver_id, :accounts  
+      String :sender_id
+      String :receiver_id
+      foreign_key [:sender_id, :receiver_id], :accounts_accounts, name: 'chats_sender_receiver_fkey' # name is optional 
 
       String :content_secure, null: false
 

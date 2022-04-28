@@ -7,8 +7,10 @@ require_relative '../lib/secure_db'
 module Labook
   # Holds a full secret post
   class Chat < Sequel::Model
-    many_to_one :account, class: :'Labook::Account', key: :sender_id
-    many_to_one :account, class: :'Labook::Account', key: :receiver_id
+    # many_to_one :account, class: :'Labook::Account', key: :sender_id
+    # many_to_one :account, class: :'Labook::Account', key: :receiver_id
+
+    one_to_one :accounts_accounts
 
     plugin :timestamps
     plugin :whitelist_security

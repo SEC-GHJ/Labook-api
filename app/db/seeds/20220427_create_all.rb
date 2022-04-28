@@ -32,10 +32,10 @@ end
 
 def create_posts
   POSTS_INFO.each do |post|
-    account = Labook::Account.first(account: post['poster_account'])
+    poster = Labook::Account.first(account: post['poster_account'])
     lab = Labook::Lab.first(lab_name: post['lab_name'])
     Labook::CreatePost.call(                  # service func. name & I/O
-      poster_id: account.account_id,
+      poster_id: poster.account_id,
       lab_id: lab.lab_id,
       post_data: post
     )
