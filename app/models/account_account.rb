@@ -8,7 +8,11 @@ module Labook
   # Holds a full secret post
   class AccountsAccount < Sequel::Model
 
-    one_to_many :chats, class: :'Labook::Chat', key: [:sender_id, :receiver_id]
+    one_to_many :chats, class: :'Labook::Chat',
+                key: [:sender_id, :receiver_id]
+                
+    plugin :association_dependencies,
+            chats: :destroy
 
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})

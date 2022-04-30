@@ -8,7 +8,8 @@ module Labook
       lab = Lab.first(lab_name:)
       account.add_owned_post(lab)
 
-      AccountsLab.first(lab_id: lab.lab_id, poster_id: account.account_id).add_post(post_data)
+      AccountsLab.first(lab_id: lab.lab_id, poster_id: account.account_id)
+                 .add_post(post_data)
     end
   end
 end

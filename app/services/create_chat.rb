@@ -7,13 +7,20 @@ module Labook
       def message = 'Sender cannot be receiver'
     end
 
-    def self.call(sender_id:, receiver_id:, content:)
-      sender = Account.first(account_id: sender_id)
-      receiver = Account.first(account_id: receiver_id)
-      raise(SenderNotReceiverError) if sender_id == receiver_id
-
-      sender.add_sended_chat(receiver)
-      AccountsAccount.first(sender_id:, receiver_id:).add_chat(content)
+    def self.call(sender_account:, receiver_account:, content:)
+      sender = Account.find(account: sender_account)
+      receiver = Account.find(account: receiver_account)
+      raise(SenderNotReceiverError) if sender.account_id == receiver.account_id
+      # check whether connection is built
+      connection = AccountsAccount.first(sender_id: sender.account_id,
+                                         receiver_id: receiver.account_id)
+      if connection.nil?
+        sender.add_sended_chat(receiver)
+        connection = AccountsAccount.first(sender_id: sender.account_id,
+                                           receiver_id: receiver.account_id)
+      end
+      
+      connection.add_chat(content:)
     end
   end
 end

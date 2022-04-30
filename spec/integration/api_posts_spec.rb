@@ -29,15 +29,16 @@ describe 'Test Post Handling' do
 
   it 'HAPPY: should be able to get details of a single post' do
     post_data = DATA[:posts][1]
-    lab = Labook::Lab.first
-    post = lab.add_post(post_data).save
+    poster_account = post_data.delete('poster_account')
+    lab_name = post_data.delete('lab_name')
+    Labook::CreatePost.call(poster_account:, lab_name:, post_data:)
 
     get "/api/v1/labs/#{lab.lab_id}/posts/#{post.post_id}"
     _(last_response.status).must_equal 200
 
     result = JSON.parse last_response.body
     _(result['data']['attributes']['post_id']).must_equal post.post_id
-    _(result['data']['attributes']['user_id']).must_equal post_data['user_id']
+    _(result['data']['attributes']['poster']).must_equal post_data['poster_id']
     _(result['data']['attributes']['lab_score'].to_i).must_equal post_data['lab_score'].to_i
     _(result['data']['attributes']['professor_attitude']).must_equal post_data['professor_attitude']
     _(result['data']['attributes']['content']).must_equal post_data['content']
@@ -67,7 +68,7 @@ describe 'Test Post Handling' do
       post = Labook::Post.first
 
       _(created['post_id']).must_equal post.post_id
-      _(created['user_id']).must_equal @post_data['user_id']
+      _(created['poster_id']).must_equal @post_data['poster_id']
       _(created['lab_score'].to_i).must_equal @post_data['lab_score'].to_i
       _(created['professor_attitude']).must_equal @post_data['professor_attitude']
       _(created['content']).must_equal @post_data['content']

@@ -19,13 +19,13 @@ describe 'Test Post Handling' do
 
   it 'HAPPY: should retrieve correct data from database' do
     DATA[:posts].each do |post_data|
-      poster = Labook::Account.find(account: post_data['poster_account'])
-      lab = Labook::Lab.find(lab_name: post_data['lab_name'])
+      poster_account = post_data.delete('poster_account')
+      lab_name = post_data.delete('lab_name')
 
       new_post = Labook::CreatePost.call(
-        poster_id: poster.account_id,
-        lab_id: lab.lab_id,
-        post_data: post_data
+        poster_account:,
+        lab_name:,
+        post_data:
       )
 
       post = Labook::Post.find(post_id: new_post.post_id)
@@ -37,13 +37,13 @@ describe 'Test Post Handling' do
 
   it 'SECURITY: should secure sensitive attributes' do
     DATA[:posts].each do |post_data|
-      poster = Labook::Account.find(account: post_data['poster_account'])
-      lab = Labook::Lab.find(lab_name: post_data['lab_name'])
+      poster_account = post_data.delete('poster_account')
+      lab_name = post_data.delete('lab_name')
 
       new_post = Labook::CreatePost.call(
-        poster_id: poster.account_id,
-        lab_id: lab.lab_id,
-        post_data: post_data
+        poster_account:,
+        lab_name:,
+        post_data:
       )
 
       stored_post = Labook::Post.find(post_id: new_post.post_id)

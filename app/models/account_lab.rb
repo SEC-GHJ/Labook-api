@@ -9,6 +9,8 @@ module Labook
   class AccountsLab < Sequel::Model
 
     one_to_many :posts, class: :'Labook::Post', key: [:poster_id, :lab_id]
+    plugin :association_dependencies,
+            posts: :destroy
 
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
