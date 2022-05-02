@@ -55,10 +55,6 @@ module Labook
               professor_attitude:,
               content:
             }
-          },
-          include: {
-            lab:,
-            account:
           }
         }, options
       )

@@ -73,7 +73,7 @@ module Labook
 
               # GET api/v1/labs/[lab_id]/posts
               routing.get do
-                output = { data: Lab.first(lab_id:).posts }
+                output = { data: FindPostsForLab.call(lab_id:) }
                 JSON.pretty_generate(output)
               rescue StandardError
                 routing.halt 404, 'Could not find all posts'
@@ -82,8 +82,7 @@ module Labook
               # POST api/v1/labs/[lab_id]/posts
               routing.post do
                 new_data = JSON.parse(routing.body.read)
-                lab = Lab.first(lab_id:)
-                new_post = lab.add_post(new_data)
+                # Labook::CreatePost.call(new_data)
 
                 if new_post
                   response.status = 201

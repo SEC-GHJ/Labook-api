@@ -24,7 +24,7 @@ module Labook
             }
           },
           include: {
-            post:
+            posts:
           }
         }, options
       )
