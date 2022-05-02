@@ -24,8 +24,8 @@ describe 'Test Chat Handling' do
       chat = Labook::Chat.find(chat_id: new_chat.chat_id)
       sender_id = Labook::Account.find(account: chat_data['sender_account']).account_id
       receiver_id = Labook::Account.find(account: chat_data['receiver_account']).account_id
-      puts "#{chat.sender_id} == #{sender_id}"
-      puts "#{chat.receiver_id} == #{receiver_id}"
+      # puts "#{chat.sender_id} == #{sender_id}"
+      # puts "#{chat.receiver_id} == #{receiver_id}"
       _(chat.sender_id).must_equal sender_id
       _(chat.receiver_id).must_equal receiver_id
       _(chat.content).must_equal chat_data['content']

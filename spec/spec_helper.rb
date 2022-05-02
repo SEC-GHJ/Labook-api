@@ -9,12 +9,12 @@ require 'yaml'
 require_relative 'test_load_all'
 
 def wipe_database
-  Labook::Lab.map(&:destroy)
-  Labook::Account.map(&:destroy)
-  Labook::AccountsLab.map(&:destroy)
-  Labook::AccountsAccount.map(&:destroy)
   Labook::Post.map(&:destroy)
   Labook::Chat.map(&:destroy)
+  Labook::AccountsLab.map(&:destroy)
+  Labook::AccountsAccount.map(&:destroy)
+  Labook::Lab.map(&:destroy)
+  Labook::Account.map(&:destroy)
 end
 
 DATA = {}  # rubocop:disable Style/MutableConstant
