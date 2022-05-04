@@ -20,7 +20,7 @@ module Labook
       end
 
       # POST api/v1/accounts
-      routin.post do
+      routing.post do
         new_data = JSON.parse(routing.body.read)
         new_account = Account.new(new_data)
         raise('Could not save account') unless new_account.save
