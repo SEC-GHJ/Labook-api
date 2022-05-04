@@ -17,7 +17,6 @@ CHATS_INFO = YAML.load_file("#{DIR}/chats_seed.yml")
 LABS_INFO = YAML.load_file("#{DIR}/labs_seed.yml")
 POSTS_INFO = YAML.load_file("#{DIR}/posts_seed.yml")
 
-
 def create_accounts
   ACCOUNTS_INFO.each do |account_info|
     Labook::Account.create(account_info)

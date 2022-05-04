@@ -19,7 +19,7 @@ module Labook
         end
       end
 
-      # POSt api/v1/accounts
+      # POST api/v1/accounts
       routin.post do
         new_data = JSON.parse(routing.body.read)
         new_account = Account.new(new_data)
@@ -35,7 +35,6 @@ module Labook
         Api.logger.error 'Unknown error saving account'
         routing.halt 500, { message: e.message }.to_json
       end
-      
     end
   end
 end

@@ -10,7 +10,6 @@ task :unit_spec do
   sh 'ruby spec/unit/*.rb'
 end
 
-
 desc 'Tests API specs only'
 task :api_spec do
   sh 'ruby spec/integration/*.rb'
@@ -53,7 +52,6 @@ namespace :db do
   Sequel.extension :migration
   @app = Labook::Api
   
-
   task :load_models do
     require_app(%w[lib models services])
   end

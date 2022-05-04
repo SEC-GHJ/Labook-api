@@ -30,10 +30,9 @@ module Labook
                  left_key: :receiver_id, right_key: :sender_id
 
     plugin :association_dependencies,
-            owned_posts: :nullify,
-            sended_chats: :nullify,
-            received_chats: :nullify
-
+           owned_posts: :nullify,
+           sended_chats: :nullify,
+           received_chats: :nullify
 
     plugin :whitelist_security
     set_allowed_columns :account, :gpa, :ori_school, :ori_department, :password
@@ -57,6 +56,7 @@ module Labook
       digest.correct?(try_password)
     end
 
+    # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
       JSON(
         {
@@ -71,5 +71,6 @@ module Labook
         }, options
       )
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

@@ -11,7 +11,7 @@ module Labook
     # many_to_one :account, class: :'Labook::Account', key: :receiver_id
 
     many_to_one :accounts_account, class: :'Labook::AccountsAccount',
-                key: [:sender_id, :receiver_id]
+                                   key: %i[sender_id receiver_id]
 
     plugin :timestamps
     plugin :whitelist_security

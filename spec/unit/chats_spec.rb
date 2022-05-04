@@ -20,7 +20,7 @@ describe 'Test Chat Handling' do
         receiver_account: chat_data['receiver_account'],
         content: chat_data['content']
       )
-      
+
       chat = Labook::Chat.find(chat_id: new_chat.chat_id)
       sender_id = Labook::Account.find(account: chat_data['sender_account']).account_id
       receiver_id = Labook::Account.find(account: chat_data['receiver_account']).account_id
@@ -39,7 +39,7 @@ describe 'Test Chat Handling' do
         receiver_account: chat_data['receiver_account'],
         content: chat_data['content']
       )
-      
+
       stored_chat = Labook::Chat.find(chat_id: new_chat.chat_id)
       _(stored_chat[:content_secure]).wont_equal new_chat.content
     end

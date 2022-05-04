@@ -15,7 +15,7 @@ module Labook
                  left_key: :lab_id, right_key: :poster_id
 
     plugin :association_dependencies,
-            related_posts: :nullify
+           related_posts: :nullify
 
     plugin :timestamps
     plugin :whitelist_security
@@ -41,6 +41,5 @@ module Labook
       )
     end
     # rubocop:enable Metrics/MethodLength
-
   end
 end

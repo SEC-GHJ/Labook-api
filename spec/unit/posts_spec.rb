@@ -24,7 +24,7 @@ describe 'Test Post Handling' do
       lab_name = post_info.delete('lab_name')
       poster_id = Labook::Account.first(account:).account_id
       lab_id = Labook::Lab.first(lab_name:).lab_id
-      
+
       new_post = Labook::CreatePost.call(
         poster_id:,
         lab_id:,

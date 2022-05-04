@@ -36,10 +36,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'sqlite3'
-  gem 'sequel-seed'
   gem 'rack-test'
+  gem 'sequel-seed'
+  gem 'sqlite3'
 end
-
-# Quality
-gem 'rubocop'

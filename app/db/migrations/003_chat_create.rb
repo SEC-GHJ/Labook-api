@@ -8,7 +8,7 @@ Sequel.migration do
       primary_key :chat_id
       Integer :sender_id
       Integer :receiver_id
-      foreign_key [:sender_id, :receiver_id], :accounts_accounts, name: 'chats_sender_receiver_fkey' # name is optional 
+      foreign_key [:sender_id, :receiver_id], :accounts_accounts, name: 'chats_sender_receiver_fkey' # name is optional
 
       String :content_secure, null: false
 
