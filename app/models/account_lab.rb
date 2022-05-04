@@ -16,12 +16,10 @@ module Labook
     def to_json(options = {})
       JSON(
         {
-          data: {
-            type: 'accounts_labs',
-            attributes: {
-              poster_id:,
-              lab_id:,
-            }
+          type: 'accounts_labs',
+          attributes: {
+            poster_id:,
+            lab_id:,
           },
           include: {
             posts:

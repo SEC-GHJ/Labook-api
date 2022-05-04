@@ -29,12 +29,10 @@ module Labook
     def to_json(options = {})
       JSON(
         {
-          data: {
-            type: 'chat',
-            attributes: {
-              chat_id:,
-              content:
-            }
+          type: 'chat',
+          attributes: {
+            chat_id:,
+            content:
           },
           include: {
             account:

@@ -81,6 +81,7 @@ Run this API using:
 
 ```
 bundle exec rackup
+bundle exec run:dev
 ```
 
 ## Test

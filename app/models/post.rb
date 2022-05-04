@@ -45,16 +45,14 @@ module Labook
     def to_json(options = {})
       JSON(
         {
-          data: {
-            type: 'post',
-            attributes: {
-              post_id:,
-              lab_id:,
-              poster_id:,
-              lab_score:,
-              professor_attitude:,
-              content:
-            }
+          type: 'post',
+          attributes: {
+            post_id:,
+            lab_id:,
+            poster_id:,
+            lab_score:,
+            professor_attitude:,
+            content:
           }
         }, options
       )

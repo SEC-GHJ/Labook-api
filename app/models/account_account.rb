@@ -18,12 +18,10 @@ module Labook
     def to_json(options = {})
       JSON(
         {
-          data: {
-            type: 'accounts_accounts',
-            attributes: {
-              sender_id:,
-              receiver_id:,
-            }
+          type: 'accounts_accounts',
+          attributes: {
+            sender_id:,
+            receiver_id:,
           },
           include: {
             chat:

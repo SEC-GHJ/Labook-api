@@ -61,11 +61,13 @@ module Labook
       JSON(
         {
           type: 'account',
-          account_id:,
-          account:,
-          gpa:,
-          ori_school:,
-          ori_department:
+          attributes: {
+            account_id:,
+            account:,
+            gpa:,
+            ori_school:,
+            ori_department:
+          }
         }, options
       )
     end

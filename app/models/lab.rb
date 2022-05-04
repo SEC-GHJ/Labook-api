@@ -29,21 +29,18 @@ module Labook
     def to_json(options = {})
       JSON(
         {
-          data: {
-            type: 'lab',
-            attributes: {
-              lab_id:,
-              lab_name:,
-              school:,
-              department:,
-              professor:
-            }
+          type: 'lab',
+          attributes: {
+            lab_id:,
+            lab_name:,
+            school:,
+            department:,
+            professor:
           }
         }, options
       )
     end
     # rubocop:enable Metrics/MethodLength
 
-    # def self.add_post
   end
 end
