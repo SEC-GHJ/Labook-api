@@ -48,12 +48,12 @@ describe 'Test Post Handling' do
     get "/api/v1/labs/#{new_post.lab_id}/posts/#{new_post.post_id}"
     _(last_response.status).must_equal 200
 
-    result = JSON.parse last_response.body
-    _(result['data']['attributes']['post_id']).must_equal new_post.post_id
-    _(result['data']['attributes']['poster_id']).must_equal poster_id
-    _(result['data']['attributes']['lab_score'].to_i).must_equal post_data['lab_score'].to_i
-    _(result['data']['attributes']['professor_attitude']).must_equal post_data['professor_attitude']
-    _(result['data']['attributes']['content']).must_equal post_data['content']
+    attributes = JSON.parse(last_response.body)['attributes']
+    _(attributes['post_id']).must_equal new_post.post_id
+    _(attributes['poster_id']).must_equal poster_id
+    _(attributes['lab_score'].to_i).must_equal post_data['lab_score'].to_i
+    _(attributes['professor_attitude']).must_equal post_data['professor_attitude']
+    _(attributes['content']).must_equal post_data['content']
   end
 
   it 'SAD: should return error if unknown post requested' do
