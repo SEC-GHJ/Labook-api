@@ -1,7 +1,9 @@
 # Labook-api
 API to store and retrieve confidential development files (configuration, credentials)
 
-![](https://i.imgur.com/h9P1lhH.jpg)
+## Database schema
+![](./public/image/Labook-db.png)
+
 ## Accounts
 | account_id | GPA | ori_school | ori_department | account | password |
 | ------- | ------ | --- | --------- | ------------------ | ------- |
@@ -37,6 +39,9 @@ primary key : chat_id
 All routes return Json
 
 - GET `/` : Root route shows if Web API is running
+- GET `api/v1/accounts/[username]`: return an account info
+- POST `api/v1/accounts`: create an account
+- POST `api/v1/auth/authenticate`: return an account info
 - GET `api/v1/labs/[lab_id]/posts/[post_id]`: returns details about a single post with given ID
 - GET `api/v1/labs/[lab_id]/posts/` : returns all posts for a lab
 - POST `api/v1/labs/[lab_id]/posts/`:  create a post for a lab
