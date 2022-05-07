@@ -62,7 +62,6 @@ module Labook
         {
           type: 'account',
           attributes: {
-            account_id:,
             account:,
             gpa:,
             ori_school:,
