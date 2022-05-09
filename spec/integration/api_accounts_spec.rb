@@ -20,6 +20,9 @@ describe 'Test Account Handling' do
 
       attributes = JSON.parse(last_response.body)['attributes']
       _(attributes['account']).must_equal account.account
+      _(attributes['gpa']).must_equal account.gpa
+      _(attributes['ori_school']).must_equal account.ori_school
+      _(attributes['ori_department']).must_equal account.ori_department
       _(attributes['salt']).must_be_nil
       _(attributes['password']).must_be_nil
       _(attributes['password_hash']).must_be_nil
