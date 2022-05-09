@@ -18,7 +18,7 @@ module Labook
       connection = AccountsAccount.first(sender_id: sender.account_id,
                                          receiver_id: receiver.account_id)
       if connection.nil?
-        sender.add_sended_chat(receiver)
+        sender.add_sened_account(receiver)
         connection = AccountsAccount.first(sender_id: sender.account_id,
                                            receiver_id: receiver.account_id)
       end

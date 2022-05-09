@@ -12,9 +12,15 @@ module Labook
 
     many_to_one :accounts_lab, class: :'Labook::AccountsLab', key: %i[poster_id lab_id]
 
+    # account and post have many_to_many relationships on vote
+    many_to_many :voted_accounts,
+                 class: :'Labook::Account',
+                 join_table: :accounts_posts,
+                 left_key: :voted_post_id, right_key: :voter_id
+
     plugin :timestamps
     plugin :whitelist_security
-    set_allowed_columns :lab_score, :professor_attitude, :content
+    set_allowed_columns :lab_score, :professor_attitude, :content, :accept_mail, :vote_sum
 
     def lab_score
       SecureDB.decrypt(lab_score_secure)
@@ -51,7 +57,9 @@ module Labook
             poster_id:,
             lab_score:,
             professor_attitude:,
-            content:
+            content:,
+            accept_mail:,
+            vote_sum:
           }
         }, options
       )

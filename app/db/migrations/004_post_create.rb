@@ -13,6 +13,8 @@ Sequel.migration do
       String :lab_score_secure, null: false
       String :professor_attitude_secure, null: false
       String :content_secure, null: false
+      Integer :accept_mail, null: false
+      Integer :vote_sum, null: false
 
       DateTime :created_at
       DateTime :updated_at

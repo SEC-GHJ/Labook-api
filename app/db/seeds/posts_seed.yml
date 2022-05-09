@@ -1,24 +1,32 @@
 ---
 - lab_name: SecretLab
-  poster_account: anonymous1
+  poster_account: a1
   lab_score: "5"
   professor_attitude: 'Nice'
   content: "老師人很好，實驗室很自由ya，錢多事少離宿舍遠"
+  accept_mail: 1
+  vote_sum: 0
 
 - lab_name: SecretLab
-  poster_account: anonymous2
+  poster_account: a2
   lab_score: "5"
   professor_attitude: 'Serious'
   content: "老師幽默風趣，資源很多計畫很多可以跟，而且不挑學生"
+  accept_mail: 1
+  vote_sum: 0
 
 - lab_name: BadLab
-  poster_account: anonymous3
+  poster_account: a3
   lab_score: "3"
   professor_attitude: 'patient'
   content: "老師人很好，但去找他談要先想好RQ"
+  accept_mail: 0
+  vote_sum: 0
   
 - lab_name: BadLab
-  poster_account: anonymous4
+  poster_account: a4
   lab_score: "2"
   professor_attitude: 'Strict'
   content: "老師人好壞QQ，實驗室錢最近便很少，還要開會好久"
+  accept_mail: 1
+  vote_sum: 0

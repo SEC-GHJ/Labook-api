@@ -22,11 +22,10 @@ describe 'Test Post Handling' do
       post_info = post_data.clone
       account = post_info.delete('poster_account')
       lab_name = post_info.delete('lab_name')
-      poster_id = Labook::Account.first(account:).account_id
       lab_id = Labook::Lab.first(lab_name:).lab_id
 
       new_post = Labook::CreatePost.call(
-        poster_id:,
+        poster_account: account,
         lab_id:,
         post_data: post_info
       )
@@ -43,11 +42,10 @@ describe 'Test Post Handling' do
       post_info = post_data.clone
       account = post_info.delete('poster_account')
       lab_name = post_info.delete('lab_name')
-      poster_id = Labook::Account.first(account:).account_id
       lab_id = Labook::Lab.first(lab_name:).lab_id
 
       new_post = Labook::CreatePost.call(
-        poster_id:,
+        poster_account: account,
         lab_id:,
         post_data: post_info
       )

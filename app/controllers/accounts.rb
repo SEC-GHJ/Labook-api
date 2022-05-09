@@ -10,6 +10,26 @@ module Labook
       @account_route = "#{@api_root}/accounts"
 
       routing.on String do |username|
+        routing.on 'posts' do
+          # GET api/v1/accounts/[username]/posts
+          routing.get do
+            output = { data: FindPostsForAccount.call(account: username) }
+            JSON.pretty_generate(output)
+          rescue StandardError
+            routing.halt 404, 'Could not find all posts'
+          end
+        end
+
+        routing.on 'votes' do
+          # GET api/v1/accounts/[username]/votes
+          routing.get do
+            output = { data: FindVotesForAccount.call(account: username) }
+            JSON.pretty_generate(output)
+          rescue StandardError => e
+            routing.halt 404, { message: e.message }.to_json
+          end
+        end
+
         # GET api/v1/accounts/[username]
         routing.get do
           account = Account.first(account: username)

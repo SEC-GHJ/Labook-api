@@ -21,10 +21,10 @@ module Labook
 
       routing.root do
         response.status = 200
-        Api.logger.debug 'Testing LabookAPI at /api/v1'
-        Api.logger.info 'Testing LabookAPI at /api/v1'
-        Api.logger.warn 'Testing LabookAPI at /api/v1'
-        Api.logger.error 'Testing LabookAPI at /api/v1'
+        # Api.logger.debug 'Testing LabookAPI at /api/v1'
+        # Api.logger.info 'Testing LabookAPI at /api/v1'
+        # Api.logger.warn 'Testing LabookAPI at /api/v1'
+        # Api.logger.error 'Testing LabookAPI at /api/v1'
         { message: 'LabookAPI up at /api/v1' }.to_json
       end
 

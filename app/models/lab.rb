@@ -9,21 +9,17 @@ module Labook
     # one_to_many :posts, class: :'Labook::Post', key: :lab_id
 
     # account and lab have many_to_many relationships on post
-    many_to_many :related_posts,
+    many_to_many :commented_accounts,
                  class: :'Labook::Account',
                  join_table: :accounts_labs,
                  left_key: :lab_id, right_key: :poster_id
 
     plugin :association_dependencies,
-           related_posts: :nullify
+           commented_accounts: :nullify
 
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :lab_name, :school, :department, :professor
-
-    def posts
-      related_posts
-    end
 
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
