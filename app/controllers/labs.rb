@@ -23,13 +23,12 @@ module Labook
                                                    voted_post_id: post_id,
                                                    number: new_data["number"].to_i
                                                   )
-                if new_vote
-                  response.status = 201
-                  response['Location'] = "#{@post_route}/#{new_vote.vote_id}"
-                  { message: 'Vote saved', data: new_vote }.to_json
-                else
-                  routing.halt 400, 'Could not save post'
-                end
+                raise('Could not save vote') unless new_vote
+                
+                response.status = 201
+                response['Location'] = "#{@post_route}/#{new_vote.vote_id}"
+                { message: 'Vote saved', data: new_vote }.to_json
+                
               rescue Sequel::MassAssignmentRestriction
                 Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
                 routing.halt 400, { message: 'Illegal Attributes' }.to_json
@@ -40,8 +39,8 @@ module Labook
 
             # GET api/v1/labs/[lab_id]/posts/[post_id]
             routing.get do
-              find = Post.where(lab_id:, post_id:).first
-              find ? find.to_json : raise('Post not found')
+              post = Post.where(lab_id:, post_id:).first
+              post ? post.to_json : raise('Post not found')
             rescue StandardError => e
               routing.halt 404, { message: e.message }.to_json
             end
@@ -49,10 +48,10 @@ module Labook
 
           # GET api/v1/labs/[lab_id]/posts
           routing.get do
-            output = { data: FindPostsForLab.call(lab_id:) }
-            JSON.pretty_generate(output)
-          rescue StandardError
-            routing.halt 404, 'Could not find all posts'
+            lab_posts = { data: FindPostsForLab.call(lab_id:) }
+            lab_posts[:data] ? lab_posts.to_json : raise('Could not find all posts of the lab')
+          rescue StandardError => e
+            routing.halt 404, { message: e.message }.to_json
           end
 
           # POST api/v1/labs/[lab_id]/posts
@@ -60,14 +59,12 @@ module Labook
             post_data = JSON.parse(routing.body.read)
             poster_account = post_data.delete('poster_account')
             new_post = Labook::CreatePost.call(poster_account:, lab_id:, post_data:)
+            raise('Could not save post') unless new_post
 
-            if new_post
-              response.status = 201
-              response['Location'] = "#{@post_route}/#{new_post.post_id}"
-              { message: 'Post saved', data: new_post }.to_json
-            else
-              routing.halt 400, 'Could not save post'
-            end
+            response.status = 201
+            response['Location'] = "#{@post_route}/#{new_post.post_id}"
+            { message: 'Post saved', data: new_post }.to_json
+
           rescue Sequel::MassAssignmentRestriction
             Api.logger.warn "MASS-ASSIGNMENT: #{post_data.keys}"
             routing.halt 400, { message: 'Illegal Attributes' }.to_json
@@ -79,8 +76,8 @@ module Labook
 
         # GET api/v1/labs/[lab_id]
         routing.get do
-          find = Lab.first(lab_id:)
-          find ? find.to_json : raise('Lab not found')
+          lab = Lab.first(lab_id:)
+          lab ? lab.to_json : raise('Lab not found')
         rescue StandardError => e
           routing.halt 404, { message: e.message }.to_json
         end
@@ -89,29 +86,27 @@ module Labook
 
       # GET api/v1/labs
       routing.get do
-        output = { data: Lab.all }
-        JSON.pretty_generate(output)
-      rescue StandardError
-        routing.halt 404, { message: 'Could not find all labs' }.to_json
+        all_labs = { data: Lab.all }
+        all_labs[:data] ? all_labs.to_json : raise('Could not find all labs')
+      rescue StandardError => e
+        routing.halt 404, { message: e.message }.to_json
       end
 
       # POST api/v1/labs
       routing.post do
         new_data = JSON.parse(routing.body.read)
         new_lab = Lab.new(new_data)
+        raise('Could not save lab') unless new_lab.save
 
-        if new_lab.save
-          response.status = 201
-          response['Location'] = "#{@lab_route}/#{new_lab.lab_id}"
-          { message: 'Lab saved', data: new_lab }.to_json
-        else
-          routing.halt 500, { message: 'Could not save lab' }.to_json
-        end
+        response.status = 201
+        response['Location'] = "#{@lab_route}/#{new_lab.lab_id}"
+        { message: 'Lab saved', data: new_lab }.to_json
+
       rescue Sequel::MassAssignmentRestriction
         Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
         routing.halt 400, { message: 'Illegal Attributes' }.to_json
       rescue StandardError => e
-        Api.logger.error "UNKOWN ERROR: #{e.message}"
+        Api.logger.error "ERROR: #{e.message}"
         routing.halt 500, { message: e.message }.to_json
       end
     end
