@@ -45,6 +45,7 @@ primary key : chat_id
 All routes return Json
 
 - GET `/` : Root route shows if Web API is running
+- GET `api/v1/posts`: return all posts
 - POST `api/v1/accounts`: create an account
 - GET `api/v1/accounts/[username]`: return an account info
 - GET `api/v1/accounts/[username]/posts`: return all posts for an account
