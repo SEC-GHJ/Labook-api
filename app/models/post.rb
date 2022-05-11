@@ -22,6 +22,10 @@ module Labook
     plugin :whitelist_security
     set_allowed_columns :lab_score, :professor_attitude, :content, :accept_mail, :vote_sum
 
+    def lab_info
+      Lab.first(lab_id:)
+    end
+
     def lab_score
       SecureDB.decrypt(lab_score_secure)
     end
@@ -60,6 +64,9 @@ module Labook
             content:,
             accept_mail:,
             vote_sum:
+          },
+          include: {
+            lab_info:
           }
         }, options
       )
