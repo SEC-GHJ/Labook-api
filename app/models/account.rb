@@ -28,7 +28,7 @@ module Labook
                  class: self,
                  join_table: :accounts_accounts,
                  left_key: :receiver_id, right_key: :sender_id
-    
+
     # account and post have many_to_many relationships on vote
     many_to_many :voted_posts,
                  class: :'Labook::Post',

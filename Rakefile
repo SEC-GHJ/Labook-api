@@ -37,7 +37,7 @@ task :release? => [:spec, :style, :audit] do
 end
 
 task :print_env do
-  puts "Environment: #{ENV['RACK_ENV'] || 'development'}"
+  puts "Environment: #{ENV.fetch('RACK_ENV') || 'development'}"
 end
 
 desc 'Run application console (pry)'
@@ -81,7 +81,7 @@ namespace :db do
 
   task :reset_seeds => [:load_models] do
     @app.DB[:schema_seeds].delete if @app.DB.tables.include?(:schema_seeds)
-    Credence::Account.dataset.destroy
+    Labook::Account.dataset.destroy
   end
 
   desc 'Seeds the development database'

@@ -19,6 +19,7 @@ gem 'rbnacl', '~>7.1'
 # Database
 gem 'hirb'
 gem 'sequel', '~>5'
+gem 'sequel-seed'
 
 # Testing
 group :test do
@@ -38,11 +39,9 @@ end
 
 group :development, :test do
   gem 'rack-test'
-  gem 'sequel-seed'
   gem 'sqlite3'
 end
 
 group :production do
   gem 'pg'
-  gem 'sequel-seed'
 end

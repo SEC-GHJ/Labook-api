@@ -13,22 +13,20 @@ module Labook
         routing.on 'posts' do
           @post_route = "#{@api_root}/labs/#{lab_id}/posts"
 
-          
           routing.on String do |post_id|
             routing.on 'votes' do
               # POST api/v1/labs/[lab_id]/posts/[post_id]/votes
               routing.post do
                 new_data = JSON.parse(routing.body.read)
-                new_vote = Labook::CreateVote.call(voter_account: new_data["voter_account"],
+                new_vote = Labook::CreateVote.call(voter_account: new_data['voter_account'],
                                                    voted_post_id: post_id,
-                                                   number: new_data["number"].to_i
-                                                  )
+                                                   number: new_data['number'].to_i)
                 raise('Could not save vote') unless new_vote
-                
+
                 response.status = 201
                 response['Location'] = "#{@post_route}/#{new_vote.vote_id}"
                 { message: 'Vote saved', data: new_vote }.to_json
-                
+
               rescue Sequel::MassAssignmentRestriction
                 Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
                 routing.halt 400, { message: 'Illegal Attributes' }.to_json

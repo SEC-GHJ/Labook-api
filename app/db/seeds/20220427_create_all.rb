@@ -31,6 +31,7 @@ def create_labs
   end
 end
 
+# rubocop:disable Metrics/MethodLength
 def create_posts
   POSTS_INFO.each do |post_data|
     post_info = post_data.clone
@@ -38,7 +39,7 @@ def create_posts
     lab_name = post_info.delete('lab_name')
     lab_id = Labook::Lab.first(lab_name:).lab_id
 
-    new_post = Labook::CreatePost.call(
+    Labook::CreatePost.call(
       poster_account:,
       lab_id:,
       post_data: post_info
@@ -46,20 +47,20 @@ def create_posts
   end
 end
 
+# rubocop:enable Metrics/MethodLength
 def create_chats
   CHATS_INFO.each do |chat_data|
-    new_chat = Labook::CreateChat.call(
+    Labook::CreateChat.call(
       sender_account: chat_data['sender_account'],
       receiver_account: chat_data['receiver_account'],
       content: chat_data['content']
     )
-
   end
 end
 
 def create_votes
   VOTES_INFO.each do |vote_data|
-    new_vote = Labook::CreateVote.call(
+    Labook::CreateVote.call(
       voter_account: vote_data['voter'],
       voted_post_id: vote_data['voted_post_id'],
       number: vote_data['number']

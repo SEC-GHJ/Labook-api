@@ -17,25 +17,26 @@ describe 'Test User Create Post service' do
     @poster = Labook::Account.all[0]
     @lab = Labook::Lab.all[0]
     @post_data = DATA[:posts][0].clone
+    @poster_account = @post_data['poster_account']
     @post_data.delete('lab_name')
     @post_data.delete('poster_account')
   end
 
   it 'HAPPY: should be able to add a post according to lab' do
     Labook::CreatePost.call(
-      poster_id: @poster.account_id,
+      poster_account: @poster_account,
       lab_id: @lab.lab_id,
       post_data: @post_data
     )
 
-    _(@poster.owned_posts.count).must_equal 1
-    _(@poster.owned_posts.first).must_equal @lab
+    _(@poster.commented_labs.count).must_equal 1
+    _(@poster.commented_labs.first).must_equal @lab
   end
 
   it 'BAD: should not add a post according to non existent lab' do
     _(proc {
         Labook::CreatePost.call(
-          poster_id: @poster.account_id,
+          poster_account: @poster_account,
           lab_id: '3069324',
           post_data: @post_data
         )
@@ -45,7 +46,7 @@ describe 'Test User Create Post service' do
   it 'BAD: should not add a post according to non account' do
     _(proc {
         Labook::CreatePost.call(
-          poster_id: '30678',
+          poster_account: '30678',
           lab_id: @lab.lab_id,
           post_data: @post_data
         )

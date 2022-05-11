@@ -8,13 +8,12 @@ module Labook
   # Holds a full secret post
   class Vote < Sequel::Model
     many_to_one :accounts_post, class: :'Labook::AccountsPost',
-                                   key: %i[voter_id voted_post_id]
+                                key: %i[voter_id voted_post_id]
 
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :number
 
-    # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
       JSON(
         {
@@ -26,6 +25,5 @@ module Labook
         }, options
       )
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end
