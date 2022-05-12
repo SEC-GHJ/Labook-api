@@ -13,14 +13,14 @@ module Labook
       def message = 'Post cannot be found'
     end
 
-    def find_account(voter_account:)
+    def self.find_account(voter_account:)
       account = Account.first(account: voter_account)
       raise(VoterNotFoundError) if account.nil?
 
       account
     end
 
-    def find_post(voted_post_id:)
+    def self.find_post(voted_post_id:)
       post = Post.first(post_id: voted_post_id)
       raise(PostNotFoundError) if post.nil?
 
