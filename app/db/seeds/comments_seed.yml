@@ -1,0 +1,24 @@
+---
+- commented_post_id: 1
+  commenter_account: a2
+  content: "你說的對~"
+  accept_mail: 1
+  vote_sum: 0
+
+- commented_post_id: 3
+  commenter_account: a2
+  content: "這水很深，懂得人都懂¯\_(ツ)_/¯"
+  accept_mail: 1
+  vote_sum: 0
+
+- commented_post_id: 1
+  commenter_account: a4
+  content: "感謝分享"
+  accept_mail: 0
+  vote_sum: 0
+  
+- commented_post_id: 4
+  commenter_account: a4
+  content: "我是原po有人要留言嗎??"
+  accept_mail: 1
+  vote_sum: 0

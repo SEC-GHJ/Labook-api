@@ -4,21 +4,27 @@
   gpa: 3.4
   ori_school: NTHU
   ori_department: CMT
+  email: a1@gmail.com
+  line_access_token: a1_token
 
 - account: a2
   password: password2
   gpa: 1.0
   ori_school: NYCU
   ori_department: CS
+  email: a2@gmail.com
+  line_access_token: a2_token
 
 - account: a3
   password: password3
   gpa: 87
   ori_school: NCTU
   ori_department: EE
+  email: a3@gmail.com
 
 - account: a4
   password: password4
   gpa: 1234
   ori_school: NTHU
   ori_department: ECON
+  email: a4@gmail.com

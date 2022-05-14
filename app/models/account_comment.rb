@@ -5,10 +5,10 @@ require 'sequel'
 require_relative '../lib/secure_db'
 
 module Labook
-  # Holds a full secret post
-  class AccountsPost < Sequel::Model
-    one_to_many :votes, class: :'Labook::PostVote',
-                        key: %i[voter_id voted_post_id]
+  # Holds a full secret comment
+  class AccountsComment < Sequel::Model
+    one_to_many :votes, class: :'Labook::CommentVote',
+                        key: %i[voter_id voted_comment_id]
 
     plugin :association_dependencies,
            votes: :destroy
@@ -17,10 +17,10 @@ module Labook
     def to_json(options = {})
       JSON(
         {
-          type: 'accounts_posts',
+          type: 'accounts_comments',
           attributes: {
             voter_id:,
-            voted_post_id:
+            voted_comment_id:
           },
           include: {
             vote:

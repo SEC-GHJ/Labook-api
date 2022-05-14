@@ -6,7 +6,7 @@ require_relative '../lib/secure_db'
 
 module Labook
   # Holds a full secret post
-  class Vote < Sequel::Model
+  class PostVote < Sequel::Model
     many_to_one :accounts_post, class: :'Labook::AccountsPost',
                                 key: %i[voter_id voted_post_id]
 

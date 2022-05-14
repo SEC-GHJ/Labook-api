@@ -4,7 +4,7 @@ require 'sequel'
 
 Sequel.migration do
   change do
-    create_table(:votes) do
+    create_table(:post_votes) do
       primary_key :vote_id
       Integer :voter_id
       Integer :voted_post_id

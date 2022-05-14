@@ -1,0 +1,52 @@
+---
+- voter: a1
+  voted_comment_id: 1
+  number: 1
+- voter: a1
+  voted_comment_id: 2
+  number: -1
+- voter: a1
+  voted_comment_id: 3
+  number: 0
+- voter: a1
+  voted_comment_id: 4
+  number: 1
+
+- voter: a2
+  voted_comment_id: 1
+  number: 1
+- voter: a2
+  voted_comment_id: 2
+  number: -1
+- voter: a2
+  voted_comment_id: 3
+  number: 1
+- voter: a2
+  voted_comment_id: 4
+  number: 1
+
+- voter: a3
+  voted_comment_id: 1
+  number: 1
+- voter: a3
+  voted_comment_id: 2
+  number: -1
+- voter: a3
+  voted_comment_id: 3
+  number: 0
+- voter: a3
+  voted_comment_id: 4
+  number: 0
+
+- voter: a4
+  voted_comment_id: 1
+  number: 0
+- voter: a4
+  voted_comment_id: 2
+  number: -1
+- voter: a4
+  voted_comment_id: 3
+  number: 0
+- voter: a4
+  voted_comment_id: 4
+  number: -1

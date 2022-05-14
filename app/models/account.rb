@@ -7,17 +7,6 @@ require_relative './password'
 module Labook
   # Models a registered account
   class Account < Sequel::Model
-    # one_to_many :commented_labs, class: :'Labook::Post', key: :poster_id
-
-    # one_to_many :sened_accounts, class: :'Labook::Chat', key: :sender_id
-    # one_to_many :received_accounts, class: :'Labook::Chat', key: :receiver_id
-
-    # account and lab have many_to_many relationships on post
-    many_to_many :commented_labs,
-                 class: :'Labook::Lab',
-                 join_table: :accounts_labs,
-                 left_key: :poster_id, right_key: :lab_id
-
     # account and account have many_to_many relationships on chat
     many_to_many :sened_accounts,
                  class: self,
@@ -29,19 +18,40 @@ module Labook
                  join_table: :accounts_accounts,
                  left_key: :receiver_id, right_key: :sender_id
 
-    # account and post have many_to_many relationships on vote
+    # account and lab have many_to_many relationships on post
+    many_to_many :commented_labs,
+                 class: :'Labook::Lab',
+                 join_table: :accounts_labs,
+                 left_key: :poster_id, right_key: :lab_id
+
+    # account and post have many_to_many relationships on PostVote
     many_to_many :voted_posts,
                  class: :'Labook::Post',
                  join_table: :accounts_posts,
                  left_key: :voter_id, right_key: :voted_post_id
 
-    plugin :association_dependencies,
-           commented_labs: :nullify,
-           sened_accounts: :nullify,
-           received_accounts: :nullify
+    # account and post have many_to_many relationships on comment
+    many_to_many :commented_posts,
+                 class: :'Labook::Post',
+                 join_table: :accounts_comment_posts,
+                 left_key: :commenter_id, right_key: :commented_post_id
 
+    # account and comment have many_to_many relationships on CommentVote
+    many_to_many :voted_comments,
+                 class: :'Labook::Comment',
+                 join_table: :accounts_comments,
+                 left_key: :voter_id, right_key: :voted_comment_id
+
+    plugin :association_dependencies,
+            sened_accounts: :nullify,
+            received_accounts: :nullify,
+            commented_labs: :nullify,
+            voted_posts: :nullify,
+            commented_posts: :nullify,
+            voted_comments: :nullify
+           
     plugin :whitelist_security
-    set_allowed_columns :account, :gpa, :ori_school, :ori_department, :password
+    set_allowed_columns :account, :gpa, :ori_school, :ori_department, :password, :email, :line_access_token
 
     plugin :timestamps, update_on_create: true
 
@@ -58,6 +68,22 @@ module Labook
       digest.correct?(try_password)
     end
 
+    def email
+      SecureDB.decrypt(email_secure)
+    end
+
+    def email=(plaintext)
+      self.email_secure = SecureDB.encrypt(plaintext)
+    end
+
+    def line_access_token
+      SecureDB.decrypt(line_access_token_secure)
+    end
+
+    def line_access_token=(plaintext)
+      self.line_access_token_secure = SecureDB.encrypt(plaintext)
+    end
+
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
       JSON(
@@ -67,7 +93,8 @@ module Labook
             account:,
             gpa:,
             ori_school:,
-            ori_department:
+            ori_department:,
+            email:,
           }
         }, options
       )

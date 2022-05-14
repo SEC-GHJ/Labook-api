@@ -2,7 +2,7 @@
 
 module Labook
   # Service object to create a post for lab
-  class CreateVote
+  class CreatePostVote
     # no existent account error
     class VoterNotFoundError < StandardError
       def message = 'Voter cannot be found'
@@ -33,7 +33,7 @@ module Labook
       account = find_account(voter_account:)
       post = find_post(voted_post_id:)
 
-      vote = Vote.first(voter_id: account.account_id, voted_post_id:)
+      vote = PostVote.first(voter_id: account.account_id, voted_post_id:)
 
       if vote.nil?
         post.update(vote_sum: post.vote_sum + number)
@@ -45,7 +45,7 @@ module Labook
         vote.update(number:)
       end
 
-      Vote.first(voter_id: account.account_id, voted_post_id:)
+      PostVote.first(voter_id: account.account_id, voted_post_id:)
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
