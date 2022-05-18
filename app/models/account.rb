@@ -68,14 +68,6 @@ module Labook
       digest.correct?(try_password)
     end
 
-    def email
-      SecureDB.decrypt(email_secure)
-    end
-
-    def email=(plaintext)
-      self.email_secure = SecureDB.encrypt(plaintext)
-    end
-
     def line_access_token
       SecureDB.decrypt(line_access_token_secure)
     end

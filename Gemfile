@@ -21,24 +21,30 @@ gem 'hirb'
 gem 'sequel', '~>5'
 gem 'sequel-seed'
 
+# External Services
+gem 'http'
+
 # Testing
 group :test do
   gem 'minitest'
   gem 'minitest-rg'
 end
 
+# Debugging
+gem 'rack-test'
+gem 'pry'
+
 # Development
 group :development do
   # Debugging
-  gem 'pry'
   gem 'rerun'
+
   # Quality
   gem 'rubocop'
   gem 'rubocop-performance'
 end
 
 group :development, :test do
-  gem 'rack-test'
   gem 'sqlite3'
 end
 

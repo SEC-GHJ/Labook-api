@@ -12,7 +12,7 @@ Sequel.migration do
       String :ori_school, null: false, unique: false
       String :ori_department, null: false, unique: false
       String :password_digest, null: false
-      String :email_secure, null: false, unique: true
+      String :email, null: false, unique: true
       String :line_access_token_secure, null: true
 
       DateTime :created_at
