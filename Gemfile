@@ -31,8 +31,8 @@ group :test do
 end
 
 # Debugging
-gem 'rack-test'
 gem 'pry'
+gem 'rack-test'
 
 # Development
 group :development do

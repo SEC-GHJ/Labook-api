@@ -21,16 +21,9 @@ module Labook
       raise(PostNotFoundError) if post.nil?
 
       comment = Comment.first(commenter_id: account.account_id, commented_post_id:)
-
-      if comment.nil?
-        account.add_commented_post(post)
-
-        AccountsCommentPost.first(commenter_id: account.account_id, commented_post_id:)
-                     .add_comment(comment_data)
-      else
-        AccountsCommentPost.first(commenter_id: account.account_id, commented_post_id:)
-                     .add_comment(comment_data)
-      end
+      account.add_commented_post(post) if comment.nil?
+      AccountsCommentPost.first(commenter_id: account.account_id, commented_post_id:)
+                         .add_comment(comment_data)
     end
   end
 end

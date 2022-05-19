@@ -39,7 +39,7 @@ module Labook
         comment.update(vote_sum: comment.vote_sum + number)
         account.add_voted_comment(comment)
         AccountsComment.first(voter_id: account.account_id, voted_comment_id:)
-                    .add_vote(number:)
+                       .add_vote(number:)
       else
         comment.update(vote_sum: comment.vote_sum - vote.number + number)
         vote.update(number:)

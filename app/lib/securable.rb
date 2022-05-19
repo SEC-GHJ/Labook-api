@@ -5,7 +5,7 @@ require 'rbnacl'
 
 # Crypto methods for mixin
 module Securable
-  class  NoKeyError < StandardError; end
+  class NoKeyError < StandardError; end
 
   # Generate key for Rake tasks (typically not called at runtime)
   def generate_key
@@ -19,7 +19,7 @@ module Securable
 
     @base_key = base_key
   end
-  
+
   def key
     @key ||= Base64.strict_decode64(@base_key)
   end

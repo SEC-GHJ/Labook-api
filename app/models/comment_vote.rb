@@ -8,7 +8,7 @@ module Labook
   # Holds a full secret comment
   class CommentVote < Sequel::Model
     many_to_one :accounts_comment, class: :'Labook::AccountsComment',
-                                key: %i[voter_id voted_comment_id]
+                                   key: %i[voter_id voted_comment_id]
 
     plugin :timestamps
     plugin :whitelist_security

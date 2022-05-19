@@ -43,13 +43,13 @@ module Labook
                  left_key: :voter_id, right_key: :voted_comment_id
 
     plugin :association_dependencies,
-            sened_accounts: :nullify,
-            received_accounts: :nullify,
-            commented_labs: :nullify,
-            voted_posts: :nullify,
-            commented_posts: :nullify,
-            voted_comments: :nullify
-           
+           sened_accounts: :nullify,
+           received_accounts: :nullify,
+           commented_labs: :nullify,
+           voted_posts: :nullify,
+           commented_posts: :nullify,
+           voted_comments: :nullify
+
     plugin :whitelist_security
     set_allowed_columns :account, :gpa, :ori_school, :ori_department, :password, :email, :line_access_token
 
@@ -86,7 +86,7 @@ module Labook
             gpa:,
             ori_school:,
             ori_department:,
-            email:,
+            email:
           }
         }, options
       )
