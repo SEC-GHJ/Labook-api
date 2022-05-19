@@ -50,7 +50,8 @@ All routes return Json
 - GET `api/v1/accounts/[username]`: return an account info
 - GET `api/v1/accounts/[username]/posts`: return all posts for an account
 - GET `api/v1/accounts/[username]/votes`: return all votes for an account
-- POST `api/v1/auth/authenticate`: return an account info if login success
+- POST `api/v1/auth/authenticate`: return an auth token if login success
+- POST `api/v1/auth/register`: return an result if register success
 - GET `api/v1/labs` : Get list of all labs
 - POST `api/v1/labs` : create a new lab
 - GET `api/v1/labs/[lab_id]` : Get information about a labs
