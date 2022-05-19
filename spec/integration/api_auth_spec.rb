@@ -20,8 +20,7 @@ describe 'Test Authentication Routes' do
       credentials = { account: @account_data['account'],
                       password: @account_data['password'] }
       post 'api/v1/auth/authenticate', credentials.to_json, @req_header
-
-      auth_account = JSON.parse(last_response.body)['attributes']
+      auth_account = JSON.parse(last_response.body)['attributes']['account']['attributes']
       _(last_response.status).must_equal 200
       _(auth_account['account']).must_equal(@account_data['account'])
       _(auth_account['password']).must_be_nil

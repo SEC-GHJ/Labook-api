@@ -28,8 +28,8 @@ module Labook
     def self.account_and_token(account)
       {
         type: 'authenticated_account',
-        attribute: {
-          account: account,
+        attributes: {
+          account:,
           auth_token: AuthToken.create(account)
         }
       }
