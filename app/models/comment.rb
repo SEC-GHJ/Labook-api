@@ -19,10 +19,6 @@ module Labook
     plugin :whitelist_security
     set_allowed_columns :content, :accept_mail, :vote_sum
 
-    def post_info
-      Post.first(commented_post_id:)
-    end
-
     def content
       SecureDB.decrypt content_secure
     end
@@ -43,9 +39,6 @@ module Labook
             content:,
             accept_mail:,
             vote_sum:
-          },
-          include: {
-            post_info:
           }
         }, options
       )

@@ -7,16 +7,19 @@ require_relative '../lib/secure_db'
 module Labook
   # Holds a full secret post
   class Post < Sequel::Model
-    # many_to_one :lab, class: :'Labook::Lab', key: :lab_id
-    # many_to_one :account, class: :'Labook::Account', key: :poster_id
-
     many_to_one :accounts_lab, class: :'Labook::AccountsLab', key: %i[poster_id lab_id]
 
-    # account and post have many_to_many relationships on vote
+    # account and post have many_to_many relationships on PostVote
     many_to_many :voted_accounts,
                  class: :'Labook::Account',
                  join_table: :accounts_posts,
                  left_key: :voted_post_id, right_key: :voter_id
+
+    # account and post have many_to_many relationships on comment
+    many_to_many :commented_accounts,
+                 class: :'Labook::Account',
+                 join_table: :accounts_comment_posts,
+                 left_key: :commented_post_id, right_key: :commenter_id
 
     plugin :timestamps
     plugin :whitelist_security
@@ -24,6 +27,10 @@ module Labook
 
     def lab_info
       Lab.first(lab_id:)
+    end
+
+    def comments
+      AccountsCommentPost.where(commented_post_id: post_id).all.map(&:comments)
     end
 
     def lab_score
@@ -66,7 +73,8 @@ module Labook
             vote_sum:
           },
           include: {
-            lab_info:
+            lab_info:,
+            comments:
           }
         }, options
       )
