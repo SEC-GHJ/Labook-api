@@ -91,6 +91,9 @@ vote_sum="0"
 http -v --json POST localhost:3000/api/v1/labs/1/posts/5/votes \
 voter_account="a1" \
 number="-1"
+
+curl --request POST --header "Authorization: Bearer {token}" \
+localhost:3000/api/v1/posts/me
 ```
 ## Test logger
 ```
