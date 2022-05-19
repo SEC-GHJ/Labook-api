@@ -5,6 +5,7 @@ require 'figaro'
 require 'logger'
 require 'sequel'
 require_relative '../app/lib/secure_db'
+require_relative '../app/lib/auth_token'
 
 module Labook
   # Configuration for the API
@@ -23,6 +24,8 @@ module Labook
 
     # Retrieve db secret
     SecureDB.setup(ENV.delete('DB_KEY'))
+    # Retrieve db secret
+    AuthToken.setup(ENV.delete('MSG_KEY'))
 
     # Logger setup
     LOGGER = Logger.new($stderr)

@@ -15,6 +15,14 @@ module Labook
       rescue StandardError => e
         routing.halt 404, { message: e.message }.to_json
       end
+
+      routing.is 'me' do
+        puts @auth_account['account']
+        posts = FindPostsForAccount(account: @auth_account['account'])
+        JSON.pretty_generate(data: posts)
+      rescue StandardError => e
+        routing.halt 403, { message: 'Can not find projects' }.to_json
+      end
     end
   end
 end
