@@ -38,7 +38,8 @@ module Labook
             commented_post_id:,
             content:,
             accept_mail:,
-            vote_sum:
+            vote_sum:,
+            created_at:,
           }
         }, options
       )

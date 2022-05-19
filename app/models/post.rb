@@ -70,7 +70,8 @@ module Labook
             professor_attitude:,
             content:,
             accept_mail:,
-            vote_sum:
+            vote_sum:,
+            created_at:,
           },
           include: {
             lab_info:,
