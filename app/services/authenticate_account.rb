@@ -18,9 +18,7 @@ module Labook
     def self.call(credentials)
       account = Account.first(account: credentials[:account])
       raise UnauthorizedError, credentials if account.nil?
-      unless account.password?(credentials[:password])
-        raise UnauthorizedError, credentials
-      end
+      raise UnauthorizedError, credentials unless account.password?(credentials[:password])
 
       account_and_token(account)
     end
@@ -28,8 +26,8 @@ module Labook
     def self.account_and_token(account)
       {
         type: 'authenticated_account',
-        attribute: {
-          account: account,
+        attributes: {
+          account:,
           auth_token: AuthToken.create(account)
         }
       }

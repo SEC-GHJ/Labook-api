@@ -26,9 +26,9 @@ module Labook
           VerifyRegistration.new(reg_data).call
 
           response.status = 202
-          { message: 'Verification email sent'}.to_json
+          { message: 'Verification email sent' }.to_json
         rescue VerifyRegistration::InvalidRegistration => e
-          routing.halt 400, {message: e.message }.to_json
+          routing.halt 400, { message: e.message }.to_json
         rescue VerifyRegistration::EmailProviderError
           routing.halt 500, { message: 'Error sending email' }.to_json
         rescue StandardError => e

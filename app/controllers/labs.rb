@@ -19,8 +19,8 @@ module Labook
               routing.post do
                 new_data = JSON.parse(routing.body.read)
                 new_vote = Labook::CreatePostVote.call(voter_account: new_data['voter_account'],
-                                                   voted_post_id: post_id,
-                                                   number: new_data['number'].to_i)
+                                                       voted_post_id: post_id,
+                                                       number: new_data['number'].to_i)
                 raise('Could not save vote') unless new_vote
 
                 response.status = 201

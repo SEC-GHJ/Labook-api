@@ -37,7 +37,7 @@ task :release? => [:spec, :style, :audit] do
 end
 
 task :print_env do
-  puts "Environment: #{ENV.fetch('RACK_ENV',nil) || 'development'}"
+  puts "Environment: #{ENV.fetch('RACK_ENV', nil) || 'development'}"
 end
 
 desc 'Run application console (pry)'
@@ -51,7 +51,7 @@ namespace :db do
 
   Sequel.extension :migration
   @app = Labook::Api
-  
+
   task :load_models do
     require_app(%w[lib models services])
   end

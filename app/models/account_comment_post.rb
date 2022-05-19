@@ -8,10 +8,10 @@ module Labook
   # Holds a full secret post
   class AccountsCommentPost < Sequel::Model
     one_to_many :comments, class: :'Labook::Comment',
-                        key: %i[commenter_id commented_post_id]
+                           key: %i[commenter_id commented_post_id]
 
     plugin :association_dependencies,
-            comments: :destroy
+           comments: :destroy
 
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
