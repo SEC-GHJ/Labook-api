@@ -68,7 +68,8 @@ account="testacc" \
 gpa="123" \
 ori_school="IDK" \
 ori_department="CS" \
-password="123456"
+password="123456" \
+email="abc@gmail.com"
 
 http -v --json POST localhost:3000/api/v1/auth/authenticate \
 account="testacc" \
