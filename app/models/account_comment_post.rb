@@ -10,6 +10,7 @@ module Labook
     one_to_many :comments, class: :'Labook::Comment',
                            key: %i[commenter_id commented_post_id]
 
+    plugin :uuid, field: :commented_post_id
     plugin :association_dependencies,
            comments: :destroy
 

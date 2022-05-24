@@ -12,7 +12,8 @@ module Labook
       account = Account.first(account:)
       raise(AccountNotFoundError) if account.nil?
 
-      AccountsLab.where(poster_id: account.account_id).all.map(&:posts)
+      # AccountsLab.where(poster_id: account.account_id).map(&:posts)
+      AccountsLab.find(poster_id: account.account_id).posts
     end
   end
 end

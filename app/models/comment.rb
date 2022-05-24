@@ -14,7 +14,8 @@ module Labook
                  class: :'Labook::Account',
                  join_table: :accounts_comments,
                  left_key: :voted_comment_id, right_key: :voter_id
-
+    
+    plugin :uuid, field: :commented_post_id              
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :content, :accept_mail, :vote_sum

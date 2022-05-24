@@ -46,6 +46,7 @@ All routes return Json
 
 - GET `/` : Root route shows if Web API is running
 - GET `api/v1/posts`: return all posts
+- GET `api/v1/posts/[post_id]`: returns details about a single post
 - POST `api/v1/accounts`: create an account
 - GET `api/v1/accounts/[username]`: return an account info
 - GET `api/v1/accounts/[username]/posts`: return all posts for an account

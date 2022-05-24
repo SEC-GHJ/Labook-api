@@ -10,6 +10,7 @@ module Labook
     many_to_one :accounts_post, class: :'Labook::AccountsPost',
                                 key: %i[voter_id voted_post_id]
 
+    plugin :uuid, field: :voted_post_id  
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :number

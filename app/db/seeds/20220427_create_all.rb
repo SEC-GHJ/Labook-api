@@ -5,10 +5,11 @@ Sequel.seed(:development) do
     puts 'Seeding accounts, projects, documents'
     create_accounts
     create_labs
-    create_posts
+    posts = create_posts
+    # puts posts
     create_chats
-    create_post_votes
-    create_comments
+    create_post_votes(posts)
+    create_comments(posts)
     create_comment_votes
   end
 end
@@ -22,6 +23,7 @@ POSTS_INFO = YAML.load_file("#{DIR}/posts_seed.yml")
 POSTVOTES_INFO = YAML.load_file("#{DIR}/post_votes_seed.yml")
 COMMENTS_INFO = YAML.load_file("#{DIR}/comments_seed.yml")
 COMMENTVOTES_INFO = YAML.load_file("#{DIR}/comment_votes_seed.yml")
+POSTS = nil
 
 def create_accounts
   ACCOUNTS_INFO.each do |account_info|
@@ -37,7 +39,7 @@ end
 
 # rubocop:disable Metrics/MethodLength
 def create_posts
-  POSTS_INFO.each do |post_data|
+  POSTS_INFO.collect do |post_data|
     post_info = post_data.clone
     poster_account = post_info.delete('poster_account')
     lab_name = post_info.delete('lab_name')
@@ -47,7 +49,7 @@ def create_posts
       poster_account:,
       lab_id:,
       post_data: post_info
-    )
+    ).post_id
   end
 end
 
@@ -62,21 +64,21 @@ def create_chats
   end
 end
 
-def create_post_votes
+def create_post_votes(posts)
   POSTVOTES_INFO.each do |vote_data|
     Labook::CreatePostVote.call(
       voter_account: vote_data['voter'],
-      voted_post_id: vote_data['voted_post_id'],
+      voted_post_id: posts[vote_data['voted_post_id'].to_i - 1],
       number: vote_data['number']
     )
   end
 end
 
-def create_comments
+def create_comments(posts)
   COMMENTS_INFO.each do |comment_data|
     comment_info = comment_data.clone
     commenter_account = comment_info.delete('commenter_account')
-    commented_post_id = comment_info.delete('commented_post_id')
+    commented_post_id = posts[comment_info.delete('commented_post_id').to_i - 1]
 
     Labook::CreateComment.call(
       commenter_account:,

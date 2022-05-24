@@ -10,6 +10,7 @@ module Labook
     one_to_many :votes, class: :'Labook::PostVote',
                         key: %i[voter_id voted_post_id]
 
+    plugin :uuid, field: :voted_post_id
     plugin :association_dependencies,
            votes: :destroy
 

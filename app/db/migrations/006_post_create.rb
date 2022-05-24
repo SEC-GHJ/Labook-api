@@ -5,14 +5,14 @@ require 'sequel'
 Sequel.migration do
   change do
     create_table(:posts) do
-      primary_key :post_id
+      uuid :post_id, primary_key: true
       Integer :poster_id
       Integer :lab_id
       foreign_key [:poster_id, :lab_id], table: :accounts_labs, name: 'posts_poster_lab_fkey' # name is optional
 
-      String :lab_score_secure, null: false
-      String :professor_attitude_secure, null: false
-      String :content_secure, null: false
+      Integer :lab_score, null: false
+      String :professor_attitude, null: false
+      String :content, null: false
       Integer :accept_mail, null: false
       Integer :vote_sum, null: false
 

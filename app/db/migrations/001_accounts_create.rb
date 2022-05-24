@@ -8,7 +8,7 @@ Sequel.migration do
       primary_key :account_id
 
       String :account, null: false, unique: true
-      String :gpa, null: false, unique: false
+      Float :gpa, null: false, unique: false
       String :ori_school, null: false, unique: false
       String :ori_department, null: false, unique: false
       String :password_digest, null: false

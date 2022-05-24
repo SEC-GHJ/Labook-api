@@ -21,6 +21,7 @@ module Labook
                  join_table: :accounts_comment_posts,
                  left_key: :commented_post_id, right_key: :commenter_id
 
+    plugin :uuid, field: :post_id
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :lab_score, :professor_attitude, :content, :accept_mail, :vote_sum
@@ -31,30 +32,6 @@ module Labook
 
     def comments
       AccountsCommentPost.where(commented_post_id: post_id).all.map(&:comments)
-    end
-
-    def lab_score
-      SecureDB.decrypt(lab_score_secure)
-    end
-
-    def lab_score=(plaintext)
-      self.lab_score_secure = SecureDB.encrypt(plaintext)
-    end
-
-    def professor_attitude
-      SecureDB.decrypt(professor_attitude_secure)
-    end
-
-    def professor_attitude=(plaintext)
-      self.professor_attitude_secure = SecureDB.encrypt(plaintext)
-    end
-
-    def content
-      SecureDB.decrypt content_secure
-    end
-
-    def content=(plaintext)
-      self.content_secure = SecureDB.encrypt(plaintext)
     end
 
     # rubocop:disable Metrics/MethodLength
