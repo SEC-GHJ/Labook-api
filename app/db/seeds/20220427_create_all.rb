@@ -7,6 +7,7 @@ Sequel.seed(:development) do
     create_labs
     posts = create_posts
     # puts posts
+    create_chatrooms
     create_chats
     create_post_votes(posts)
     create_comments(posts)
@@ -50,6 +51,16 @@ def create_posts
       lab_id:,
       post_data: post_info
     ).post_id
+  end
+end
+
+# rubocop:enable Metrics/MethodLength
+def create_chatrooms
+  CHATS_INFO.each do |chat_data|
+    Labook::FindOrCreateChatroom.call(
+      sender_account: chat_data['sender_account'],
+      receiver_account: chat_data['receiver_account']
+    )
   end
 end
 

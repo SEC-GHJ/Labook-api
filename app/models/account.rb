@@ -8,7 +8,7 @@ module Labook
   # Models a registered account
   class Account < Sequel::Model
     # account and account have many_to_many relationships on chat
-    many_to_many :sened_accounts,
+    many_to_many :sended_accounts,
                  class: self,
                  join_table: :accounts_accounts,
                  left_key: :sender_id, right_key: :receiver_id
@@ -43,7 +43,7 @@ module Labook
                  left_key: :voter_id, right_key: :voted_comment_id
 
     plugin :association_dependencies,
-           sened_accounts: :nullify,
+           sended_accounts: :nullify,
            received_accounts: :nullify,
            commented_labs: :nullify,
            voted_posts: :nullify,
@@ -56,7 +56,7 @@ module Labook
     plugin :timestamps, update_on_create: true
 
     def mailed_accounts
-      sened_accounts + received_accounts
+      sended_accounts + received_accounts
     end
 
     def password=(new_password)

@@ -45,14 +45,19 @@ primary key : chat_id
 All routes return Json
 
 - GET `/` : Root route shows if Web API is running
+### `api/v1/posts`
 - GET `api/v1/posts`: return all posts
 - GET `api/v1/posts/[post_id]`: returns details about a single post
+### `api/v1/accounts`
 - POST `api/v1/accounts`: create an account
 - GET `api/v1/accounts/[username]`: return an account info
 - GET `api/v1/accounts/[username]/posts`: return all posts for an account
 - GET `api/v1/accounts/[username]/votes`: return all votes for an account
+- GET `api/v1/accounts/[username]/contact`: get or create chatroom for an account
+### `api/v1/auth`
 - POST `api/v1/auth/authenticate`: return an auth token if login success
 - POST `api/v1/auth/register`: return an result if register success
+### `api/v1/labs`
 - GET `api/v1/labs` : Get list of all labs
 - POST `api/v1/labs` : create a new lab
 - GET `api/v1/labs/[lab_id]` : Get information about a labs
@@ -61,6 +66,10 @@ All routes return Json
 - GET `api/v1/labs/[lab_id]/posts/[post_id]`: returns details about a single post with given ID
 - POST `api/v1/labs/[lab_id]/posts/[post_id]/votes`: create or update a vote about a single post with given ID
 
+### `api/v1/chats`
+- POST `api/v1/chats/[username]` : create a new chat with username
+- GET `api/v1/chats/[username]`: Get all messages with username
+- GET `api/v1/chats`: Get all chatrooms for account.
 
 ## Test POST
 ```console
@@ -94,8 +103,15 @@ http -v --json POST localhost:3000/api/v1/labs/1/posts/5/votes \
 voter_account="a1" \
 number="-1"
 
-curl --request POST --header "Authorization: Bearer {token}" \
-localhost:3000/api/v1/posts/me
+http -v --json GET localhost:3000/api/v1/posts/me 'Authorization: Bearer {token}'
+
+http -v --json GET localhost:3000/api/v1/accounts/a1/contact 'Authorization: Bearer {token}'
+
+http -v --json POST localhost:3000/api/v1/chats/a1 content="chat with testing" 'Authorization: Bearer {token}'
+
+http -v --json GET localhost:3000/api/v1/chats 'Authorization: Bearer {token}'
+
+http -v --json GET localhost:3000/api/v1/chats/a1 'Authorization: Bearer {token}'
 ```
 ## Test logger
 ```

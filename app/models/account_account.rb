@@ -13,17 +13,21 @@ module Labook
     plugin :association_dependencies,
            chats: :destroy
 
+    def newest_chat_message
+      chats.sort_by(&:created_at).reverse[0]
+    end
+
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
       JSON(
         {
-          type: 'accounts_accounts',
+          type: 'chatroom',
           attributes: {
             sender_id:,
             receiver_id:
           },
           include: {
-            chat:
+            newest_chat_message:,
           }
         }, options
       )

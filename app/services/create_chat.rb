@@ -8,21 +8,33 @@ module Labook
       def message = 'Sender cannot be receiver'
     end
 
+    # sender = receiver error
+    class ChatroomNotFound < StandardError
+      def message = 'chatroom cannot be found'
+    end
+
+    # sender = receiver error
+    class UserNotFound < StandardError
+      def message = 'user cannot be found'
+    end
+
+    def self.check_account_valid(account:)
+      account_valid = Account.find(account:)
+      raise UserNotFound if account_valid.nil?
+      
+      account_valid
+    end
+
     # rubocop:disable Metrics/MethodLength
     def self.call(sender_account:, receiver_account:, content:)
-      sender = Account.find(account: sender_account)
-      receiver = Account.find(account: receiver_account)
+      sender = check_account_valid(account: sender_account)
+      receiver = check_account_valid(account: receiver_account)
       raise(SenderNotReceiverError) if sender.account_id == receiver.account_id
 
       # check whether connection is built
       connection = AccountsAccount.first(sender_id: sender.account_id,
                                          receiver_id: receiver.account_id)
-      if connection.nil?
-        sender.add_sened_account(receiver)
-        connection = AccountsAccount.first(sender_id: sender.account_id,
-                                           receiver_id: receiver.account_id)
-      end
-
+      raise ChatroomNotFound if connection.nil?
       connection.add_chat(content:)
     end
     # rubocop:enable Metrics/MethodLength

@@ -32,10 +32,8 @@ module Labook
           type: 'chat',
           attributes: {
             chat_id:,
-            content:
-          },
-          include: {
-            account:
+            content:,
+            created_at:
           }
         }, options
       )
