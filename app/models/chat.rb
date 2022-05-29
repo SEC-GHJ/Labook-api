@@ -32,6 +32,7 @@ module Labook
           type: 'chat',
           attributes: {
             chat_id:,
+            sender_id:,
             content:,
             created_at:
           }

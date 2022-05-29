@@ -51,7 +51,7 @@ module Labook
            voted_comments: :nullify
 
     plugin :whitelist_security
-    set_allowed_columns :account, :gpa, :ori_school, :ori_department, :password, :email, :line_access_token
+    set_allowed_columns :account, :gpa, :ori_school, :ori_department, :password, :email, :line_access_token, :account_id
 
     plugin :timestamps, update_on_create: true
 
@@ -82,6 +82,7 @@ module Labook
         {
           type: 'account',
           attributes: {
+            account_id:,
             account:,
             gpa:,
             ori_school:,

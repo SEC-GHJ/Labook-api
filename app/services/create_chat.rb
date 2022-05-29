@@ -32,9 +32,10 @@ module Labook
       raise(SenderNotReceiverError) if sender.account_id == receiver.account_id
 
       # check whether connection is built
-      connection = AccountsAccount.first(sender_id: sender.account_id,
-                                         receiver_id: receiver.account_id)
+      connection = FindOrCreateChatroom.call(sender_account:,
+                                             receiver_account:)
       raise ChatroomNotFound if connection.nil?
+
       connection.add_chat(content:)
     end
     # rubocop:enable Metrics/MethodLength
