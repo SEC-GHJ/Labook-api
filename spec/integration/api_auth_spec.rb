@@ -27,7 +27,7 @@ describe 'Test Authentication Routes' do
       _(auth_account['gpa']).must_equal(@account_data['gpa'].to_s)
       _(auth_account['ori_school']).must_equal(@account_data['ori_school'])
       _(auth_account['ori_department']).must_equal(@account_data['ori_department'])
-      _(auth_account['account_id']).must_be_nil
+      _(auth_account['account_id']).must_equal(@account_data['account_id'])
     end
 
     it 'BAD: should not authenticate invalid password' do

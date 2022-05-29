@@ -36,24 +36,4 @@ describe 'Test Post Handling' do
       _(post.content).must_equal post_data['content']
     end
   end
-
-  it 'SECURITY: should secure sensitive attributes' do
-    DATA[:posts].each do |post_data|
-      post_info = post_data.clone
-      account = post_info.delete('poster_account')
-      lab_name = post_info.delete('lab_name')
-      lab_id = Labook::Lab.first(lab_name:).lab_id
-
-      new_post = Labook::CreatePost.call(
-        poster_account: account,
-        lab_id:,
-        post_data: post_info
-      )
-
-      stored_post = Labook::Post.find(post_id: new_post.post_id)
-      _(stored_post[:lab_score_secure]).wont_equal new_post.lab_score
-      _(stored_post[:professor_attitude_secure]).wont_equal new_post.professor_attitude
-      _(stored_post[:content_secure]).wont_equal new_post.content
-    end
-  end
 end
