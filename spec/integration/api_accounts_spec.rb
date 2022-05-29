@@ -43,7 +43,7 @@ describe 'Test Account Handling' do
       account = Labook::Account.first
 
       _(created['account']).must_equal @account_data['account']
-      _(created['gpa']).must_equal @account_data['gpa'].to_s
+      _(created['gpa']).must_equal @account_data['gpa']
       _(created['ori_school']).must_equal @account_data['ori_school']
       _(created['ori_department']).must_equal @account_data['ori_department']
       _(account.password?(@account_data['password'])).must_equal true
