@@ -9,9 +9,15 @@ require 'yaml'
 require_relative 'test_load_all'
 
 def wipe_database
+  Labook::CommentVote.map(&:destroy)
+  Labook::AccountsComment.map(&:destroy)
+  Labook::Comment.map(&:destroy)
+  Labook::AccountsCommentPost.map(&:destroy)
+  Labook::PostVote.map(&:destroy)
+  Labook::AccountsPost.map(&:destroy)
   Labook::Post.map(&:destroy)
-  Labook::Chat.map(&:destroy)
   Labook::AccountsLab.map(&:destroy)
+  Labook::Chat.map(&:destroy)
   Labook::AccountsAccount.map(&:destroy)
   Labook::Lab.map(&:destroy)
   Labook::Account.map(&:destroy)
