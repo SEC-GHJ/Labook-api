@@ -53,9 +53,15 @@ module Labook
 
     plugin :uuid, field: :account_id
     plugin :whitelist_security
+<<<<<<< HEAD
+    set_allowed_columns :username, :gpa, :ori_school, :ori_department,
+                        :password, :email, :line_access_token,
+                        :account_id, :nickname, :line_notify_access_token
+=======
     set_allowed_columns :username, :gpa, :ori_school, :ori_department, :password, :email,
                         :line_access_token, :account_id, :nickname, :show_all, :accept_mail
 
+>>>>>>> c3a4dcfc1bbb4be2edeb9642ebb200ece0e652ec
 
     plugin :timestamps, update_on_create: true
 
@@ -80,13 +86,24 @@ module Labook
       self.line_access_token_secure = SecureDB.encrypt(plaintext)
     end
 
+    def line_notify_access_token
+      SecureDB.decrypt(line_notify_access_token_secure)
+    end
+
+    def line_notify_access_token=(plaintext)
+      self.line_notify_access_token_secure = SecureDB.encrypt(plaintext)
+    end
+
     def self.create_line_account(line_account)
       create(username: line_account[:username],
              email: line_account[:email],
              line_access_token: line_account[:line_access_token])
     end
 
-    # rubocop:disable Metrics/MethodLength
+    def can_notify
+      !line_notify_access_token.nil?
+    end
+
     def to_h
       {
         type: 'account',
@@ -99,7 +116,8 @@ module Labook
           ori_department:,
           email:,
           show_all:,
-          accept_mail:
+          accept_mail:,
+          can_notify:
         }
       }
     end

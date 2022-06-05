@@ -48,6 +48,18 @@ module Labook
         puts error.backtrace
         routing.halt 400 
       end
+
+      routing.is 'line_notify_sso' do
+        line_notify_code = JsonRequestBody.parse_symbolize(routing.body.read)[:code]
+        account = AuthorizeLineNotifySso.new(line_notify_code, @auth_account).call
+
+        response.status = 200
+        { data: account }.to_json
+      rescue StandardError => error
+        puts "FAILED to validate Line account: #{error.inspect}"
+        puts error.backtrace
+        routing.halt 400 
+      end
     end
   end
 end
