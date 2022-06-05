@@ -21,7 +21,12 @@ module Labook
       begin
         @auth_account = authenticated_account(routing.headers)
       rescue AuthToken::InvalidTokenError
-        routing.halt 403, { message: 'Invalid auth token' }.to_json
+        Api.logger.error('Invalid auth token')
+        # routing.halt 403, { message: 'Invalid auth token' }.to_json
+        @auth_account = nil
+      rescue StandardError => e
+        Api.logger.error(e.message)
+        routing.halt 500
       end
 
       routing.root do

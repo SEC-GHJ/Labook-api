@@ -26,6 +26,8 @@ class AuthToken
     contents = AuthToken.detokenize(@token)
     @expiration = contents['exp']
     @payload = contents['payload']
+  rescue StandardError => e
+    raise InvalidTokenError
   end
 
   # Check if token is expired
