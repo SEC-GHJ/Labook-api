@@ -26,13 +26,14 @@ module Labook
 
         # GET /api/v1/chats/[account_id]
         routing.get do
-          accountB_info = Account.find(:account_id)
+          accountB_info = Account.first(account_id:)
           raise("accountB_info not found") if accountB_info.nil?
 
           chats = FetchMessagesForChatroom.call(accountA_info: @auth_account['username'],
                                                 accountB_info: accountB_info.username)
           chats ? chats.to_json : raise
         rescue StandardError => e
+          Api.logger.error(e.message)
           routing.halt 404, { message: e.message }.to_json
         end
       end
