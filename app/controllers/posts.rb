@@ -12,9 +12,10 @@ module Labook
       routing.on 'me' do
         raise('No auth_token is given') if @auth_account.nil?
 
-        posts = FindPostsForAccount.call(username: @auth_account['username'])
+        posts = FindPostsForAccount.call(account_id: @auth_account['account_id'])
         JSON.pretty_generate(data: posts)
        rescue StandardError => e
+        Api.logger.error(e.message)
         routing.halt 403, { message: e.message }.to_json
       end
 
@@ -25,7 +26,7 @@ module Labook
           raise('Post not found') if post.nil?
           
 
-          requestor = @auth_account.nil? ? nil : Account.first(@auth_account['account'])
+          requestor = @auth_account.nil? ? nil : Account.first(account_id: @auth_account['account_id'])
 
           # add policy in comments
           comments = post.clone.to_h[:include][:comments].map{ |comment|

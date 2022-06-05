@@ -35,7 +35,7 @@ module Labook
           routing.get do
             raise('No auth_token is given') if @auth_account.nil?
 
-            requestor = Account.first(account: @auth_account['account'])
+            requestor = Account.first(account_id: @auth_account['account_id'])
             raise('auth_token\'s account is error') unless requestor.nil?
 
             account = Account.first(account_id:)
