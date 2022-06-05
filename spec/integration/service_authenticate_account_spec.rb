@@ -14,7 +14,7 @@ describe 'Test AddCollaboratorToProject service' do
   it 'HAPPY: should authenticate valid account credentials' do
     credentials = DATA[:accounts].first
     account = Labook::AuthenticateAccount.call(
-      account: credentials['account'], password: credentials['password']
+      username: credentials['username'], password: credentials['password']
     )
     _(account).wont_be_nil
   end
@@ -23,7 +23,7 @@ describe 'Test AddCollaboratorToProject service' do
     credentials = DATA[:accounts].first
     _(proc {
       Labook::AuthenticateAccount.call(
-        account: credentials['account'], password: 'malword'
+        username: credentials['username'], password: 'malword'
       )
     }).must_raise Labook::AuthenticateAccount::UnauthorizedError
   end
@@ -31,7 +31,7 @@ describe 'Test AddCollaboratorToProject service' do
   it 'BAD: will not authenticate with invalid credentials' do
     _(proc {
       Labook::AuthenticateAccount.call(
-        account: 'maluser', password: 'malword'
+        username: 'maluser', password: 'malword'
       )
     }).must_raise Labook::AuthenticateAccount::UnauthorizedError
   end

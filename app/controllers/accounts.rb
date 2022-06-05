@@ -35,7 +35,7 @@ module Labook
           routing.get do
             raise('No auth_token is given') if @auth_account.nil?
 
-            requestor = Account.first(@auth_account['account'])
+            requestor = Account.first(account: @auth_account['account'])
             raise('auth_token\'s account is error') unless requestor.nil?
 
             account = Account.first(account_id:)
@@ -55,9 +55,9 @@ module Labook
           routing.get do
             receiver = Account.find(account_id:)
             raise("receiver account not found") if receiver.nil?
-
-            chatroom = FindOrCreateChatroom.call(sender_account: @auth_account['account'],
-                                                 receiver_account: receiver.account)
+            
+            chatroom = FindOrCreateChatroom.call(sender_account: @auth_account['username'],
+                                                 receiver_account: receiver.username)
             chatroom ? chatroom.to_json : raise('Server error')
           rescue StandardError => e
             routing.halt 404, { message: e.message }.to_json

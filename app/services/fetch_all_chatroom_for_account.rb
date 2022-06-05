@@ -3,8 +3,8 @@
 module Labook
   # Service object to fetch all chatrooms
   class FetchAllChatroomsForAccount
-    def self.call(account:)
-      owner = Account.first(account:)
+    def self.call(username:)
+      owner = Account.first(username:)
       
       owner.mailed_accounts.uniq
     end

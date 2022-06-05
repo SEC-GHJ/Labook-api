@@ -7,10 +7,14 @@ module Labook
       def message = "there is no message between 2 accounts"
     end
 
+    class InvalidAccount < StandardError
+      def message = "Given account is invalid."
+    end
 
     def self.call(accountA_info:, accountB_info:)
-      accountA = Account.find(account: accountA_info)
-      accountB = Account.find(account: accountB_info)
+      accountA = Account.find(username: accountA_info)
+      accountB = Account.find(username: accountB_info)
+      raise InvalidAccount if accountA.nil? || accountB.nil?
 
       sended_message = AccountsAccount.first(sender_id: accountA.account_id,
                                              receiver_id: accountB.account_id)

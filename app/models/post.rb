@@ -25,6 +25,9 @@ module Labook
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :lab_score, :professor_attitude, :content, :vote_sum
+    plugin :association_dependencies,
+           voted_accounts: :nullify,
+           commented_accounts: :nullify
 
     def lab_info
       Lab.first(lab_id:)

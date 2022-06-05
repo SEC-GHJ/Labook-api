@@ -12,7 +12,7 @@ module Labook
       routing.on 'me' do
         raise('No auth_token is given') if @auth_account.nil?
 
-        posts = FindPostsForAccount.call(account: @auth_account['account'])
+        posts = FindPostsForAccount.call(username: @auth_account['username'])
         JSON.pretty_generate(data: posts)
        rescue StandardError => e
         routing.halt 403, { message: e.message }.to_json

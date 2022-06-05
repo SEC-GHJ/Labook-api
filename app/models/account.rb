@@ -53,8 +53,12 @@ module Labook
 
     plugin :uuid, field: :account_id
     plugin :whitelist_security
+<<<<<<< HEAD
     set_allowed_columns :account, :gpa, :ori_school, :ori_department, :password, :email,
                         :line_access_token, :account_id, :show_all, :accept_mail
+=======
+    set_allowed_columns :username, :gpa, :ori_school, :ori_department, :password, :email, :line_access_token, :account_id, :nickname
+>>>>>>> origin/main
 
     plugin :timestamps, update_on_create: true
 
@@ -79,13 +83,20 @@ module Labook
       self.line_access_token_secure = SecureDB.encrypt(plaintext)
     end
 
+    def self.create_line_account(line_account)
+      create(username: line_account[:username],
+             email: line_account[:email],
+             line_access_token: line_account[:line_access_token])
+    end
+
     # rubocop:disable Metrics/MethodLength
     def to_h
       {
         type: 'account',
         attributes: {
           account_id:,
-          account:,
+          username:,
+          nickname:,
           gpa:,
           ori_school:,
           ori_department:,
@@ -94,7 +105,6 @@ module Labook
           accept_mail:
         }
       }
-    end
     # rubocop:enable Metrics/MethodLength
     
     def to_json(options = {})

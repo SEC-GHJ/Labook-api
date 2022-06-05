@@ -1,5 +1,6 @@
 ---
-- account: a1
+- username: a1
+  nickname: 大帥哥
   password: password1
   gpa: 3.4
   ori_school: NTHU
@@ -9,7 +10,8 @@
   show_all: 1
   accept_mail: 1
 
-- account: a2
+- username: a2
+  nickname: 新竹納豆
   password: password2
   gpa: 1.0
   ori_school: NYCU
@@ -19,7 +21,8 @@
   show_all: 1
   accept_mail: 0
 
-- account: a3
+- username: a3
+  nickname: Pikachu
   password: password3
   gpa: 87
   ori_school: NCTU
@@ -28,7 +31,8 @@
   show_all: 0
   accept_mail: 0
 
-- account: a4
+- username: a4
+  nickname: Handsomeboy
   password: password4
   gpa: 1234
   ori_school: NTHU

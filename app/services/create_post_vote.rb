@@ -13,8 +13,8 @@ module Labook
       def message = 'Post cannot be found'
     end
 
-    def self.find_account(voter_account:)
-      account = Account.first(account: voter_account)
+    def self.find_account(voter_username:)
+      account = Account.first(username: voter_username)
       raise(VoterNotFoundError) if account.nil?
 
       account
@@ -29,8 +29,8 @@ module Labook
 
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
-    def self.call(voter_account:, voted_post_id:, number:)
-      account = find_account(voter_account:)
+    def self.call(voter_username:, voted_post_id:, number:)
+      account = find_account(voter_username:)
       post = find_post(voted_post_id:)
 
       vote = PostVote.first(voter_id: account.account_id, voted_post_id:)

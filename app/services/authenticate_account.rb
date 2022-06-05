@@ -16,7 +16,7 @@ module Labook
     end
 
     def self.call(credentials)
-      account = Account.first(account: credentials[:account])
+      account = Account.first(username: credentials[:username])
       raise UnauthorizedError, credentials if account.nil?
       raise UnauthorizedError, credentials unless account.password?(credentials[:password])
 

@@ -16,8 +16,8 @@ module Labook
           receiver = Account.find(account_id:)
           raise("receiver not found") if receiver.nil?
 
-          chat = CreateChat.call(sender_account: @auth_account['account'],
-                                 receiver_account: receiver.account,
+          chat = CreateChat.call(sender_account: @auth_account['username'],
+                                 receiver_account: receiver.username,
                                  content:)
           chat ? chat.to_json : raise
         rescue StandardError => e
@@ -29,8 +29,8 @@ module Labook
           accountB_info = Account.find(:account_id)
           raise("accountB_info not found") if accountB_info.nil?
 
-          chats = FetchMessagesForChatroom.call(accountA_info: @auth_account['account'],
-                                                accountB_info: accountB_info.account)
+          chats = FetchMessagesForChatroom.call(accountA_info: @auth_account['username'],
+                                                accountB_info: accountB_info.username)
           chats ? chats.to_json : raise
         rescue StandardError => e
           routing.halt 404, { message: e.message }.to_json
@@ -40,7 +40,7 @@ module Labook
       routing.is do
         # GET /api/v1/chats
         routing.get do
-          chatrooms = FetchAllChatroomsForAccount.call(account: @auth_account['account'])
+          chatrooms = FetchAllChatroomsForAccount.call(username: @auth_account['username'])
           chatrooms ? chatrooms.to_json : raise
         rescue StandardError => e
           routing.halt 404, { message: e.message }.to_json
