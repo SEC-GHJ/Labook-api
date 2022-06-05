@@ -7,6 +7,8 @@
   ori_department: CMT
   email: a1@gmail.com
   line_access_token: a1_token
+  show_all: 1
+  accept_mail: 1
 
 - username: a2
   nickname: 新竹納豆
@@ -16,6 +18,8 @@
   ori_department: CS
   email: a2@gmail.com
   line_access_token: a2_token
+  show_all: 1
+  accept_mail: 0
 
 - username: a3
   nickname: Pikachu
@@ -24,6 +28,8 @@
   ori_school: NCTU
   ori_department: EE
   email: a3@gmail.com
+  show_all: 0
+  accept_mail: 0
 
 - username: a4
   nickname: Handsomeboy
@@ -32,3 +38,5 @@
   ori_school: NTHU
   ori_department: ECON
   email: a4@gmail.com
+  show_all: 1
+  accept_mail: 1

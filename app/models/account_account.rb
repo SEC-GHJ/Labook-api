@@ -12,6 +12,8 @@ module Labook
 
     plugin :association_dependencies,
            chats: :destroy
+    plugin :uuid, field: :sender_id
+    plugin :uuid, field: :receiver_id
 
     def newest_chat_message
       chats.sort_by(&:created_at).reverse[0]

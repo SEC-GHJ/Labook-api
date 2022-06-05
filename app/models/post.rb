@@ -24,11 +24,10 @@ module Labook
     plugin :uuid, field: :post_id
     plugin :timestamps
     plugin :whitelist_security
+    set_allowed_columns :lab_score, :professor_attitude, :content, :vote_sum
     plugin :association_dependencies,
            voted_accounts: :nullify,
            commented_accounts: :nullify
-
-    set_allowed_columns :lab_score, :professor_attitude, :content, :accept_mail, :vote_sum
 
     def lab_info
       Lab.first(lab_id:)
@@ -39,28 +38,29 @@ module Labook
     end
 
     # rubocop:disable Metrics/MethodLength
-    def to_json(options = {})
-      JSON(
-        {
-          type: 'post',
-          attributes: {
-            post_id:,
-            lab_id:,
-            poster_id:,
-            lab_score:,
-            professor_attitude:,
-            content:,
-            accept_mail:,
-            vote_sum:,
-            created_at:,
-          },
-          include: {
-            lab_info:,
-            comments:
-          }
-        }, options
-      )
+    def to_h
+      {
+        type: 'post',
+        attributes: {
+          post_id:,
+          lab_id:,
+          poster_id:,
+          lab_score:,
+          professor_attitude:,
+          content:,
+          vote_sum:,
+          created_at:,
+        },
+        include: {
+          lab_info:,
+          comments:
+        }
+      }
     end
     # rubocop:enable Metrics/MethodLength
+
+    def to_json(options = {})
+      JSON(to_h, options)
+    end
   end
 end

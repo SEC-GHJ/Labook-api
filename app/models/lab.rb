@@ -17,6 +17,7 @@ module Labook
 
     plugin :timestamps
     plugin :whitelist_security
+    plugin :uuid, field: :lab_id
     set_allowed_columns :lab_name, :school, :department, :professor
 
     # rubocop:disable Metrics/MethodLength

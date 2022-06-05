@@ -5,7 +5,7 @@ require 'sequel'
 Sequel.migration do
   change do
     create_table(:labs) do
-      primary_key :lab_id
+      uuid :lab_id, primary_key: true
 
       String :lab_name, null: false
       String :school, null: false

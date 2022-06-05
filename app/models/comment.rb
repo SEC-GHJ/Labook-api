@@ -15,7 +15,8 @@ module Labook
                  join_table: :accounts_comments,
                  left_key: :voted_comment_id, right_key: :voter_id
     
-    plugin :uuid, field: :commented_post_id              
+    plugin :uuid, field: :commented_post_id
+    plugin :uuid, field: :commenter_id
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :content, :accept_mail, :vote_sum
@@ -29,22 +30,24 @@ module Labook
     end
 
     # rubocop:disable Metrics/MethodLength
-    def to_json(options = {})
-      JSON(
-        {
-          type: 'comment',
-          attributes: {
-            comment_id:,
-            commenter_id:,
-            commented_post_id:,
-            content:,
-            accept_mail:,
-            vote_sum:,
-            created_at:,
-          }
-        }, options
-      )
+    def to_h
+      {
+        type: 'comment',
+        attributes: {
+          comment_id:,
+          commenter_id:,
+          commented_post_id:,
+          content:,
+          accept_mail:,
+          vote_sum:,
+          created_at:,
+        }
+      }
     end
     # rubocop:enable Metrics/MethodLength
+
+    def to_json(options = {})
+      JSON(to_h, options)
+    end
   end
 end

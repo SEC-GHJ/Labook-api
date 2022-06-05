@@ -11,6 +11,7 @@ module Labook
                         key: %i[voter_id voted_post_id]
 
     plugin :uuid, field: :voted_post_id
+    plugin :uuid, field: :voter_id
     plugin :association_dependencies,
            votes: :destroy
 

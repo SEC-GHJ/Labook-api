@@ -50,10 +50,10 @@ All routes return Json
 - GET `api/v1/posts/[post_id]`: returns details about a single post
 ### `api/v1/accounts`
 - POST `api/v1/accounts`: create an account
-- GET `api/v1/accounts/[username]`: return an account info
-- GET `api/v1/accounts/[username]/posts`: return all posts for an account
-- GET `api/v1/accounts/[username]/votes`: return all votes for an account
-- GET `api/v1/accounts/[username]/contact`: get or create chatroom for an account
+- GET `api/v1/accounts/[account_id]`: return an account info
+- GET `api/v1/accounts/[account_id]/posts`: return all posts for an account
+- GET `api/v1/accounts/[account_id]/votes`: return all votes for an account
+- GET `api/v1/accounts/[account_id]/contact`: get or create chatroom for an account
 ### `api/v1/auth`
 - POST `api/v1/auth/authenticate`: return an auth token if login success
 - POST `api/v1/auth/register`: return an result if register success
@@ -67,8 +67,8 @@ All routes return Json
 - POST `api/v1/labs/[lab_id]/posts/[post_id]/votes`: create or update a vote about a single post with given ID
 
 ### `api/v1/chats`
-- POST `api/v1/chats/[username]` : create a new chat with username
-- GET `api/v1/chats/[username]`: Get all messages with username
+- POST `api/v1/chats/[account_id]` : create a new chat with account_id
+- GET `api/v1/chats/[account_id]`: Get all messages with account_id
 - GET `api/v1/chats`: Get all chatrooms for account.
 
 ## Test POST

@@ -8,11 +8,11 @@ module Labook
       def message = 'Account cannot be found'
     end
 
-    def self.call(username:)
-      account = Account.first(username:)
+    def self.call(account_id:)
+      account = Account.first(account_id:)
       raise(AccountNotFoundError) if account.nil?
 
-      AccountsPost.where(voter_id: account.account_id).all.map(&:votes)
+      AccountsPost.where(voter_id: account_id).all.map(&:votes)
     end
   end
 end
