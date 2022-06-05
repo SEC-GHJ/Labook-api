@@ -53,10 +53,10 @@ module Labook
 
     plugin :uuid, field: :account_id
     plugin :whitelist_security
-    set_allowed_columns :username, :gpa, :ori_school, :ori_department,
-                        :password, :email, :line_access_token,
-                        :account_id, :nickname, :line_notify_access_token,
-                        :show_all, :accept_mail
+    set_allowed_columns :username, :gpa, :ori_school, :ori_department, :password, :email,
+                        :line_access_token, :account_id, :nickname, :show_all, :accept_mail
+                        :line_notify_access_token
+
 
     plugin :timestamps, update_on_create: true
 
