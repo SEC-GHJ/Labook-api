@@ -10,7 +10,7 @@ module Labook
       @account_route = "#{@api_root}/posts"
       # GET /api/v1/posts/me
       routing.on 'me' do
-        posts = FindPostsForAccount.call(account: @auth_account['account'])
+        posts = FindPostsForAccount.call(username: @auth_account['username'])
         JSON.pretty_generate(data: posts)
       rescue StandardError
         routing.halt 403, { message: 'Can not find projects' }.to_json

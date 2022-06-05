@@ -15,11 +15,12 @@ describe 'Test Account Handling' do
       account_data = DATA[:accounts][1]
       account = Labook::Account.create(account_data)
 
-      get "/api/v1/accounts/#{account.account}"
+      get "/api/v1/accounts/#{account.username}"
       _(last_response.status).must_equal 200
 
       attributes = JSON.parse(last_response.body)['attributes']
-      _(attributes['account']).must_equal account.account
+      _(attributes['username']).must_equal account.username
+      _(attributes['nickname']).must_equal account.nickname
       _(attributes['gpa']).must_equal account.gpa
       _(attributes['ori_school']).must_equal account.ori_school
       _(attributes['ori_department']).must_equal account.ori_department
@@ -42,7 +43,8 @@ describe 'Test Account Handling' do
       created = JSON.parse(last_response.body)['data']['attributes']
       account = Labook::Account.first
 
-      _(created['account']).must_equal @account_data['account']
+      _(created['username']).must_equal @account_data['username']
+      _(created['nickname']).must_equal @account_data['nickname']
       _(created['gpa']).must_equal @account_data['gpa']
       _(created['ori_school']).must_equal @account_data['ori_school']
       _(created['ori_department']).must_equal @account_data['ori_department']

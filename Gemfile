@@ -34,6 +34,9 @@ end
 gem 'pry'
 gem 'rack-test'
 
+# Line Login
+gem 'jwt'
+
 # Development
 group :development do
   # Debugging

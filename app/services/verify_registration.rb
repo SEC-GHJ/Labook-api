@@ -27,7 +27,7 @@ module Labook
     end
 
     def username_available?
-      Account.first(account: @registration[:account]).nil?
+      Account.first(username: @registration[:username]).nil?
     end
 
     def email_available?

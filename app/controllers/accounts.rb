@@ -13,7 +13,7 @@ module Labook
         routing.on 'posts' do
           # GET api/v1/accounts/[username]/posts
           routing.get do
-            output = { data: FindPostsForAccount.call(account: username) }
+            output = { data: FindPostsForAccount.call(username:) }
             JSON.pretty_generate(output)
           rescue StandardError
             routing.halt 404, 'Could not find all posts'
@@ -23,7 +23,7 @@ module Labook
         routing.on 'votes' do
           # GET api/v1/accounts/[username]/votes
           routing.get do
-            output = { data: FindVotesForAccount.call(account: username) }
+            output = { data: FindVotesForAccount.call(username:) }
             JSON.pretty_generate(output)
           rescue StandardError => e
             routing.halt 404, { message: e.message }.to_json
@@ -33,7 +33,7 @@ module Labook
         # GET api/v1/accounts/[username]
         routing.is do
           routing.get do
-            account = Account.first(account: username)
+            account = Account.first(username: username)
             account ? account.to_json : raise('Account not found')
           rescue StandardError => e
             routing.halt 404, { message: e.message }.to_json
@@ -43,7 +43,7 @@ module Labook
         # GET api/v1/accounts/[username]/contact
         routing.on 'contact' do
           routing.get do
-            chatroom = FindOrCreateChatroom.call(sender_account: @auth_account['account'],
+            chatroom = FindOrCreateChatroom.call(sender_account: @auth_account['username'],
                                                  receiver_account: username)
             chatroom ? chatroom.to_json : raise('Server error')
           rescue StandardError => e

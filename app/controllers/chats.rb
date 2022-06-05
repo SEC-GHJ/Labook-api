@@ -13,7 +13,7 @@ module Labook
         # POST /api/v1/chats/[username]
         routing.post do
           content = JSON.parse(routing.body.read)["content"]
-          chat = CreateChat.call(sender_account: @auth_account['account'],
+          chat = CreateChat.call(sender_account: @auth_account['username'],
                                  receiver_account: username,
                                  content:)
           chat ? chat.to_json : raise
@@ -23,7 +23,7 @@ module Labook
 
         # GET /api/v1/chats/[username]
         routing.get do
-          chats = FetchMessagesForChatroom.call(accountA_info: @auth_account['account'],
+          chats = FetchMessagesForChatroom.call(accountA_info: @auth_account['username'],
                                                 accountB_info: username)
           chats ? chats.to_json : raise
         rescue StandardError => e
@@ -34,7 +34,7 @@ module Labook
       routing.is do
         # GET /api/v1/chats
         routing.get do
-          chatrooms = FetchAllChatroomsForAccount.call(account: @auth_account['account'])
+          chatrooms = FetchAllChatroomsForAccount.call(username: @auth_account['username'])
           chatrooms ? chatrooms.to_json : raise
         rescue StandardError => e
           routing.halt 404, { message: e.message }.to_json

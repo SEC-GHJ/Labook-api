@@ -11,8 +11,8 @@ module Labook
     def self.call(sender_account:, receiver_account:)
       raise SenderNotReceiverError if sender_account == receiver_account
 
-      sender = Account.find(account: sender_account)
-      receiver = Account.find(account: receiver_account)
+      sender = Account.find(username: sender_account)
+      receiver = Account.find(username: receiver_account)
 
       # check whether connection is built
       connection = AccountsAccount.first(sender_id: sender.account_id,

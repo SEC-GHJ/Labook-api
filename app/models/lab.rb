@@ -6,8 +6,6 @@ require 'sequel'
 module Labook
   # Models a lab
   class Lab < Sequel::Model
-    # one_to_many :posts, class: :'Labook::Post', key: :lab_id
-
     # account and lab have many_to_many relationships on post
     many_to_many :commented_accounts,
                  class: :'Labook::Account',

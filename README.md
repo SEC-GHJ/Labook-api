@@ -5,9 +5,9 @@ API to store and retrieve confidential development files (configuration, credent
 ![](https://i.imgur.com/OEzAQnL.png)
 
 ## Accounts
-| account_id | GPA | ori_school | ori_department | account | password |
+| account_id | GPA | ori_school | ori_department | username | nickname | password | line_access_token_secure
 | ---------- | --- | ---------- | -------------- | ------- | -------- |
-| Integer     | String | String     | String         | String  | String   |
+| Integer     | String | String     | String    | String  | String   | String   | String |
 
 ## Labs
 | lab_id | lab_name | school | department | professor |
@@ -74,7 +74,8 @@ All routes return Json
 ## Test POST
 ```console
 http -v --json POST localhost:3000/api/v1/accounts \
-account="testacc" \
+username="testacc" \
+nickname="新竹強尼戴補" \
 gpa="123" \
 ori_school="IDK" \
 ori_department="CS" \
@@ -82,7 +83,7 @@ password="123456" \
 email="abc@gmail.com"
 
 http -v --json POST localhost:3000/api/v1/auth/authenticate \
-account="testacc" \
+username="testacc" \
 password="123456"
 
 http -v --json POST localhost:3000/api/v1/labs \
@@ -99,7 +100,7 @@ content="老師人很好，對我們都像兒子XD，動不動就請吃食物" \
 accept_mail="1" \
 vote_sum="0"
 
-http -v --json POST localhost:3000/api/v1/labs/1/posts/5/votes \
+http -v --json POST localhost:3000/api/v1/labs/1/posts/[post_uuid]/votes \
 voter_account="a1" \
 number="-1"
 

@@ -14,7 +14,7 @@ module Labook
     end
 
     def self.find_account(voter_account:)
-      account = Account.first(account: voter_account)
+      account = Account.first(username: voter_account)
       raise(VoterNotFoundError) if account.nil?
 
       account

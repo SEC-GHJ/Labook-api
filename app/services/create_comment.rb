@@ -14,7 +14,7 @@ module Labook
     end
 
     def self.call(commenter_account:, commented_post_id:, comment_data:)
-      account = Account.first(account: commenter_account)
+      account = Account.first(username: commenter_account)
       raise(CommenterNotFoundError) if account.nil?
 
       post = Post.first(post_id: commented_post_id)

@@ -24,6 +24,10 @@ module Labook
     plugin :uuid, field: :post_id
     plugin :timestamps
     plugin :whitelist_security
+    plugin :association_dependencies,
+           voted_accounts: :nullify,
+           commented_accounts: :nullify
+
     set_allowed_columns :lab_score, :professor_attitude, :content, :accept_mail, :vote_sum
 
     def lab_info

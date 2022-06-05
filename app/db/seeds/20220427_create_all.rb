@@ -78,7 +78,7 @@ end
 def create_post_votes(posts)
   POSTVOTES_INFO.each do |vote_data|
     Labook::CreatePostVote.call(
-      voter_account: vote_data['voter'],
+      voter_username: vote_data['voter'],
       voted_post_id: posts[vote_data['voted_post_id'].to_i - 1],
       number: vote_data['number']
     )

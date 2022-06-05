@@ -14,7 +14,7 @@ module Labook
     end
 
     def self.call(poster_account:, lab_id:, post_data:)
-      account = Account.first(account: poster_account)
+      account = Account.first(username: poster_account)
       raise(PosterNotFoundError) if account.nil?
 
       lab = Lab.first(lab_id:)

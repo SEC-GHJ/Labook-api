@@ -18,8 +18,8 @@ module Labook
       def message = 'user cannot be found'
     end
 
-    def self.check_account_valid(account:)
-      account_valid = Account.find(account:)
+    def self.check_account_valid(username:)
+      account_valid = Account.find(username:)
       raise UserNotFound if account_valid.nil?
       
       account_valid
@@ -27,8 +27,8 @@ module Labook
 
     # rubocop:disable Metrics/MethodLength
     def self.call(sender_account:, receiver_account:, content:)
-      sender = check_account_valid(account: sender_account)
-      receiver = check_account_valid(account: receiver_account)
+      sender = check_account_valid(username: sender_account)
+      receiver = check_account_valid(username: receiver_account)
       raise(SenderNotReceiverError) if sender.account_id == receiver.account_id
 
       # check whether connection is built
