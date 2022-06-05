@@ -12,6 +12,7 @@ module Labook
 
     plugin :association_dependencies,
            votes: :destroy
+    plugin :uuid, field: :voter_id
 
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})

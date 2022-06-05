@@ -9,11 +9,11 @@ module Labook
     route('accounts') do |routing|
       @account_route = "#{@api_root}/accounts"
 
-      routing.on String do |username|
+      routing.on String do |account_id|
         routing.on 'posts' do
-          # GET api/v1/accounts/[username]/posts
+          # GET api/v1/accounts/[account_id]/posts
           routing.get do
-            output = { data: FindPostsForAccount.call(account: username) }
+            output = { data: FindPostsForAccount.call(account_id:) }
             JSON.pretty_generate(output)
           rescue StandardError
             routing.halt 404, 'Could not find all posts'
@@ -21,30 +21,43 @@ module Labook
         end
 
         routing.on 'votes' do
-          # GET api/v1/accounts/[username]/votes
+          # GET api/v1/accounts/[account_id]/votes
           routing.get do
-            output = { data: FindVotesForAccount.call(account: username) }
+            output = { data: FindVotesForAccount.call(account_id:) }
             JSON.pretty_generate(output)
           rescue StandardError => e
             routing.halt 404, { message: e.message }.to_json
           end
         end
 
-        # GET api/v1/accounts/[username]
+        # GET api/v1/accounts/[account_id]
         routing.is do
           routing.get do
-            account = Account.first(account: username)
-            account ? account.to_json : raise('Account not found')
+            raise('No auth_token is given') if @auth_account.nil?
+
+            requestor = Account.first(@auth_account['account'])
+            raise('auth_token\'s account is error') unless requestor.nil?
+
+            account = Account.first(account_id:)
+            raise('Account not found') unless account.nil?
+
+            policy = AccountPolicy.new(requestor, account)
+            raise('Unauthorized Request Error') unless policy.can_view?
+
+            policy.summary.to_json
           rescue StandardError => e
             routing.halt 404, { message: e.message }.to_json
           end
         end
 
-        # GET api/v1/accounts/[username]/contact
+        # GET api/v1/accounts/[account_id]/contact
         routing.on 'contact' do
           routing.get do
+            receiver = Account.find(account_id:)
+            raise("receiver account not found") if receiver.nil?
+
             chatroom = FindOrCreateChatroom.call(sender_account: @auth_account['account'],
-                                                 receiver_account: username)
+                                                 receiver_account: receiver.account)
             chatroom ? chatroom.to_json : raise('Server error')
           rescue StandardError => e
             routing.halt 404, { message: e.message }.to_json

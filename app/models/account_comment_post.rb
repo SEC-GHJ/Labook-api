@@ -11,6 +11,7 @@ module Labook
                            key: %i[commenter_id commented_post_id]
 
     plugin :uuid, field: :commented_post_id
+    plugin :uuid, field: :commenter_id
     plugin :association_dependencies,
            comments: :destroy
 

@@ -13,6 +13,8 @@ module Labook
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :number
+    plugin :uuid, field: :voter_id
+    
 
     def to_json(options = {})
       JSON(

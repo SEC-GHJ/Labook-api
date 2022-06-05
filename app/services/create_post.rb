@@ -20,10 +20,14 @@ module Labook
       lab = Lab.first(lab_id:)
       raise(LabNotFoundError) if lab.nil?
 
-      account.add_commented_lab(lab)
+      relation = AccountsLab.first(lab_id: lab.lab_id, poster_id: account.account_id)
 
-      AccountsLab.first(lab_id: lab.lab_id, poster_id: account.account_id)
-                 .add_post(post_data)
+      if relation.nil?
+        account.add_commented_lab(lab)
+        relation = AccountsLab.first(lab_id: lab.lab_id, poster_id: account.account_id)
+      end
+
+      relation.add_post(post_data)
     end
   end
 end

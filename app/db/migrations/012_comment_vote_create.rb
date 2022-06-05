@@ -6,7 +6,7 @@ Sequel.migration do
   change do
     create_table(:comment_votes) do
       primary_key :vote_id
-      Integer :voter_id
+      uuid :voter_id
       Integer :voted_comment_id
       foreign_key [:voter_id, :voted_comment_id], :accounts_comments
 

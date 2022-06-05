@@ -16,6 +16,8 @@ module Labook
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :content
+    plugin :uuid, field: :sender_id
+    plugin :uuid, field: :receiver_id
 
     def content
       SecureDB.decrypt content_secure

@@ -49,9 +49,12 @@ module Labook
            voted_posts: :nullify,
            commented_posts: :nullify,
            voted_comments: :nullify
+    
 
+    plugin :uuid, field: :account_id
     plugin :whitelist_security
-    set_allowed_columns :account, :gpa, :ori_school, :ori_department, :password, :email, :line_access_token, :account_id
+    set_allowed_columns :account, :gpa, :ori_school, :ori_department, :password, :email,
+                        :line_access_token, :account_id, :show_all, :accept_mail
 
     plugin :timestamps, update_on_create: true
 
@@ -77,21 +80,25 @@ module Labook
     end
 
     # rubocop:disable Metrics/MethodLength
-    def to_json(options = {})
-      JSON(
-        {
-          type: 'account',
-          attributes: {
-            account_id:,
-            account:,
-            gpa:,
-            ori_school:,
-            ori_department:,
-            email:
-          }
-        }, options
-      )
+    def to_h
+      {
+        type: 'account',
+        attributes: {
+          account_id:,
+          account:,
+          gpa:,
+          ori_school:,
+          ori_department:,
+          email:,
+          show_all:,
+          accept_mail:
+        }
+      }
     end
     # rubocop:enable Metrics/MethodLength
+    
+    def to_json(options = {})
+      JSON(to_h, options)
+    end
   end
 end
