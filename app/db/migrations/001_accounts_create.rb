@@ -15,6 +15,7 @@ Sequel.migration do
       String :password_digest, null: true
       String :email, null: false, unique: true
       String :line_access_token_secure, null: true
+      String :line_notify_access_token_secure, null: true
 
       DateTime :created_at
       DateTime :updated_at

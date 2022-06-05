@@ -51,7 +51,9 @@ module Labook
            voted_comments: :nullify
 
     plugin :whitelist_security
-    set_allowed_columns :username, :gpa, :ori_school, :ori_department, :password, :email, :line_access_token, :account_id, :nickname
+    set_allowed_columns :username, :gpa, :ori_school, :ori_department,
+                        :password, :email, :line_access_token,
+                        :account_id, :nickname, :line_notify_access_token
 
     plugin :timestamps, update_on_create: true
 
@@ -76,10 +78,22 @@ module Labook
       self.line_access_token_secure = SecureDB.encrypt(plaintext)
     end
 
+    def line_notify_access_token
+      SecureDB.decrypt(line_notify_access_token_secure)
+    end
+
+    def line_notify_access_token=(plaintext)
+      self.line_notify_access_token_secure = SecureDB.encrypt(plaintext)
+    end
+
     def self.create_line_account(line_account)
       create(username: line_account[:username],
              email: line_account[:email],
              line_access_token: line_account[:line_access_token])
+    end
+
+    def can_notify
+      !line_notify_access_token.nil?
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -94,7 +108,8 @@ module Labook
             gpa:,
             ori_school:,
             ori_department:,
-            email:
+            email:,
+            can_notify:,
           }
         }, options
       )
