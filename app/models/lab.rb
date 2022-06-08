@@ -6,6 +6,8 @@ require 'sequel'
 module Labook
   # Models a lab
   class Lab < Sequel::Model
+    many_to_one :department_obj, class: :'Labook::Department', key: %i[school_name department_name]
+
     # account and lab have many_to_many relationships on post
     many_to_many :commented_accounts,
                  class: :'Labook::Account',
@@ -18,7 +20,15 @@ module Labook
     plugin :timestamps
     plugin :whitelist_security
     plugin :uuid, field: :lab_id
-    set_allowed_columns :lab_name, :school, :department, :professor
+    set_allowed_columns :lab_name, :school_name, :department_name, :professor
+
+    def department
+      department_name
+    end
+
+    def school
+      school_name
+    end
 
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
@@ -28,8 +38,8 @@ module Labook
           attributes: {
             lab_id:,
             lab_name:,
-            school:,
             department:,
+            school:,
             professor:
           }
         }, options

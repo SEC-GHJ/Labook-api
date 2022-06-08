@@ -7,9 +7,11 @@ Sequel.migration do
     create_table(:labs) do
       uuid :lab_id, primary_key: true
 
-      String :lab_name, null: false
-      String :school, null: false
-      String :department, null: false
+      String :school_name
+      String :department_name
+      foreign_key [:school_name, :department_name], :departments
+
+      String :lab_name, null: true
       String :professor, null: false
 
       DateTime :created_at

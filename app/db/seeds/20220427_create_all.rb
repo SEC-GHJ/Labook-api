@@ -2,21 +2,31 @@
 
 Sequel.seed(:development) do
   def run
-    puts 'Seeding accounts, projects, documents'
+    puts 'Seeding accounts, schools, departments, labs'
     create_accounts
+    create_schools
+    create_departments
     create_labs
+    puts 'Seeding posts, chatrooms, chats'
     posts = create_posts
     # puts posts
     create_chatrooms
     create_chats
+    puts 'Seeding votes, comments'
     create_post_votes(posts)
     create_comments(posts)
     create_comment_votes
+    puts 'Seeding NTHUs'
+    create_NTHU
   end
 end
 
 require 'yaml'
+# DIR = 'app/db/seeds'
 DIR = File.dirname(__FILE__)
+NTHU_INFO = YAML.load_file("#{DIR}/NTHUdepartment.yml")
+SCHOOLS_INFO = YAML.load_file("#{DIR}/schools_seed.yml")
+DEPARTMENTS_INFO = YAML.load_file("#{DIR}/departments_seed.yml")
 ACCOUNTS_INFO = YAML.load_file("#{DIR}/accounts_seed.yml")
 CHATS_INFO = YAML.load_file("#{DIR}/chats_seed.yml")
 LABS_INFO = YAML.load_file("#{DIR}/labs_seed.yml")
@@ -26,15 +36,41 @@ COMMENTS_INFO = YAML.load_file("#{DIR}/comments_seed.yml")
 COMMENTVOTES_INFO = YAML.load_file("#{DIR}/comment_votes_seed.yml")
 POSTS = nil
 
+def create_NTHU
+  NTHU_INFO.each do |nthu_info|
+    Labook::School.first(school_name: "NTHU").add_department(department_name: nthu_info['department'])
+    
+    department = Labook::Department.first(school_name: "NTHU", department_name: nthu_info['department'])
+    nthu_info['profs'].each do |profs|
+      department.add_lab(professor: profs)
+    end
+  end
+end
+
 def create_accounts
   ACCOUNTS_INFO.each do |account_info|
     Labook::Account.create(account_info)
   end
 end
 
+def create_schools
+  SCHOOLS_INFO.each do |school_info|
+    Labook::School.create(school_info)
+  end
+end
+
+def create_departments
+  DEPARTMENTS_INFO.each do |department_info|
+    school_name = department_info.delete('school_name')
+    Labook::School.first(school_name:).add_department(department_info)
+  end
+end
+
 def create_labs
   LABS_INFO.each do |lab_info|
-    Labook::Lab.create(lab_info)
+    school_name = lab_info.delete('school')
+    department_name = lab_info.delete('department')
+    Labook::Department.first(school_name:, department_name:).add_lab(lab_info)
   end
 end
 
