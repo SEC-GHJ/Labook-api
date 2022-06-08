@@ -10,27 +10,27 @@ module Labook
       @account_route = "#{@api_root}/accounts"
 
       routing.on String do |account_id|
-        routing.on 'posts' do
-          # GET api/v1/accounts/[account_id]/posts
-          routing.get do
-            output = { data: FindPostsForAccount.call(account_id:) }
-            JSON.pretty_generate(output)
-          rescue StandardError => e
-            Api.logger.error(e.message)
-            routing.halt 404, 'Could not find all posts'
-          end
-        end
+        # routing.on 'posts' do
+        #   # GET api/v1/accounts/[account_id]/posts
+        #   routing.get do
+        #     output = { data: FindPostsForAccount.call(account_id:) }
+        #     JSON.pretty_generate(output)
+        #   rescue StandardError => e
+        #     Api.logger.error(e.message)
+        #     routing.halt 404, 'Could not find all posts'
+        #   end
+        # end
 
-        routing.on 'votes' do
-          # GET api/v1/accounts/[account_id]/votes
-          routing.get do
-            output = { data: FindVotesForAccount.call(account_id:) }
-            JSON.pretty_generate(output)
-          rescue StandardError => e
-            Api.logger.error(e.message)
-            routing.halt 404, { message: e.message }.to_json
-          end
-        end       
+        # routing.on 'votes' do
+        #   # GET api/v1/accounts/[account_id]/votes
+        #   routing.get do
+        #     output = { data: FindVotesForAccount.call(account_id:) }
+        #     JSON.pretty_generate(output)
+        #   rescue StandardError => e
+        #     Api.logger.error(e.message)
+        #     routing.halt 404, { message: e.message }.to_json
+        #   end
+        # end
 
         # POST api/v1/accounts/[account_id]/contact
         routing.on 'contact' do

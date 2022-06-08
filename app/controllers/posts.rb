@@ -20,29 +20,21 @@ module Labook
       end
 
       routing.on String do |post_id|
+        # POST /api/v1/posts/[post_id]/votes
+        routing.on 'votes' do
+          raise('No auth_token is given') if @auth_account.nil?
+
+          number = JSON.parse(routing.body.read)["number"].to_i
+          vote = CreatePostVote.call(voter_username: @auth_account['username'], voted_post_id: post_id, number:)
+          vote.to_json
+        rescue StandardError => e
+          Api.logger.error e.message
+          routing.halt 500, { message: e.message }.to_json
+        end
+
         # GET /api/v1/posts/[post_id]
         routing.get do
-          post = Post.where(post_id:).first
-          raise('Post not found') if post.nil?
-          
-
-          requestor = @auth_account.nil? ? nil : Account.first(account_id: @auth_account['account_id'])
-
-          # add policy in comments
-          comments = post.clone.to_h[:include][:comments].map{ |comment|
-            account = Account.first(account_id: comment[0].to_h[:attributes][:commenter_id])
-            policy = AccountPolicy.new(requestor, account)
-
-            [comment[0].to_h.merge(policies: policy.summary)]
-          }
-
-          # add policy in post
-          account = Account.first(account_id: post.poster_id)
-          policy = AccountPolicy.new(requestor, account)
-          
-          output = post.to_h.merge(policies: policy.summary)
-          output[:include][:comments].replace(comments)
-          output.to_json
+          FindSinglePostWithPolicies.call(post_id:, auth_account: @auth_account)
         rescue StandardError => e
           routing.halt 404, { message: e.message }.to_json
         end

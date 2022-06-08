@@ -43,33 +43,41 @@ primary key : chat_id
 
 ## Routes
 All routes return Json
-
 - GET `/` : Root route shows if Web API is running
-### `api/v1/posts`
+
+### `api/v1/posts` (warning: anyone can know the poster_id & commenter_id)
 - GET `api/v1/posts`: return all posts
-- GET `api/v1/posts/[post_id]`: returns details about a single post
+- GET `api/v1/posts/[post_id]`: returns details about a single post, including policies and votes of given bearer `auth_token`
+- POST `api/v1/posts/[post_id]/votes`: create or update a vote for a post for the account of given bearer `auth_token` 
+- GET `api/v1/posts/me`: return all posts of the account of given bearer `auth_token`
+
+
 ### `api/v1/accounts`
-- POST `api/v1/accounts`: create an account
-- GET `api/v1/accounts/[account_id]`: return an account info
-- GET `api/v1/accounts/[account_id]/posts`: return all posts for an account
-- GET `api/v1/accounts/[account_id]/votes`: return all votes for an account
-- GET `api/v1/accounts/[account_id]/contact`: get or create chatroom for an account
+- POST `api/v1/accounts`: create an account **(warning: anyone who know the api addr can create account)**
+- GET `api/v1/accounts/[account_id]`: return policies from the account of given bearer `auth_token` to the account of `account_id`
+- ~~GET `api/v1/accounts/[account_id]/posts`: return all posts for an account~~
+- ~~GET `api/v1/accounts/[account_id]/votes`: return all votes for an account~~
+- GET `api/v1/accounts/[account_id]/contact`: get or create chatroom for an account from the account of given bearer `auth_token`
+
 ### `api/v1/auth`
 - POST `api/v1/auth/authenticate`: return an auth token if login success
 - POST `api/v1/auth/register`: return an result if register success
+- POST `api/v1/auth/line_sso`: 
+- POST `api/v1/auth/line_notify_sso`: 
+
 ### `api/v1/labs`
 - GET `api/v1/labs` : Get list of all labs
-- POST `api/v1/labs` : create a new lab
+- POST `api/v1/labs` : create a new lab **(warning: anyone who know the api addr can create lab)**
 - GET `api/v1/labs/[lab_id]` : Get information about a labs
-- GET `api/v1/labs/[lab_id]/posts` : returns all posts for a lab
-- POST `api/v1/labs/[lab_id]/posts`:  create a post for a lab
-- GET `api/v1/labs/[lab_id]/posts/[post_id]`: returns details about a single post with given ID
-- POST `api/v1/labs/[lab_id]/posts/[post_id]/votes`: create or update a vote about a single post with given ID
+- GET `api/v1/labs/[lab_id]/posts` : returns all posts for a lab **(warning: everyone can know the poster_id & commenter_id)**
+- POST `api/v1/labs/[lab_id]/posts`:  create a post for a lab for the account of given bearer `auth_token`
+- ~~GET `api/v1/labs/[lab_id]/posts/[post_id]`: returns details about a single post with given ID~~
+- ~~POST `api/v1/labs/[lab_id]/posts/[post_id]/votes`: create or update a vote about a single post with given ID~~
 
 ### `api/v1/chats`
-- POST `api/v1/chats/[account_id]` : create a new chat with account_id
-- GET `api/v1/chats/[account_id]`: Get all messages with account_id
-- GET `api/v1/chats`: Get all chatrooms for account.
+- POST `api/v1/chats/[account_id]` : create a new chat with account_id for the account of given bearer `auth_token`
+- GET `api/v1/chats/[account_id]`: Get all messages with account_id for the account of given bearer `auth_token`
+- GET `api/v1/chats`: Get all chatrooms for the account of given bearer `auth_token`
 
 ## Test POST
 ```console
@@ -100,9 +108,9 @@ content="老師人很好，對我們都像兒子XD，動不動就請吃食物" \
 accept_mail="1" \
 vote_sum="0"
 
-http -v --json POST localhost:3000/api/v1/labs/1/posts/[post_uuid]/votes \
-voter_account="a1" \
-number="-1"
+http -v --json POST localhost:3000/api/v1/posts/[post_uuid]/votes \
+'Authorization: Bearer {token}' \
+number="1"
 
 http -v --json GET localhost:3000/api/v1/posts/me 'Authorization: Bearer {token}'
 
@@ -114,11 +122,6 @@ http -v --json GET localhost:3000/api/v1/chats 'Authorization: Bearer {token}'
 
 http -v --json GET localhost:3000/api/v1/chats/a1 'Authorization: Bearer {token}'
 ```
-## Test logger
-```
-http -v GET localhost:9292
-```
-
 
 ## Install
 Install this API by cloning the relevant branch and installing required gems from Gemfile.lock:

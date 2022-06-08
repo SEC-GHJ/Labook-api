@@ -13,36 +13,36 @@ module Labook
         routing.on 'posts' do
           @post_route = "#{@api_root}/labs/#{lab_id}/posts"
 
-          routing.on String do |post_id|
-            routing.on 'votes' do
-              # POST api/v1/labs/[lab_id]/posts/[post_id]/votes
-              routing.post do
-                new_data = JSON.parse(routing.body.read)
-                new_vote = Labook::CreatePostVote.call(voter_username: new_data['voter_account'],
-                                                       voted_post_id: post_id,
-                                                       number: new_data['number'].to_i)
-                raise('Could not save vote') unless new_vote
+          # routing.on String do |post_id|
+          #   routing.on 'votes' do
+          #     # POST api/v1/labs/[lab_id]/posts/[post_id]/votes
+          #     routing.post do
+          #       new_data = JSON.parse(routing.body.read)
+          #       new_vote = Labook::CreatePostVote.call(voter_username: new_data['voter_account'],
+          #                                              voted_post_id: post_id,
+          #                                              number: new_data['number'].to_i)
+          #       raise('Could not save vote') unless new_vote
 
-                response.status = 201
-                response['Location'] = "#{@post_route}/#{new_vote.vote_id}"
-                { message: 'Vote saved', data: new_vote }.to_json
+          #       response.status = 201
+          #       response['Location'] = "#{@post_route}/#{new_vote.vote_id}"
+          #       { message: 'Vote saved', data: new_vote }.to_json
 
-              rescue Sequel::MassAssignmentRestriction
-                Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
-                routing.halt 400, { message: 'Illegal Attributes' }.to_json
-              rescue StandardError => e
-                routing.halt 500, { message: e.message }.to_json
-              end
-            end
+          #     rescue Sequel::MassAssignmentRestriction
+          #       Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
+          #       routing.halt 400, { message: 'Illegal Attributes' }.to_json
+          #     rescue StandardError => e
+          #       routing.halt 500, { message: e.message }.to_json
+          #     end
+          #   end
 
-            # GET api/v1/labs/[lab_id]/posts/[post_id]
-            routing.get do
-              post = Post.where(lab_id:, post_id:).first
-              post ? post.to_json : raise('Post not found')
-            rescue StandardError => e
-              routing.halt 404, { message: e.message }.to_json
-            end
-          end
+          #   # GET api/v1/labs/[lab_id]/posts/[post_id]
+          #   routing.get do
+          #     post = Post.where(lab_id:, post_id:).first
+          #     post ? post.to_json : raise('Post not found')
+          #   rescue StandardError => e
+          #     routing.halt 404, { message: e.message }.to_json
+          #   end
+          # end
 
           # GET api/v1/labs/[lab_id]/posts
           routing.get do
@@ -55,8 +55,7 @@ module Labook
           # POST api/v1/labs/[lab_id]/posts
           routing.post do
             post_data = JSON.parse(routing.body.read)
-            poster_account = post_data.delete('poster_account')
-            new_post = Labook::CreatePost.call(poster_account:, lab_id:, post_data:)
+            new_post = CreatePost.call(@auth_account['username'], lab_id:, post_data:)
             raise('Could not save post') unless new_post
 
             response.status = 201

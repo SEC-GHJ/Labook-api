@@ -37,6 +37,7 @@ module Labook
         end
       end
 
+      # POST api/v1/auth/line_sso
       routing.is 'line_sso' do
         line_code = JsonRequestBody.parse_symbolize(routing.body.read)[:code]
         line_account = AuthorizeLineSso.new(line_code).call
@@ -49,6 +50,7 @@ module Labook
         routing.halt 400 
       end
 
+      # POST api/v1/auth/line_notify_sso
       routing.is 'line_notify_sso' do
         line_notify_code = JsonRequestBody.parse_symbolize(routing.body.read)[:code]
         account = AuthorizeLineNotifySso.new(line_notify_code, @auth_account).call
