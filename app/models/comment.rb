@@ -19,7 +19,7 @@ module Labook
     plugin :uuid, field: :commenter_id
     plugin :timestamps
     plugin :whitelist_security
-    set_allowed_columns :content, :accept_mail, :vote_sum
+    set_allowed_columns :content, :vote_sum
 
     def content
       SecureDB.decrypt content_secure
@@ -38,7 +38,6 @@ module Labook
           commenter_id:,
           commented_post_id:,
           content:,
-          accept_mail:,
           vote_sum:,
           created_at:,
         }

@@ -48,9 +48,12 @@ All routes return Json
 ### `api/v1/posts` (warning: anyone can know the poster_id & commenter_id)
 - GET `api/v1/posts`: return all posts
 - GET `api/v1/posts/[post_id]`: returns details about a single post, including policies and votes of given bearer `auth_token`
-- POST `api/v1/posts/[post_id]/votes`: create or update a vote for a post for the account of given bearer `auth_token` 
+- POST `api/v1/posts/[post_id]/votes`: create or update a vote for a post for the account of given bearer `auth_token`
+- POST `api/v1/posts/[post_id]/comments`: create a comment for a post for the account of given bearer `auth_token` 
 - GET `api/v1/posts/me`: return all posts of the account of given bearer `auth_token`
 
+### `api/v1/comments`
+- POST `api/v1/comments/[comment_id]/votes`: create or update a vote for a comment for the account of given bearer `auth_token`
 
 ### `api/v1/accounts`
 - POST `api/v1/accounts`: create an account **(warning: anyone who know the api addr can create account)**
@@ -79,8 +82,9 @@ All routes return Json
 - GET `api/v1/chats/[account_id]`: Get all messages with account_id for the account of given bearer `auth_token`
 - GET `api/v1/chats`: Get all chatrooms for the account of given bearer `auth_token`
 
-## Test POST
+## Test POST Examples
 ```console
+# create a new account
 http -v --json POST localhost:3000/api/v1/accounts \
 username="testacc" \
 nickname="新竹強尼戴補" \
@@ -88,39 +92,54 @@ gpa="123" \
 ori_school="IDK" \
 ori_department="CS" \
 password="123456" \
-email="abc@gmail.com"
+email="abc@gmail.com" \
+show_all="1" \
+accept_mail="0"
 
+# login
 http -v --json POST localhost:3000/api/v1/auth/authenticate \
 username="testacc" \
 password="123456"
 
+# create a new lab
 http -v --json POST localhost:3000/api/v1/labs \
 lab_name="AbcLab" \
 school="NTHU" \
 department="EE" \
 professor="Mr. Abc"
 
-http -v --json POST localhost:3000/api/v1/labs/1/posts \
-poster_account="a3" \
+# create a new post
+http -v --json POST localhost:3000/api/v1/labs/[lab_uuid]/posts \
+'Authorization: Bearer {token}' \
 lab_score="5" \
 professor_attitude="Nice" \
 content="老師人很好，對我們都像兒子XD，動不動就請吃食物" \
-accept_mail="1" \
 vote_sum="0"
 
+# create a new vote for the post
 http -v --json POST localhost:3000/api/v1/posts/[post_uuid]/votes \
 'Authorization: Bearer {token}' \
 number="1"
 
-http -v --json GET localhost:3000/api/v1/posts/me 'Authorization: Bearer {token}'
+# create a new comment for the post
+http -v --json POST localhost:3000/api/v1/posts/[post_uuid]/comments \
+'Authorization: Bearer {token}' \
+content="這是留言 of 老師人很好，對我們都像兒子XD，動不動就請吃食物" \
+vote_sum="0"
 
-http -v --json GET localhost:3000/api/v1/accounts/a1/contact 'Authorization: Bearer {token}'
+# create a new vote for the comment
+http -v --json POST localhost:3000/api/v1/comments/[comment_id]/votes \
+'Authorization: Bearer {token}' \
+number="-1"
 
-http -v --json POST localhost:3000/api/v1/chats/a1 content="chat with testing" 'Authorization: Bearer {token}'
+# create a new chatroom with `account_uuid`
+http -v --json POST localhost:3000/api/v1/accounts/[account_uuid]/contact \
+'Authorization: Bearer {token}'
 
-http -v --json GET localhost:3000/api/v1/chats 'Authorization: Bearer {token}'
-
-http -v --json GET localhost:3000/api/v1/chats/a1 'Authorization: Bearer {token}'
+# create a new chat with `account_uuid`
+http -v --json POST localhost:3000/api/v1/chats/[account_uuid] \
+'Authorization: Bearer {token}' \
+content="chat with testing"
 ```
 
 ## Install

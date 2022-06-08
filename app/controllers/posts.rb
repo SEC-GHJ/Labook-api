@@ -10,7 +10,7 @@ module Labook
       @account_route = "#{@api_root}/posts"
       # GET /api/v1/posts/me
       routing.on 'me' do
-        raise('No auth_token is given') if @auth_account.nil?
+        raise('No auth_token is given or token is invalid.') if @auth_account.nil?
 
         posts = FindPostsForAccount.call(account_id: @auth_account['account_id'])
         JSON.pretty_generate(data: posts)
@@ -22,11 +22,26 @@ module Labook
       routing.on String do |post_id|
         # POST /api/v1/posts/[post_id]/votes
         routing.on 'votes' do
-          raise('No auth_token is given') if @auth_account.nil?
+          raise('No auth_token is given or token is invalid.') if @auth_account.nil?
 
           number = JSON.parse(routing.body.read)["number"].to_i
           vote = CreatePostVote.call(voter_username: @auth_account['username'], voted_post_id: post_id, number:)
           vote.to_json
+        rescue Sequel::MassAssignmentRestriction
+          Api.logger.warn "MASS-ASSIGNMENT: #{post_data.keys}"
+          routing.halt 400, { message: 'Illegal Attributes' }.to_json
+        rescue StandardError => e
+          Api.logger.error e.message
+          routing.halt 500, { message: e.message }.to_json
+        end
+
+        # POST /api/v1/posts/[post_id]/comments
+        routing.on 'comments' do
+          raise('No auth_token is given or token is invalid.') if @auth_account.nil?
+
+          comment_data = JSON.parse(routing.body.read)
+          comment = CreateComment.call(commenter_account: @auth_account['username'], commented_post_id: post_id, comment_data:)
+          comment.to_json
         rescue StandardError => e
           Api.logger.error e.message
           routing.halt 500, { message: e.message }.to_json

@@ -41,6 +41,9 @@ module Labook
             chatroom = FindOrCreateChatroom.call(sender_account: @auth_account['username'],
                                                  receiver_account: receiver.username)
             chatroom ? chatroom.to_json : raise('Server error')
+          rescue Sequel::MassAssignmentRestriction
+            Api.logger.warn "MASS-ASSIGNMENT: #{post_data.keys}"
+            routing.halt 400, { message: 'Illegal Attributes' }.to_json
           rescue StandardError => e
             Api.logger.error(e.message)
             routing.halt 404, { message: e.message }.to_json
@@ -49,7 +52,7 @@ module Labook
 
         # GET api/v1/accounts/[account_id]
         routing.get do
-          raise('No auth_token is given') if @auth_account.nil?
+          raise('No auth_token is given or token is invalid.') if @auth_account.nil?
 
           requestor = Account.first(account_id: @auth_account['account_id'])
           raise('auth_token\'s account is error') if requestor.nil?

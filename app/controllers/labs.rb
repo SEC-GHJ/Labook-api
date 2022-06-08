@@ -54,8 +54,10 @@ module Labook
 
           # POST api/v1/labs/[lab_id]/posts
           routing.post do
+            raise('No auth_token is given or token is invalid.') if @auth_account.nil?
+
             post_data = JSON.parse(routing.body.read)
-            new_post = CreatePost.call(@auth_account['username'], lab_id:, post_data:)
+            new_post = CreatePost.call(poster_account: @auth_account['username'], lab_id:, post_data:)
             raise('Could not save post') unless new_post
 
             response.status = 201
@@ -66,6 +68,7 @@ module Labook
             Api.logger.warn "MASS-ASSIGNMENT: #{post_data.keys}"
             routing.halt 400, { message: 'Illegal Attributes' }.to_json
           rescue StandardError => e
+            Api.logger.warn e.inspect
             routing.halt 500, { message: e.message }.to_json
           end
         end
