@@ -20,7 +20,7 @@ module Labook
     def mail_url = 'https://api.sendgrid.com/v3/mail/send'
 
     def call
-      raise(InvalidRegistration, 'Account exists') unless username_available?
+      raise(InvalidRegistration, 'Username exists') unless username_available?
       raise(InvalidRegistration, 'Email already used') unless email_available?
 
       send_email_verification
