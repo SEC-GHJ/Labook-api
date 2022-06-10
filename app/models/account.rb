@@ -54,7 +54,7 @@ module Labook
     plugin :uuid, field: :account_id
     plugin :whitelist_security
     set_allowed_columns :username, :gpa, :ori_school, :ori_department, :password, :email,
-                        :line_access_token, :account_id, :nickname, :show_all, :accept_mail
+                        :line_id, :account_id, :nickname, :show_all, :accept_mail
                         :line_notify_access_token
 
 
