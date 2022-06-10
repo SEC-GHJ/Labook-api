@@ -84,7 +84,7 @@ module Labook
           Api.logger.warn "MASS-ASSIGNMENT:: #{new_data.keys}"
           routing.halt 400, { message: 'Illegal Request' }.to_json
         rescue StandardError => e
-          Api.logger.error 'Unknown error saving account'
+          Api.logger.error "Unknown error saving account: #{e.message}"
           routing.halt 500, { message: e.message }.to_json
         end
       end

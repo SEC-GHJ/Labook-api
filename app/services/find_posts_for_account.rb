@@ -13,7 +13,8 @@ module Labook
       raise(AccountNotFoundError) if account.nil?
 
       # AccountsLab.where(poster_id: account.account_id).map(&:posts)
-      AccountsLab.find(poster_id: account_id).posts
+      account_lab = AccountsLab.find(poster_id: account_id)
+      account_lab.posts unless account_lab.nil?
     end
   end
 end
