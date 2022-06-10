@@ -44,10 +44,13 @@ module Labook
 
         response.status = 200
         { data: line_account }.to_json
+      rescue AuthorizeLineSso::UserNotFound => e
+        puts [e.class, e.message].join ': '
+        routing.halt '404', { message: e.message, user_info: e.user_info }.to_json
       rescue StandardError => error
         puts "FAILED to validate Line account: #{error.inspect}"
         puts error.backtrace
-        routing.halt 400 
+        routing.halt 500
       end
 
       # POST api/v1/auth/line_notify_sso

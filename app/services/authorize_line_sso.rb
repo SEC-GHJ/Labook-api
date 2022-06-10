@@ -4,15 +4,31 @@ require 'uri'
 require 'net/http'
 
 module Labook
-  # find or create an  Sso Account based on Line
-  class AuthorizeLineSso
+  # find an  Sso Account based on Line
+  class AuthorizeLineSso  
+    # if the account is not found
+    class UserNotFound < StandardError
+      attr_reader :user_info
+
+      def initialize(user)
+        super
+        @user_info = user
+      end
+
+      def message
+        "User does not exist in our Database"
+      end
+    end
+
     def initialize(code)
       @code = code
     end
 
     def call
       line_account = get_access_token_from_line
-      sso_account = find_or_create_line_sso_account(line_account)
+      sso_account = find_line_sso_account(line_account)
+
+      raise UserNotFound, line_account if sso_account.nil?
 
       account_and_token(sso_account)
     end
@@ -40,15 +56,14 @@ module Labook
 
       line_account = LineAccount.new(JSON.parse(response.body))
       {
-        username: line_account.sub,
         email: line_account.email,
-        line_access_token: line_account.access_token
+        nickname: line_account.name,
+        line_id: line_account.sub
       }
     end
 
-    def find_or_create_line_sso_account(account_data)
-      Account.first(email: account_data[:email]) ||
-        Account.create_line_account(account_data)
+    def find_line_sso_account(account_data)
+      Account.first(email: account_data[:email])
     end
 
     def account_and_token(account)

@@ -6,7 +6,7 @@
   ori_school: NTHU
   ori_department: CMT
   email: a1@gmail.com
-  line_access_token: a1_token
+  line_id: a1_id
   show_all: 1
   accept_mail: 1
 
@@ -17,7 +17,7 @@
   ori_school: NYCU
   ori_department: CS
   email: a2@gmail.com
-  line_access_token: a2_token
+  line_id: a2_id
   show_all: 1
   accept_mail: 0
 
