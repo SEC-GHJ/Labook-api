@@ -89,11 +89,11 @@ module Labook
       self.line_notify_access_token_secure = SecureDB.encrypt(plaintext)
     end
 
-    def self.create_line_account(line_account)
-      create(username: line_account[:username],
-             email: line_account[:email],
-             line_access_token: line_account[:line_access_token])
-    end
+    # def self.create_line_account(line_account)
+    #   create(username: line_account[:username],
+    #          email: line_account[:email],
+    #          line_access_token: line_account[:line_access_token])
+    # end
 
     def can_notify
       !line_notify_access_token.nil?

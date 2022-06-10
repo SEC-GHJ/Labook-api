@@ -14,7 +14,7 @@ Sequel.migration do
       String :ori_department, null: true, unique: false
       String :password_digest, null: true
       String :email, null: false, unique: true
-      String :line_access_token_secure, null: true
+      String :line_id, null: true
       String :line_notify_access_token_secure, null: true
       Integer :show_all, null: false
       Integer :accept_mail, null: false
