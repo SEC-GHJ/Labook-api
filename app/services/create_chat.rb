@@ -36,6 +36,7 @@ module Labook
                                              receiver_account:)
       raise ChatroomNotFound if connection.nil?
 
+      SendNotificationToReceiver.call(receiver:)
       connection.add_chat(content:)
     end
     # rubocop:enable Metrics/MethodLength

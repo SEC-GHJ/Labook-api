@@ -3,6 +3,7 @@
 require 'sequel'
 require 'json'
 require_relative './password'
+require_relative '../lib/secure_db'
 
 module Labook
   # Models a registered account
@@ -54,9 +55,8 @@ module Labook
     plugin :uuid, field: :account_id
     plugin :whitelist_security
     set_allowed_columns :username, :gpa, :ori_school, :ori_department, :password, :email,
-                        :line_id, :account_id, :nickname, :show_all, :accept_mail
+                        :line_id, :account_id, :nickname, :show_all, :accept_mail,
                         :line_notify_access_token
-
 
     plugin :timestamps, update_on_create: true
 
@@ -71,14 +71,6 @@ module Labook
     def password?(try_password)
       digest = Labook::Password.from_digest(password_digest)
       digest.correct?(try_password)
-    end
-
-    def line_access_token
-      SecureDB.decrypt(line_access_token_secure)
-    end
-
-    def line_access_token=(plaintext)
-      self.line_access_token_secure = SecureDB.encrypt(plaintext)
     end
 
     def line_notify_access_token
