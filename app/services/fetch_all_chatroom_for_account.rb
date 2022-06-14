@@ -6,7 +6,7 @@ module Labook
     def self.call(username:)
       owner = Account.first(username:)
       
-      owner.mailed_accounts.uniq
+      Chatrooms.new(owner)
     end
   end
 end
