@@ -86,8 +86,8 @@ module Labook
 
       # GET api/v1/labs
       routing.get do
-        all_labs = { data: Lab.all }
-        all_labs[:data] ? all_labs.to_json : raise('Could not find all labs')
+        all_labs = FetchLabs.call
+        all_labs ? all_labs.to_json : raise('Could not find all labs')
       rescue StandardError => e
         routing.halt 404, { message: e.message }.to_json
       end
