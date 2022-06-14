@@ -14,7 +14,7 @@ module Labook
       end
 
       # sort by newest message
-      @chatrooms.sort_by!{ |room| room[:include].created_at }.reverse!
+      @chatrooms.sort_by!{ |room| room[:include].created_at unless room[:include].nil? }.reverse!
     end
 
     def find_last_contact(other_account_id:)
