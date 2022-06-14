@@ -33,6 +33,11 @@ module Labook
 
       messageA = messageA.newest_chat_message
       messageB = messageB.newest_chat_message
+
+      # prevent from exit AccountsAccount but no chats
+      return messageA if messageB.nil?
+      return messageB if messageA.nil?
+
       # return the newest time (bigger)
       (messageA.created_at > messageB.created_at) ? messageA : messageB
     end
