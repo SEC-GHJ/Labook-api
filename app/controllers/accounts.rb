@@ -9,6 +9,24 @@ module Labook
     route('accounts') do |routing|
       @account_route = "#{@api_root}/accounts"
 
+      routing.on 'setting' do
+        routing.patch do
+          raise('No auth_token is given or token is invalid.') if @auth_account.nil?
+
+          account = Account.first(account_id: @auth_account['account_id'])
+          raise('auth_token\'s account is error') if account.nil?
+          setting_data = JSON.parse(routing.body.read)
+
+          new_setting = UpdateAccountSetting.call(account:, setting_data:)
+          new_setting ? new_setting.to_json : raise('Server error - can not update account setting')
+        rescue UpdateAccountSetting::NoUpdate => e
+          routing.halt 204
+        rescue StandardError => e
+          Api.logger.error(e.message)
+          routing.halt 404, { message: e.message }.to_json
+        end
+      end
+
       routing.on String do |account_id|
         # routing.on 'posts' do
         #   # GET api/v1/accounts/[account_id]/posts

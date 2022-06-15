@@ -10,6 +10,7 @@ module Labook
     plugin :halt
     plugin :multi_route
     plugin :request_headers
+    plugin :all_verbs
     include SecureRequestHelpers
 
     route do |routing|
