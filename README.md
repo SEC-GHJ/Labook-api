@@ -61,6 +61,7 @@ All routes return Json
 - ~~GET `api/v1/accounts/[account_id]/posts`: return all posts for an account~~
 - ~~GET `api/v1/accounts/[account_id]/votes`: return all votes for an account~~
 - GET `api/v1/accounts/[account_id]/contact`: get or create chatroom for an account from the account of given bearer `auth_token`
+- PATCH `api/v1/accounts/setting`: update account setting for accept_mail & show_all, return new account or 204 (no update)
 
 ### `api/v1/auth`
 - POST `api/v1/auth/authenticate`: return an auth token if login success
@@ -140,6 +141,13 @@ http -v --json POST localhost:3000/api/v1/accounts/[account_uuid]/contact \
 http -v --json POST localhost:3000/api/v1/chats/[account_uuid] \
 'Authorization: Bearer {token}' \
 content="chat with testing"
+
+# update account setting
+http -v --json POST localhost:3000/api/v1/accounts/setting \
+'Authorization: Bearer {token}' \
+accept_mail="1" \
+show_all="0"
+
 ```
 
 ## Install
