@@ -14,7 +14,7 @@ module Labook
       end
 
       # sort by newest message
-      @chatrooms.sort_by!{ |room| room[:include].created_at }.reverse!
+      @chatrooms.sort_by!{ |room| room[:include].created_at unless room[:include].nil? }.reverse!
     end
 
     def find_last_contact(other_account_id:)
@@ -33,6 +33,11 @@ module Labook
 
       messageA = messageA.newest_chat_message
       messageB = messageB.newest_chat_message
+
+      # prevent from exit AccountsAccount but no chats
+      return messageA if messageB.nil?
+      return messageB if messageA.nil?
+
       # return the newest time (bigger)
       (messageA.created_at > messageB.created_at) ? messageA : messageB
     end

@@ -47,6 +47,7 @@ module Labook
           chatrooms = FetchAllChatroomsForAccount.call(username: @auth_account['username'])
           chatrooms ? chatrooms.to_json : raise
         rescue StandardError => e
+          Api.logger.error(e.message)
           routing.halt 404, { message: e.message }.to_json
         end
       end
