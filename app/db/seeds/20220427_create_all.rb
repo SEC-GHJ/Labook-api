@@ -70,8 +70,8 @@ end
 
 def create_labs
   LABS_INFO.each do |lab_info|
-    school_name = lab_info.delete('school')
-    department_name = lab_info.delete('department')
+    school_name = lab_info.delete('school_name')
+    department_name = lab_info.delete('department_name')
     Labook::Department.first(school_name:, department_name:).add_lab(lab_info)
   end
 end
