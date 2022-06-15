@@ -14,7 +14,7 @@ module Labook
 
       # AccountsLab.where(poster_id: account.account_id).map(&:posts)
       account_lab = AccountsLab.find(poster_id: account_id)
-      account_lab.posts unless account_lab.nil?
+      account_lab&.posts
     end
   end
 end

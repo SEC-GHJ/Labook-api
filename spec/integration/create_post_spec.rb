@@ -10,6 +10,14 @@ describe 'Test User Create Post service' do
       Labook::Account.create(account_data)
     end
 
+    DATA[:schools].each do |school_data|
+      Labook::School.create(school_data)
+    end
+
+    DATA[:departments].each do |dep_data|
+      Labook::Department.create(dep_data)
+    end
+
     DATA[:labs].each do |lab_data|
       Labook::Lab.create(lab_data)
     end

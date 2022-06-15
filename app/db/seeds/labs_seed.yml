@@ -1,10 +1,10 @@
 ---
 - lab_name: 'SecretLab'
-  school: 'NTHU'
-  department: 'CS'
+  school_name: 'NTHU'
+  department_name: 'CS'
   professor: "Secret One"
 
 - lab_name: 'BadLab'
-  school: 'NTHU'
-  department: 'CS'
+  school_name: 'NTHU'
+  department_name: 'CS'
   professor: "Bad One"

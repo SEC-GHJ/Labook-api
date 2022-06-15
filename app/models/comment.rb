@@ -14,7 +14,7 @@ module Labook
                  class: :'Labook::Account',
                  join_table: :accounts_comments,
                  left_key: :voted_comment_id, right_key: :voter_id
-    
+
     plugin :uuid, field: :commented_post_id
     plugin :uuid, field: :commenter_id
     plugin :timestamps
@@ -39,7 +39,7 @@ module Labook
           commented_post_id:,
           content:,
           vote_sum:,
-          created_at:,
+          created_at:
         }
       }
     end

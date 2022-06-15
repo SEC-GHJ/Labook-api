@@ -9,10 +9,12 @@ module Labook
     def initialize(code, auth_account)
       @code = code
       @auth_account = auth_account
+      @uri = URI(Api.config.LINE_NOTIFY_OAUTH_TOKEN_URL)
+      @header = { 'Content-Type': 'application/x-www-form-urlencoded' }
     end
 
     def call
-      line_notify_info = get_access_token_from_line
+      line_notify_info = fetch_access_token_from_line
       updated_account = account_add_line_notify(line_notify_info)
 
       account_and_token(updated_account)
@@ -20,23 +22,19 @@ module Labook
 
     def request_data
       data = {
-        'grant_type': 'authorization_code',
-        'code': @code,
-        'redirect_uri': Api.config.LINE_NOTIFY_REDIRECT_URI,
-        'client_id': Api.config.LINE_NOTIFY_CLIENT_ID,
-        'client_secret': Api.config.LINE_NOTIFY_CLIENT_SECRET
+        grant_type: 'authorization_code',
+        code: @code,
+        redirect_uri: Api.config.LINE_NOTIFY_REDIRECT_URI,
+        client_id: Api.config.LINE_NOTIFY_CLIENT_ID,
+        client_secret: Api.config.LINE_NOTIFY_CLIENT_SECRET
       }
-      data = URI.encode_www_form(data)
+      URI.encode_www_form(data)
     end
 
-    def get_access_token_from_line
-      uri = URI(Api.config.LINE_NOTIFY_OAUTH_TOKEN_URL)
-      header = { 'Content-Type': 'application/x-www-form-urlencoded' }
-      
-      https = Net::HTTP.new(uri.host, uri.port)
+    def fetch_access_token_from_line
+      https = Net::HTTP.new(@uri.host, @uri.port)
       https.use_ssl = true
-
-      response = https.post(uri, request_data, header)
+      response = https.post(@uri, request_data, @header)
       raise unless response.is_a?(Net::HTTPSuccess)
 
       body = JSON.parse(response.body)
@@ -55,7 +53,7 @@ module Labook
       {
         type: 'authenticated_account',
         attributes: {
-          account: 
+          account:
         }
       }
     end

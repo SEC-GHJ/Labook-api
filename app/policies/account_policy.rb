@@ -13,7 +13,7 @@ module Labook
     end
 
     def can_edit?
-      (self_request?) && !@requestor.nil?
+      self_request? && !@requestor.nil?
     end
 
     def can_delete?

@@ -20,14 +20,24 @@ module Labook
     plugin :timestamps
     plugin :whitelist_security
     plugin :uuid, field: :lab_id
-    set_allowed_columns :lab_name, :school_name, :department_name, :professor
+    set_allowed_columns :lab_name, :school_name,
+                        :department_name, :professor,
+                        :school, :department
 
     def department
       department_name
     end
 
+    def department=(new_department)
+      self.department_name = new_department
+    end
+
     def school
       school_name
+    end
+
+    def school=(new_school)
+      self.school_name = new_school
     end
 
     # rubocop:disable Metrics/MethodLength

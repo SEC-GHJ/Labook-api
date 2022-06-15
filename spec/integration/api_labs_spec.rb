@@ -7,6 +7,14 @@ describe 'Test Lab Handling' do
   before do
     @req_header = { 'CONTENT_TYPE' => 'application/json' }
     wipe_database
+
+    DATA[:schools].each do |school_data|
+      Labook::School.create(school_data)
+    end
+
+    DATA[:departments].each do |dep_data|
+      Labook::Department.create(dep_data)
+    end
   end
   describe 'Getting Posts' do
     it 'Happy: should be able to get list of all labs' do
@@ -17,7 +25,7 @@ describe 'Test Lab Handling' do
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
-      _(result['data'].count).must_equal 2
+      _(result.count).must_equal 2
     end
 
     it 'HAPPY: should be able to get details of a single lab' do
@@ -31,8 +39,8 @@ describe 'Test Lab Handling' do
       attributes = JSON.parse(last_response.body)['attributes']
       _(attributes['lab_id']).must_equal lab_id
       _(attributes['lab_name']).must_equal existing_lab['lab_name']
-      _(attributes['school']).must_equal existing_lab['school']
-      _(attributes['department']).must_equal existing_lab['department']
+      _(attributes['school']).must_equal existing_lab['school_name']
+      _(attributes['department']).must_equal existing_lab['department_name']
       _(attributes['professor']).must_equal existing_lab['professor']
     end
 
@@ -43,7 +51,8 @@ describe 'Test Lab Handling' do
     end
 
     it 'SECURITY: should prevent basic SQL injection targeting IDs' do
-      Labook::Lab.create(lab_name: 'New Lab', school: 'New', department: 'New', professor: 'New')
+      Labook::School.create(school_name: 'Newer')
+      Labook::Department.create(school_name: 'Newer', department_name: 'Newer')
       Labook::Lab.create(lab_name: 'Newer Lab', school: 'Newer', department: 'Newer', professor: 'Newer')
       get 'api/v1/labs/2%20or%20id%3E0'
 
@@ -68,8 +77,8 @@ describe 'Test Lab Handling' do
 
       _(created['lab_id']).must_equal lab.lab_id
       _(created['lab_name']).must_equal @lab_data['lab_name']
-      _(created['school']).must_equal @lab_data['school']
-      _(created['department']).must_equal @lab_data['department']
+      _(created['school']).must_equal @lab_data['school_name']
+      _(created['department']).must_equal @lab_data['department_name']
       _(created['professor']).must_equal @lab_data['professor']
     end
 

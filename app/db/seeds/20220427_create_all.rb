@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Sequel.seed(:development) do
+  # rubocop:disable Metrics/MethodLength
   def run
     puts 'Seeding accounts, schools, departments, labs'
     create_accounts
@@ -17,8 +18,9 @@ Sequel.seed(:development) do
     create_comments(posts)
     create_comment_votes
     puts 'Seeding NTHUs'
-    create_NTHU
+    create_nthu
   end
+  # rubocop:enable Metrics/MethodLength
 end
 
 require 'yaml'
@@ -36,11 +38,11 @@ COMMENTS_INFO = YAML.load_file("#{DIR}/comments_seed.yml")
 COMMENTVOTES_INFO = YAML.load_file("#{DIR}/comment_votes_seed.yml")
 POSTS = nil
 
-def create_NTHU
+def create_nthu
   NTHU_INFO.each do |nthu_info|
-    Labook::School.first(school_name: "NTHU").add_department(department_name: nthu_info['department'])
-    
-    department = Labook::Department.first(school_name: "NTHU", department_name: nthu_info['department'])
+    Labook::School.first(school_name: 'NTHU').add_department(department_name: nthu_info['department'])
+
+    department = Labook::Department.first(school_name: 'NTHU', department_name: nthu_info['department'])
     nthu_info['profs'].each do |profs|
       department.add_lab(professor: profs)
     end
@@ -89,8 +91,8 @@ def create_posts
     ).post_id
   end
 end
-
 # rubocop:enable Metrics/MethodLength
+
 def create_chatrooms
   CHATS_INFO.each do |chat_data|
     Labook::FindOrCreateChatroom.call(
@@ -100,7 +102,6 @@ def create_chatrooms
   end
 end
 
-# rubocop:enable Metrics/MethodLength
 def create_chats
   CHATS_INFO.each do |chat_data|
     Labook::CreateChat.call(

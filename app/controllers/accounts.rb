@@ -15,11 +15,12 @@ module Labook
 
           account = Account.first(account_id: @auth_account['account_id'])
           raise('auth_token\'s account is error') if account.nil?
+
           setting_data = JSON.parse(routing.body.read)
 
           new_setting = UpdateAccountSetting.call(account:, setting_data:)
           new_setting ? new_setting.to_json : raise('Server error - can not update account setting')
-        rescue UpdateAccountSetting::NoUpdate => e
+        rescue UpdateAccountSetting::NoUpdate
           routing.halt 204
         rescue StandardError => e
           Api.logger.error(e.message)
@@ -54,8 +55,8 @@ module Labook
         routing.on 'contact' do
           routing.post do
             receiver = Account.find(account_id:)
-            raise("receiver account not found") if receiver.nil?
-            
+            raise('receiver account not found') if receiver.nil?
+
             chatroom = FindOrCreateChatroom.call(sender_account: @auth_account['username'],
                                                  receiver_account: receiver.username)
             chatroom ? chatroom.to_json : raise('Server error')
@@ -94,7 +95,7 @@ module Labook
           new_data = JSON.parse(routing.body.read)
           new_account = Account.new(new_data)
           raise('Could not save account') unless new_account.save
-  
+
           response.status = 201
           response['Location'] = "#{@account_route}/#{new_account.account_id}"
           { message: 'Account created', data: new_account }.to_json

@@ -9,29 +9,26 @@ module Labook
     # if the line notify have something worng
     class LineNotifyError < StandardError
       def message
-        "There is something wrong about the line notify."
+        'There is something wrong about the line notify.'
       end
     end
 
     def self.call(receiver:)
       return if receiver.line_notify_access_token.nil?
-      access_token = receiver.line_notify_access_token
 
       uri = URI('https://notify-api.line.me/api/notify')
-      header = { 'Authorization' => "Bearer #{access_token}",
+      header = { 'Authorization' => "Bearer #{receiver.line_notify_access_token}",
                  'Content-Type' => 'application/x-www-form-urlencoded' }
       data = {
-        'message': "\n有人在 Labook 上傳訊息給你! 要記得查看唷～\n\nSomeone sent you a message!! Please come back and see it."
+        message: "\n有人在 Labook 上傳訊息給你! 要記得查看唷～\n\nSomeone sent you a message!! Please come back and see it."
       }
       data = URI.encode_www_form(data)
       https = Net::HTTP.new(uri.host, uri.port)
       https.use_ssl = true # secure sockets layer, protect sensitive data from modification
 
       response = https.post(uri, data, header)
-      if response.is_a?(Net::HTTPSuccess)
-        body = JSON.parse response.body
-        return body
-      end
+
+      JSON.parse(response.body) if response.is_a?(Net::HTTPSuccess)
     end
   end
 end

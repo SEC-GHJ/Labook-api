@@ -47,9 +47,9 @@ module Labook
       rescue AuthorizeLineSso::UserNotFound => e
         puts [e.class, e.message].join ': '
         routing.halt '404', { message: e.message, user_info: e.user_info }.to_json
-      rescue StandardError => error
-        puts "FAILED to validate Line account: #{error.inspect}"
-        puts error.backtrace
+      rescue StandardError => e
+        puts "FAILED to validate Line account: #{e.inspect}"
+        puts e.backtrace
         routing.halt 500
       end
 
@@ -60,10 +60,10 @@ module Labook
 
         response.status = 200
         { data: account }.to_json
-      rescue StandardError => error
-        puts "FAILED to validate Line account: #{error.inspect}"
-        puts error.backtrace
-        routing.halt 400 
+      rescue StandardError => e
+        puts "FAILED to validate Line account: #{e.inspect}"
+        puts e.backtrace
+        routing.halt 400
       end
     end
   end

@@ -5,7 +5,7 @@ module Labook
   class FetchAllChatroomsForAccount
     def self.call(username:)
       owner = Account.first(username:)
-      
+
       Chatrooms.new(owner)
     end
   end

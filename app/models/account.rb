@@ -50,7 +50,6 @@ module Labook
            voted_posts: :nullify,
            commented_posts: :nullify,
            voted_comments: :nullify
-    
 
     plugin :uuid, field: :account_id
     plugin :whitelist_security
@@ -91,6 +90,7 @@ module Labook
       !line_notify_access_token.nil?
     end
 
+    # rubocop:disable Metrics/MethodLength
     def to_h
       {
         type: 'account',
@@ -109,7 +109,7 @@ module Labook
       }
     end
     # rubocop:enable Metrics/MethodLength
-    
+
     def to_json(options = {})
       JSON(to_h, options)
     end

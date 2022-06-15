@@ -12,9 +12,9 @@ module Labook
       routing.on String do |account_id|
         # POST /api/v1/chats/[account_id]
         routing.post do
-          content = JSON.parse(routing.body.read)["content"]
+          content = JSON.parse(routing.body.read)['content']
           receiver = Account.find(account_id:)
-          raise("receiver not found") if receiver.nil?
+          raise('receiver not found') if receiver.nil?
 
           chat = CreateChat.call(sender_account: @auth_account['username'],
                                  receiver_account: receiver.username,
@@ -29,11 +29,11 @@ module Labook
 
         # GET /api/v1/chats/[account_id]
         routing.get do
-          accountB_info = Account.first(account_id:)
-          raise("accountB_info not found") if accountB_info.nil?
+          account_b_info = Account.first(account_id:)
+          raise('account_b_info not found') if account_b_info.nil?
 
-          chats = FetchMessagesForChatroom.call(accountA_info: @auth_account['username'],
-                                                accountB_info: accountB_info.username)
+          chats = FetchMessagesForChatroom.call(account_a_info: @auth_account['username'],
+                                                account_b_info: account_b_info.username)
           chats ? chats.to_json : raise
         rescue StandardError => e
           Api.logger.error(e.message)

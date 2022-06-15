@@ -21,11 +21,10 @@ module Labook
     def self.check_account_valid(username:)
       account_valid = Account.find(username:)
       raise UserNotFound if account_valid.nil?
-      
+
       account_valid
     end
 
-    # rubocop:disable Metrics/MethodLength
     def self.call(sender_account:, receiver_account:, content:)
       sender = check_account_valid(username: sender_account)
       receiver = check_account_valid(username: receiver_account)
@@ -39,6 +38,5 @@ module Labook
       SendNotificationToReceiver.call(receiver:)
       connection.add_chat(content:)
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end

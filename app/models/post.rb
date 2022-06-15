@@ -49,7 +49,7 @@ module Labook
           professor_attitude:,
           content:,
           vote_sum:,
-          created_at:,
+          created_at:
         },
         include: {
           lab_info:,

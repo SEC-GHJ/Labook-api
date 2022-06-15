@@ -11,19 +11,24 @@ describe 'Test Account Handling' do
   end
 
   describe 'Account information' do
-    it 'HAPPY: should be able to get details of a single account' do
-      account_data = DATA[:accounts][1]
-      account = Labook::Account.create(account_data)
+    it 'HAPPY: should be able to get details of an open account' do
+      # user 1 open accept_mail & show_all
+      user1_data = DATA[:accounts][0]
+      first_account = Labook::Account.create(user1_data)
 
-      get "/api/v1/accounts/#{account.username}"
+      user2_data = DATA[:accounts][1]
+      Labook::Account.create(user2_data)
+
+      header 'AUTHORIZATION', auth_header(user2_data)
+      get "/api/v1/accounts/#{first_account.account_id}"
       _(last_response.status).must_equal 200
 
       attributes = JSON.parse(last_response.body)['attributes']
-      _(attributes['username']).must_equal account.username
-      _(attributes['nickname']).must_equal account.nickname
-      _(attributes['gpa']).must_equal account.gpa
-      _(attributes['ori_school']).must_equal account.ori_school
-      _(attributes['ori_department']).must_equal account.ori_department
+      _(attributes['username']).must_equal first_account.username
+      _(attributes['nickname']).must_equal first_account.nickname
+      _(attributes['gpa']).must_equal first_account.gpa
+      _(attributes['ori_school']).must_equal first_account.ori_school
+      _(attributes['ori_department']).must_equal first_account.ori_department
       _(attributes['salt']).must_be_nil
       _(attributes['password']).must_be_nil
       _(attributes['password_hash']).must_be_nil

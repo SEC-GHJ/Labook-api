@@ -29,7 +29,7 @@ module Labook
             receiver_id:
           },
           include: {
-            newest_chat_message:,
+            newest_chat_message:
           }
         }, options
       )

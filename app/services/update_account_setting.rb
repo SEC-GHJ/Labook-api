@@ -6,11 +6,11 @@ module Labook
     # No need to update account
     class NoUpdate < StandardError
       def message
-        "Account setting remains the same."
+        'Account setting remains the same.'
       end
     end
 
-    def self.call(account:, setting_data:)      
+    def self.call(account:, setting_data:)
       new_account = account.update(setting_data)
       raise NoUpdate if new_account.nil?
 

@@ -14,7 +14,7 @@ module Labook
         routing.on 'votes' do
           raise('No auth_token is given or token is invalid.') if @auth_account.nil?
 
-          number = JSON.parse(routing.body.read)["number"].to_i
+          number = JSON.parse(routing.body.read)['number'].to_i
           vote = CreateCommentVote.call(voter_account: @auth_account['username'], voted_comment_id: comment_id, number:)
           vote.to_json
         rescue Sequel::MassAssignmentRestriction

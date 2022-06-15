@@ -11,12 +11,9 @@ module Labook
 
     plugin :association_dependencies,
            labs: :destroy
-
-
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :department_name, :school_name
-
 
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})

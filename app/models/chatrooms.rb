@@ -14,32 +14,31 @@ module Labook
       end
 
       # sort by newest message
-      @chatrooms.sort_by!{ |room| room[:include].created_at unless room[:include].nil? }.reverse!
+      @chatrooms.sort_by! { |room| room[:include]&.created_at }.reverse!
     end
 
     def find_last_contact(other_account_id:)
-      messageA = AccountsAccount.first(
-                  sender_id: @owner.account_id,
-                  receiver_id: other_account_id
-                 )
-      messageB = AccountsAccount.first(
-                  sender_id: other_account_id,
-                  receiver_id: @owner.account_id
-                 )
-      
-      return nil if messageA.nil? && messageB.nil?
-      return messageA.newest_chat_message if messageB.nil?
-      return messageB.newest_chat_message if messageA.nil?
+      chatroom_a = AccountsAccount.first(
+        sender_id: @owner.account_id,
+        receiver_id: other_account_id
+      )
+      chatroom_b = AccountsAccount.first(
+        sender_id: other_account_id,
+        receiver_id: @owner.account_id
+      )
 
-      messageA = messageA.newest_chat_message
-      messageB = messageB.newest_chat_message
+      return nil if chatroom_a.nil? && chatroom_b.nil?
+      return chatroom_a.newest_chat_message if chatroom_b.nil?
+      return chatroom_b.newest_chat_message if chatroom_a.nil?
+
+      message_a = chatroom_a.newest_chat_message
+      message_b = chatroom_b.newest_chat_message
 
       # prevent from exit AccountsAccount but no chats
-      return messageA if messageB.nil?
-      return messageB if messageA.nil?
+      return message_a || message_b if message_b.nil? || message_a.nil?
 
       # return the newest time (bigger)
-      (messageA.created_at > messageB.created_at) ? messageA : messageB
+      [message_a, message_b].max_by(&:created_at)
     end
 
     def to_h

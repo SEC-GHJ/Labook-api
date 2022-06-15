@@ -14,7 +14,7 @@ module Labook
 
         posts = FindPostsForAccount.call(account_id: @auth_account['account_id'])
         JSON.pretty_generate(data: posts)
-       rescue StandardError => e
+      rescue StandardError => e
         Api.logger.error(e.message)
         routing.halt 403, { message: e.message }.to_json
       end
@@ -24,7 +24,7 @@ module Labook
         routing.on 'votes' do
           raise('No auth_token is given or token is invalid.') if @auth_account.nil?
 
-          number = JSON.parse(routing.body.read)["number"].to_i
+          number = JSON.parse(routing.body.read)['number'].to_i
           vote = CreatePostVote.call(voter_username: @auth_account['username'], voted_post_id: post_id, number:)
           vote.to_json
         rescue Sequel::MassAssignmentRestriction
@@ -40,7 +40,9 @@ module Labook
           raise('No auth_token is given or token is invalid.') if @auth_account.nil?
 
           comment_data = JSON.parse(routing.body.read)
-          comment = CreateComment.call(commenter_account: @auth_account['username'], commented_post_id: post_id, comment_data:)
+          comment = CreateComment.call(commenter_account: @auth_account['username'],
+                                       commented_post_id: post_id,
+                                       comment_data:)
           comment.to_json
         rescue StandardError => e
           Api.logger.error e.message

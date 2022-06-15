@@ -9,8 +9,7 @@ module Labook
     one_to_many :departments, class: :'Labook::Department', key: :school_name
 
     plugin :association_dependencies,
-            departments: :destroy
-
+           departments: :destroy
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :school_name
