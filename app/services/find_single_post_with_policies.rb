@@ -9,13 +9,6 @@ module Labook
 
       requestor = auth_account.nil? ? nil : Account.first(account_id: auth_account['account_id'])
 
-      puts post.clone.to_h
-      post.clone.to_h[:include][:comments].each do |c|
-        c.each do |sub_c|
-          puts "c: #{sub_c.to_h}~"
-        end
-      end
-
       comments = post.clone.to_h[:include][:comments].map do |comment|
         commment_arr = comment.map do |sub_comment|
           # add policy in comments

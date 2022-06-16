@@ -12,7 +12,8 @@ module Labook
       lab = Lab.first(lab_id:)
       raise(LabNotFoundError) if lab.nil?
 
-      AccountsLab.where(lab_id:).all.map(&:posts)
+
+      AccountsLab.where(lab_id:).all.map(&:posts).flatten
     end
   end
 end
