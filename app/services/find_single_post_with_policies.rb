@@ -9,18 +9,27 @@ module Labook
 
       requestor = auth_account.nil? ? nil : Account.first(account_id: auth_account['account_id'])
 
-      comments = post.clone.to_h[:include][:comments].map do |comment|
-        # add policy in comments
-        account = Account.first(account_id: comment[0].to_h[:attributes][:commenter_id])
-        policy = AccountPolicy.new(requestor, account)
-
-        # add voted in comments
-        vote = requestor.nil? ? nil : CommentVote.first(voter_id: requestor.account_id,
-                                                        voted_comment_id: comment[0].to_h[:attributes][:comment_id])
-        voted_number = vote.nil? ? 0 : vote.number
-
-        [comment[0].to_h.merge(policies: policy.summary).merge(voted_number:)]
+      puts post.clone.to_h
+      post.clone.to_h[:include][:comments].each do |c|
+        c.each do |sub_c|
+          puts "c: #{sub_c.to_h}~"
+        end
       end
+
+      comments = post.clone.to_h[:include][:comments].map do |comment|
+        commment_arr = comment.map do |sub_comment|
+          # add policy in comments
+          account = Account.first(account_id: sub_comment.to_h[:attributes][:commenter_id])
+          policy = AccountPolicy.new(requestor, account)
+
+          # add voted in comments
+          vote = requestor.nil? ? nil : CommentVote.first(voter_id: requestor.account_id,
+                                                          voted_comment_id: sub_comment.to_h[:attributes][:comment_id])
+          voted_number = vote.nil? ? 0 : vote.number
+
+          [sub_comment.to_h.merge(policies: policy.summary).merge(voted_number:)]
+        end
+      end.flatten
 
       # add policy in post
       account = Account.first(account_id: post.poster_id)
