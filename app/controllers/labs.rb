@@ -63,7 +63,6 @@ module Labook
             response.status = 201
             response['Location'] = "#{@post_route}/#{new_post.post_id}"
             { message: 'Post saved', data: new_post }.to_json
-
           rescue Sequel::MassAssignmentRestriction
             Api.logger.warn "MASS-ASSIGNMENT: #{post_data.keys}"
             routing.halt 400, { message: 'Illegal Attributes' }.to_json
@@ -95,15 +94,13 @@ module Labook
       # POST api/v1/labs
       routing.post do
         new_data = SignedRequest.new(Api.config).parse(request.body.read)
-        new_lab = Lab.new(new_data)
-        raise('Could not save lab') unless new_lab.save
+        new_lab = FindOrCreateLab.call(lab_data)
 
         response.status = 201
         response['Location'] = "#{@lab_route}/#{new_lab.lab_id}"
-        { message: 'Lab saved', data: new_lab }.to_json
-
+        { message: 'Lab found or saved', data: new_lab }.to_json
       rescue Sequel::MassAssignmentRestriction
-        Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
+        Api.logger.warn "MASS-ASSIGNMENT: #{lab_data.keys}"
         routing.halt 400, { message: 'Illegal Attributes' }.to_json
       rescue StandardError => e
         Api.logger.error "ERROR: #{e.message}"
