@@ -102,11 +102,11 @@ http -v --json POST localhost:3000/api/v1/auth/authenticate \
 username="testacc" \
 password="123456"
 
-# create a new lab
+# find or create a new lab
 http -v --json POST localhost:3000/api/v1/labs \
 lab_name="AbcLab" \
-school="NTHU" \
-department="EE" \
+school_name="NTHU" \
+department_name="CS" \
 professor="Mr. Abc"
 
 # create a new post
