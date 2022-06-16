@@ -40,8 +40,6 @@ class SignedRequest
   def verify(message, signature64)
     signature = Base64.strict_decode64(signature64)
     verifier = RbNaCl::VerifyKey.new(@verify_key)
-    puts "signature: #{signature}"
-    puts "message: #{message.to_json}"
     verifier.verify(signature, message.to_json)
   rescue StandardError
     raise VerificationError
