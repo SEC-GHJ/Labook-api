@@ -95,6 +95,7 @@ module Labook
           new_data = SignedRequest.new(Api.config).parse(routing.body.read)
           new_data[:ori_department] = Base64.strict_decode64(new_data[:ori_department])
           new_data[:ori_school] = Base64.strict_decode64(new_data[:ori_school])
+          new_data[:nickname] = Base64.strict_decode64(new_data[:nickname])
           new_account = Account.new(new_data)
           raise('Could not save account') unless new_account.save
 
