@@ -5,7 +5,7 @@ require 'sequel'
 Sequel.migration do
   change do
     create_table(:departments) do
-      foreign_key :school_name, :schools, type: :String
+      foreign_key :school_name, :schools, type: :string
 
       String :department_name, null: false
 
