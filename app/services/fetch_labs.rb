@@ -9,7 +9,7 @@ module Labook
       all_department.each do |department|
         department_lab = Lab.where(department_name: department.department_name).all
         # extend the list
-        all_labs += department_lab
+        all_labs.push(department_lab)
       end
       all_labs
     end
