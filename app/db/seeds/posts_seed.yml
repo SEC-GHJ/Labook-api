@@ -33,3 +33,52 @@
   professor_attitude: 'Nice'
   content: "啊哈我再發一篇文"
   vote_sum: 0
+
+- lab_name: BadLab
+  poster_account: a2
+  lab_score: 1
+  professor_attitude: 'Hard'
+  content: "The salary is good, but there are a lot of work to do, such as being TA and managing the school project"
+  vote_sum: 0
+
+- lab_name: SecretLab
+  poster_account: a1
+  lab_score: 2
+  professor_attitude: 'Strict'
+  content: "The professor is really strict, but the student in the lab is nice. Overall graduate year is about 3 year, so if you wanna graduate on time, please don't enter this lab."
+  vote_sum: 0
+
+- lab_name: BadLab
+  poster_account: a2
+  lab_score: 1
+  professor_attitude: 'Funny'
+  content: "If you wanna talk to the professor for advisor, please remember to prepare the gift and your research topic. She likes handsome boy, so you should dree up!!"
+  vote_sum: 0
+
+- lab_name: BadLab
+  poster_account: a1
+  lab_score: 2
+  professor_attitude: 'Bad'
+  content: "Her class is helpful, but I don't like her advisor type. She doesn't always pay attention for regular meeting"
+  vote_sum: 0
+
+- lab_name: SecretLab
+  poster_account: a1
+  lab_score: 3
+  professor_attitude: 'Generous'
+  content: "The salary for lab is super well, and the relationship between professor and students are pretty good."
+  vote_sum: 0
+
+- lab_name: SecretLab
+  poster_account: a1
+  lab_score: 5
+  professor_attitude: 'Nice'
+  content: "The professor focuses on data science about banking, so if you are insteresting in the topic, it will helps a lot."
+  vote_sum: 0
+
+- lab_name: BadLab
+  poster_account: a2
+  lab_score: 1
+  professor_attitude: 'Bad'
+  content: "Such an ugly professor that I have ever met:("
+  vote_sum: 0
