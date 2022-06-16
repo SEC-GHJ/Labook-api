@@ -45,8 +45,8 @@ primary key : chat_id
 All routes return Json
 - GET `/` : Root route shows if Web API is running
 
-### `api/v1/posts` (warning: anyone can know the poster_id & commenter_id)
-- GET `api/v1/posts`: return all posts
+### `api/v1/posts`
+- GET `api/v1/posts`: return all posts (no poster_id, comments)
 - GET `api/v1/posts/[post_id]`: returns details about a single post, including policies and votes of given bearer `auth_token`
 - POST `api/v1/posts/[post_id]/votes`: create or update a vote for a post for the account of given bearer `auth_token`
 - POST `api/v1/posts/[post_id]/comments`: create a comment for a post for the account of given bearer `auth_token` 
@@ -56,14 +56,14 @@ All routes return Json
 - POST `api/v1/comments/[comment_id]/votes`: create or update a vote for a comment for the account of given bearer `auth_token`
 
 ### `api/v1/accounts`
-- POST `api/v1/accounts`: create an account **(warning: anyone who know the api addr can create account)**
+- POST `api/v1/accounts`: create an account **signing**
 - GET `api/v1/accounts/[account_id]`: return policies from the account of given bearer `auth_token` to the account of `account_id`
 - ~~GET `api/v1/accounts/[account_id]/posts`: return all posts for an account~~
 - ~~GET `api/v1/accounts/[account_id]/votes`: return all votes for an account~~
 - GET `api/v1/accounts/[account_id]/contact`: get or create chatroom for an account from the account of given bearer `auth_token`
 - PATCH `api/v1/accounts/setting`: update account setting for accept_mail & show_all, return new account or 204 (no update)
 
-### `api/v1/auth`
+### `api/v1/auth` **signing**
 - POST `api/v1/auth/authenticate`: return an auth token if login success
 - POST `api/v1/auth/register`: return an result if register success
 - POST `api/v1/auth/line_sso`: 
@@ -71,9 +71,9 @@ All routes return Json
 
 ### `api/v1/labs`
 - GET `api/v1/labs` : Get list of all labs
-- POST `api/v1/labs` : create a new lab **(warning: anyone who know the api addr can create lab)**
+- POST `api/v1/labs` : create a new lab **signing** **(No one using it now)**
 - GET `api/v1/labs/[lab_id]` : Get information about a labs
-- GET `api/v1/labs/[lab_id]/posts` : returns all posts for a lab **(warning: everyone can know the poster_id & commenter_id)**
+- GET `api/v1/labs/[lab_id]/posts` : returns all posts for a lab (no poster_id, comments)
 - POST `api/v1/labs/[lab_id]/posts`:  create a post for a lab for the account of given bearer `auth_token`
 - ~~GET `api/v1/labs/[lab_id]/posts/[post_id]`: returns details about a single post with given ID~~
 - ~~POST `api/v1/labs/[lab_id]/posts/[post_id]/votes`: create or update a vote about a single post with given ID~~

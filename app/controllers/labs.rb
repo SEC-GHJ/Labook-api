@@ -47,7 +47,7 @@ module Labook
           # GET api/v1/labs/[lab_id]/posts
           routing.get do
             lab_posts = { data: FindPostsForLab.call(lab_id:) }
-            lab_posts[:data] ? lab_posts.to_json : raise('Could not find all posts of the lab')
+            lab_posts[:data] ? lab_posts.to_json(without_poster_comments: true) : raise('Could not find all posts of the lab')
           rescue StandardError => e
             routing.halt 404, { message: e.message }.to_json
           end
@@ -94,7 +94,7 @@ module Labook
 
       # POST api/v1/labs
       routing.post do
-        new_data = JSON.parse(routing.body.read)
+        new_data = SignedRequest.new(Api.config).parse(request.body.read)
         new_lab = Lab.new(new_data)
         raise('Could not save lab') unless new_lab.save
 

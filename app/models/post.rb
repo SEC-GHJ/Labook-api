@@ -57,10 +57,31 @@ module Labook
         }
       }
     end
+
+    def to_json_without_poster_comments(options = {})
+      JSON(
+        {
+          type: 'post',
+          attributes: {
+            post_id:,
+            lab_id:,
+            lab_score:,
+            professor_attitude:,
+            content:,
+            vote_sum:,
+            created_at:
+          },
+          include: {
+            lab_info:
+          }
+        },
+        options
+      )
+    end
     # rubocop:enable Metrics/MethodLength
 
-    def to_json(options = {})
-      JSON(to_h, options)
-    end
+    def to_json(without_poster_comments=false, options = {})
+      without_poster_comments ? to_json_without_poster_comments : JSON(to_h, options) 
+    end    
   end
 end

@@ -7,14 +7,20 @@ module Labook
   # Web controller for Labook API
   class Api < Roda
     route('auth') do |routing|
+      # All requests in this route require signed requests
+      begin
+        @request_data = SignedRequest.new(Api.config).parse(request.body.read)
+      rescue SignedRequest::VerificationError
+        routing.halt '403', { message: 'Must sign request' }.to_json
+      end
+
       routing.is 'authenticate' do
         # POST /api/v1/auth/authenticate
         routing.post do
-          credentials = JsonRequestBody.parse_symbolize(request.body.read)
-          auth_account = AuthenticateAccount.call(credentials)
+          auth_account = AuthenticateAccount.call(@request_data)
           auth_account.to_json
         rescue AuthenticateAccount::UnauthorizedError => e
-          puts [e.class, e.message].join ': '
+          Api.logger.error [e.class, e.message].join ': '
           routing.halt '403', { message: 'Invalid credentials' }.to_json
         end
       end
@@ -22,8 +28,7 @@ module Labook
       routing.is 'register' do
         # POST /api/v1/auth/register
         routing.post do
-          reg_data = JsonRequestBody.parse_symbolize(request.body.read)
-          VerifyRegistration.new(reg_data).call
+          VerifyRegistration.new(@request_data).call
 
           response.status = 202
           { message: 'Verification email sent' }.to_json
@@ -39,8 +44,7 @@ module Labook
 
       # POST api/v1/auth/line_sso
       routing.is 'line_sso' do
-        line_code = JsonRequestBody.parse_symbolize(routing.body.read)[:code]
-        line_account = AuthorizeLineSso.new(line_code).call
+        line_account = AuthorizeLineSso.new(@request_data[:code]).call
 
         response.status = 200
         { data: line_account }.to_json
@@ -55,8 +59,7 @@ module Labook
 
       # POST api/v1/auth/line_notify_sso
       routing.is 'line_notify_sso' do
-        line_notify_code = JsonRequestBody.parse_symbolize(routing.body.read)[:code]
-        account = AuthorizeLineNotifySso.new(line_notify_code, @auth_account).call
+        account = AuthorizeLineNotifySso.new(@request_data[:code], @auth_account).call
 
         response.status = 200
         { data: account }.to_json

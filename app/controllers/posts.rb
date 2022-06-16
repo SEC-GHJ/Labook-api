@@ -60,7 +60,7 @@ module Labook
       # GET /api/v1/posts
       routing.get do
         all_posts = { data: Post.all }
-        all_posts[:data] ? all_posts.to_json : raise('Could not find all posts')
+        all_posts[:data] ? all_posts.to_json(without_poster_comments: true) : raise('Could not find all posts')
       rescue StandardError => e
         routing.halt 404, { message: e.message }.to_json
       end

@@ -92,7 +92,7 @@ module Labook
       # POST api/v1/accounts
       routing.is do
         routing.post do
-          new_data = JSON.parse(routing.body.read)
+          new_data = SignedRequest.new(Api.config).parse(routing.body.read)
           new_account = Account.new(new_data)
           raise('Could not save account') unless new_account.save
 
