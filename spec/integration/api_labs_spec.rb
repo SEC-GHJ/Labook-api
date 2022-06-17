@@ -68,7 +68,9 @@ describe 'Test Lab Handling' do
     end
 
     it 'HAPPY: should be able to create new labs' do
-      post 'api/v1/labs', @lab_data.to_json, @req_header
+      post 'api/v1/labs',
+           SignedRequest.new(app.config).sign(@lab_data).to_json,
+           @req_header
       _(last_response.status).must_equal 201
       _(last_response.header['Location'].size).must_be :>, 0
 
@@ -85,7 +87,9 @@ describe 'Test Lab Handling' do
     it 'SECURITY: should not create project with mass assignment' do
       bad_data = @lab_data.clone
       bad_data['created_at'] = '1900-01-01'
-      post 'api/v1/labs', bad_data.to_json, @req_header
+      post 'api/v1/labs',
+           SignedRequest.new(app.config).sign(bad_data).to_json,
+           @req_header
 
       _(last_response.status).must_equal 400
       _(last_response.header['Location']).must_be_nil

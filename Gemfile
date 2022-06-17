@@ -34,6 +34,7 @@ end
 gem 'pry'
 gem 'rack', '~> 2.2.3' # upgrade due to audit check
 gem 'rack-test'
+gem 'simplecov'
 
 # Line Login
 gem 'jwt'

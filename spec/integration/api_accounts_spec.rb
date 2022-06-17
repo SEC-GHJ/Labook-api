@@ -38,10 +38,15 @@ describe 'Test Account Handling' do
   describe 'Account Creation' do
     before do
       @account_data = DATA[:accounts][1]
+      @account_data['username'] = Base64.strict_encode64(@account_data['username'])
+      @account_data['ori_department'] = Base64.strict_encode64(@account_data['ori_department'])
+      @account_data['nickname'] = Base64.strict_encode64(@account_data['nickname'])
     end
 
     it 'HAPPY: should be able to create new accounts' do
-      post 'api/v1/accounts', @account_data.to_json, @req_header
+      post 'api/v1/accounts',
+           SignedRequest.new(app.config).sign(@account_data).to_json,
+           @req_header
       _(last_response.status).must_equal 201
       _(last_response.header['Location'].size).must_be :>, 0
 
@@ -60,7 +65,9 @@ describe 'Test Account Handling' do
     it 'BAD: should not create account with illegal attributes' do
       bad_data = @account_data.clone
       bad_data['created_at'] = '1900-01-01'
-      post 'api/v1/accounts', bad_data.to_json, @req_header
+      post 'api/v1/accounts',
+           SignedRequest.new(app.config).sign(bad_data).to_json,
+           @req_header
 
       _(last_response.status).must_equal 400
       _(last_response.header['Location']).must_be_nil

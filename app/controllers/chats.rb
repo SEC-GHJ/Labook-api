@@ -21,7 +21,7 @@ module Labook
                                  content:)
           chat ? chat.to_json : raise
         rescue Sequel::MassAssignmentRestriction
-          Api.logger.warn "MASS-ASSIGNMENT: #{post_data.keys}"
+          Api.logger.warn "MASS-ASSIGNMENT: #{content.keys}"
           routing.halt 400, { message: 'Illegal Attributes' }.to_json
         rescue StandardError => e
           routing.halt 404, { message: e.message }.to_json
