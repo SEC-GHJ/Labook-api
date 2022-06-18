@@ -27,17 +27,20 @@ describe 'Test Authentication Routes' do
       _(last_response.status).must_equal 200
       _(auth_account['username']).must_equal(@account_data['username'])
       _(auth_account['nickname']).must_equal(@account_data['nickname'])
-      _(auth_account['password']).must_be_nil
       _(auth_account['gpa']).must_equal(@account_data['gpa'])
+      _(auth_account['email']).must_equal(@account_data['email'])
       _(auth_account['ori_school']).must_equal(@account_data['ori_school'])
       _(auth_account['ori_department']).must_equal(@account_data['ori_department'])
+      _(auth_account['accept_mail']).must_equal(@account_data['accept_mail'])
+      _(auth_account['show_all']).must_equal(@account_data['show_all'])
       _(auth_account['account_id']).wont_be_nil
+      _(auth_account['password']).must_be_nil
+      _(auth_account['password_hash']).must_be_nil
     end
 
     it 'BAD: should not authenticate invalid password' do
       credentials = { username: @account_data['username'],
                       password: 'fakepassword' }
-
       
       post 'api/v1/auth/authenticate',
             SignedRequest.new(app.config).sign(credentials).to_json,
@@ -49,5 +52,9 @@ describe 'Test Authentication Routes' do
       _(result['message']).wont_be_nil
       _(result['attributes']).must_be_nil
     end
+  end
+
+  describe 'SSO Authorization' do
+    
   end
 end
