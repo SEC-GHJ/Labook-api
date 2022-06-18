@@ -28,6 +28,7 @@ gem 'http'
 group :test do
   gem 'minitest'
   gem 'minitest-rg'
+  gem 'webmock'
 end
 
 # Debugging

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../spec_helper'
+require 'webmock/minitest'
 
 describe 'Test Authentication Routes' do
   include Rack::Test::Methods
@@ -55,6 +56,16 @@ describe 'Test Authentication Routes' do
   end
 
   describe 'SSO Authorization' do
-    
+    # before do
+    #   WebMock.enable!
+    #   WebMock.stub_request(:get, app.config.LINE_OAUTH_TOKEN_URL)
+    #          .to_return(body: GH_ACCOUNT_RESPONSE[GOOD_GH_ACCESS_TOKEN],
+    #                     status: 200,
+    #                     headers: { 'content-type' => 'application/json' })
+    # end
+
+    # after do
+    #   WebMock.disable!
+    # end
   end
 end

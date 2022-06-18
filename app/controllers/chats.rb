@@ -9,6 +9,10 @@ module Labook
     route('chats') do |routing|
       @chat_route = "#{@api_root}/chats"
 
+      unless @auth_account
+        routing.halt 403, { message: 'Not authorized' }.to_json
+      end
+
       routing.on String do |account_id|
         # POST /api/v1/chats/[account_id]
         routing.post do
@@ -20,9 +24,6 @@ module Labook
                                  receiver_account: receiver.username,
                                  content:)
           chat ? chat.to_json : raise
-        rescue Sequel::MassAssignmentRestriction
-          Api.logger.warn "MASS-ASSIGNMENT: #{content.keys}"
-          routing.halt 400, { message: 'Illegal Attributes' }.to_json
         rescue StandardError => e
           routing.halt 404, { message: e.message }.to_json
         end
@@ -48,7 +49,7 @@ module Labook
           chatrooms ? chatrooms.to_json : raise
         rescue StandardError => e
           Api.logger.error(e.message)
-          routing.halt 404, { message: e.message }.to_json
+          routing.halt 500, { message: 'API server error' }.to_json
         end
       end
     end
