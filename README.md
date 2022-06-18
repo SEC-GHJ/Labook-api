@@ -143,7 +143,7 @@ http -v --json POST localhost:3000/api/v1/chats/[account_uuid] \
 content="chat with testing"
 
 # update account setting
-http -v --json POST localhost:3000/api/v1/accounts/setting \
+http -v --json PATCH localhost:3000/api/v1/accounts/setting \
 'Authorization: Bearer {token}' \
 accept_mail="1" \
 show_all="0"
