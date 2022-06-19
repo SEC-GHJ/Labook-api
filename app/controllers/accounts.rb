@@ -63,9 +63,6 @@ module Labook
             chatroom = FindOrCreateChatroom.call(sender_account: @auth_account['username'],
                                                  receiver_account: receiver.username)
             chatroom ? chatroom.to_json : raise('Server error')
-          rescue Sequel::MassAssignmentRestriction
-            Api.logger.warn "MASS-ASSIGNMENT"
-            routing.halt 400, { message: 'Illegal Attributes' }.to_json
           rescue StandardError => e
             Api.logger.error(e.message)
             routing.halt 404, { message: e.message }.to_json

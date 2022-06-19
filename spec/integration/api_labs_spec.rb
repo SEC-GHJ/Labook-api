@@ -16,7 +16,39 @@ describe 'Test Lab Handling' do
       Labook::Department.create(dep_data)
     end
   end
-  describe 'Getting Posts' do
+
+  describe 'Getting Post for a Lab' do
+    before do
+      # Create Labs
+      DATA[:labs].each do |lab_data|
+        Labook::Lab.create(lab_data)
+      end
+
+      DATA[:accounts].each do |account_data|
+        Labook::Account.create(account_data)
+      end
+
+      # Create posts
+      DATA[:posts].each do |post_data|
+        post_info = post_data.clone
+        poster_account = post_info.delete('poster_account')
+        lab_name = post_info.delete('lab_name')
+        lab_id = Labook::Lab.first(lab_name:).lab_id
+        Labook::CreatePost.call(poster_account:, lab_id:, post_data: post_info)
+      end
+    end
+
+    it 'HAPPY: should be able to get list of all posts for a specific lab' do
+      lab = Labook::Lab.first(lab_name: DATA[:posts][0]['lab_name'])
+      get "api/v1/labs/#{lab.lab_id}/posts"
+      _(last_response.status).must_equal 200
+  
+      result = JSON.parse last_response.body
+      _(result['data'].count).must_equal 6
+    end
+  end
+
+  describe 'Getting Labs' do
     it 'Happy: should be able to get list of all labs' do
       Labook::Lab.create(DATA[:labs][0])
       Labook::Lab.create(DATA[:labs][1])
