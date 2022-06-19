@@ -89,6 +89,12 @@ describe 'Test Post Handling' do
         post "/api/v1/posts/#{@post_id}/votes", @vote.to_json
         _(last_response.status).must_equal 403
       end
+
+      it 'SAD: should not be able to create a vote due to missing para' do
+        header 'AUTHORIZATION', auth_header(@user_data)
+        post "/api/v1/posts/#{@post_id}/votes"
+        _(last_response.status).must_equal 500
+      end
     end
 
     describe 'Creating a comment for a specific post' do
@@ -110,6 +116,12 @@ describe 'Test Post Handling' do
         _(result['comment_id']).wont_be_nil
         _(result['commenter_id']).wont_be_nil
         _(result['commented_post_id']).wont_be_nil
+      end
+
+      it 'SAD: should not be able to create a comment due to missing para' do
+        header 'AUTHORIZATION', auth_header(@user_data)
+        post "/api/v1/posts/#{@post_id}/comments"
+        _(last_response.status).must_equal 500
       end
 
       it 'BAD MASS_ASSIGNMENT: should not create a comment with mass assignment' do
