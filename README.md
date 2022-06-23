@@ -84,6 +84,7 @@ All routes return Json
 - GET `api/v1/chats`: Get all chatrooms for the account of given bearer `auth_token`
 
 ## Test POST Examples
+Currently, creating account and authenticating account can not called like the first 2 command line.
 ```console
 # create a new account
 http -v --json POST localhost:3000/api/v1/accounts \
